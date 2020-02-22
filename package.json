@@ -1,0 +1,21 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf node_modules && lerna clean",
+    "bootstrap": "yarn && lerna bootstrap",
+    "build": "leran run build"
+  },
+  "author": "金哲豪 <jinzhehao@souche.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/fs-extra": "^8.1.0",
+    "@types/jsonp": "^0.2.0",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "eslint": "^6.8.0",
+    "eslint-config-alloy": "^3.5.0",
+    "lerna": "^3.18.3",
+    "typescript": "^3.7.5"
+  }
+}

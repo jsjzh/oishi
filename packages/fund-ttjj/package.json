@@ -1,0 +1,29 @@
+{
+  "name": "@oishi/fund-ttjj",
+  "version": "0.0.0",
+  "description": "天天基金记录资金",
+  "author": "jsjzh <kimimi_king@163.com>",
+  "license": "ISC",
+  "main": "src/index.js",
+  "types": "typing/index.d.ts",
+  "files": [
+    "src",
+    "package.json",
+    "typing",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:ts": "rm -rf ./src ./typings && ../../node_modules/.bin/tsc --project ./",
+    "prepublish": "npm run build:ts",
+    "build": "npm run prepublish"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "fs-extra": "^8.1.0",
+    "moment": "^2.24.0",
+    "query-string": "^6.11.0"
+  }
+}
