@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ["alloy", "alloy/typescript"],
+  extends: ['alloy', 'alloy/typescript'],
   env: {
     // 您的环境变量（包含多个预定义的全局变量）
     // Your environments (which contains several predefined global variables)
@@ -19,7 +19,8 @@ module.exports = {
   rules: {
     // 自定义您的规则
     // Customize your rules
-    "@typescript-eslint/explicit-member-accessibility": "off",
-    "@typescript-eslint/prefer-optional-chain": "off"
-  }
+    '@typescript-eslint/explicit-member-accessibility': 'off',
+    '@typescript-eslint/prefer-optional-chain': 'off',
+    '@typescript-eslint/no-require-imports': 'off',
+  },
 };
