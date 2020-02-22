@@ -5,7 +5,7 @@
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
   "main": "src/index.js",
-  "types": "typing/index.d.ts",
+  "types": "typings/index.d.ts",
   "files": [
     "src",
     "package.json",
@@ -15,15 +15,22 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsjzh/oishi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jsjzh/oishi/issues"
+  },
+  "homepage": "https://github.com/jsjzh/oishi#readme",
   "scripts": {
     "build:ts": "rm -rf ./src ./typings && ../../node_modules/.bin/tsc --project ./",
     "prepublish": "npm run build:ts",
     "build": "npm run prepublish"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "@oishi/fund-shared": "^0.0.6",
     "fs-extra": "^8.1.0",
-    "moment": "^2.24.0",
-    "query-string": "^6.11.0"
+    "moment": "^2.24.0"
   }
 }
