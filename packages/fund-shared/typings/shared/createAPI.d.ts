@@ -1,4 +1,4 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios';
 declare type IRequestConfig = AxiosRequestConfig & {
     handleOption?: (option: AxiosRequestConfig) => any;
     handleResp?: (data: any) => any;
@@ -10,29 +10,34 @@ declare type IRequestResult<T> = Promise<T> & {
 declare class CreateAPI {
     host: string;
     baseConfig: IRequestConfig;
-    constructor(host: string, baseConfig?: IRequestConfig);
-    request<T = any>(endPoint: string, reqConfig?: IRequestConfig): IRequestResult<T>;
+    baseData: {
+        [k: string]: string;
+    };
+    instance: AxiosInstance;
+    constructor(baseURL: string, baseConfig?: IRequestConfig, baseData?: {
+        [k: string]: string;
+    });
     checkStatus(resp: AxiosResponse): AxiosResponse<any>;
     chekcResp(data: any): any;
-    getJSON<T = any>(endpoint: string, data?: {
+    request<T = any>(endPoint: string, reqConfig?: IRequestConfig): IRequestResult<T>;
+    getJSON<T>(endPoint: string, data?: {
         [k: string]: string;
     }, config?: IRequestConfig): IRequestResult<T>;
-    postJSON<T = any>(endpoint: string, data?: {
+    postJSON<T = any>(endPoint: string, data?: {
         [k: string]: string;
     }, config?: IRequestConfig): IRequestResult<T>;
-    postForm<T = any>(endpoint: string, data?: {
+    postForm<T = any>(endPoint: string, data?: {
         [k: string]: string;
     }, config?: IRequestConfig): IRequestResult<T>;
-    putJSON<T = any>(endpoint: string, data?: {
+    putJSON<T = any>(endPoint: string, data?: {
         [k: string]: string;
     }, config?: IRequestConfig): IRequestResult<T>;
-    patchJSON<T = any>(endpoint: string, data?: {
+    patchJSON<T = any>(endPoint: string, data?: {
         [k: string]: string;
     }, config?: IRequestConfig): IRequestResult<T>;
-    deleteJSON<T = any>(endpoint: string, data?: {
+    deleteJSON<T = any>(endPoint: string, data?: {
         [k: string]: string;
     }, config?: IRequestConfig): IRequestResult<T>;
     jsonp<T = any>(endPoint: string, config?: Pick<IRequestConfig, 'handleResp'>): Promise<T>;
-    static getAPIUrl(prefix: string, endpoint: string): string;
 }
 export default CreateAPI;

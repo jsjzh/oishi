@@ -1,5 +1,2 @@
-import CreateAPI from './shared/createAPI';
-declare const _default: {
-    CreateAPI: typeof CreateAPI;
-};
-export default _default;
+import _CreateAPI from './shared/createAPI';
+export declare const CreateAPI: typeof _CreateAPI;

@@ -1,80 +1,68 @@
-import { __rest } from "tslib";
-import axios from 'axios';
-import qs from 'query-string';
-import JSONP from 'jsonp';
-import ExtendableError from 'es6-error';
-class APIError extends ExtendableError {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const axios_1 = tslib_1.__importDefault(require("axios"));
+const url_1 = tslib_1.__importDefault(require("url"));
+const query_string_1 = tslib_1.__importDefault(require("query-string"));
+const jsonp_1 = tslib_1.__importDefault(require("jsonp"));
+const es6_error_1 = tslib_1.__importDefault(require("es6-error"));
+class APIError extends es6_error_1.default {
     constructor(message = '') {
         super(message);
     }
 }
-axios.defaults.withCredentials = true;
-const { CancelToken } = axios;
-const noop = () => { };
+axios_1.default.defaults.withCredentials = true;
 class CreateAPI {
-    constructor(host, baseConfig = {}) {
-        this.host = host;
+    constructor(baseURL, baseConfig = {}, baseData = {}) {
+        this.host = baseURL;
         this.baseConfig = baseConfig;
-    }
-    request(endPoint, reqConfig = {}) {
-        const config = Object.assign(Object.assign({}, this.baseConfig), { reqConfig });
-        const url = CreateAPI.getAPIUrl(this.host, endPoint);
-        const { handleOption, handleResp = (resp) => resp } = config, reqOpts = __rest(config, ["handleOption", "handleResp"]);
-        let cancel = noop;
-        let opts = Object.assign({ cancelToken: new CancelToken(c => (cancel = c)) }, reqOpts);
-        opts = typeof handleOption === 'function' && handleOption(opts);
-        const promise = axios(url, opts)
-            .then(this.checkStatus)
-            .then(resp => resp.data)
-            .then(this.chekcResp)
-            .then(resp => handleResp(resp))
-            .catch(err => {
-            if (axios.isCancel(err)) {
-                console.warn(`请求取消：${endPoint}`);
-                return;
-            }
-            throw err;
-        });
-        promise.promise = promise;
-        promise.cancel = cancel;
-        return promise;
+        this.baseData = baseData;
+        this.instance = axios_1.default.create({ baseURL });
     }
     checkStatus(resp) {
-        if (resp.status >= 200 && resp.status < 300) {
+        if (resp.status >= 200 && resp.status < 300)
             return resp;
-        }
         throw new APIError(`[${resp.status}] 请求错误 ${resp.config.url}`);
     }
     chekcResp(data) {
         return data;
-        // if (data.success) {
-        //   return data;
-        // }
+        // if (data.success) return data;
         // throw new APIError(`[${data.code}] 请求失败 ${data.msg}`);
     }
-    getJSON(endpoint, data = {}, config) {
-        return this.request(endpoint, Object.assign(Object.assign({}, config), { method: 'get', params: data }));
+    request(endPoint, reqConfig = {}) {
+        const config = Object.assign(Object.assign({}, this.baseConfig), { reqConfig });
+        const { handleOption, handleResp = (resp) => resp } = config, reqOpts = tslib_1.__rest(config, ["handleOption", "handleResp"]);
+        const opts = typeof handleOption === 'function' ? handleOption(reqOpts) : reqConfig;
+        const promise = this.instance(endPoint, opts)
+            .then(this.checkStatus)
+            .then(resp => resp.data)
+            .then(this.chekcResp)
+            .then(handleResp);
+        return promise;
     }
-    postJSON(endpoint, data = {}, config) {
-        return this.request(endpoint, Object.assign(Object.assign({}, config), { method: 'post', data }));
+    getJSON(endPoint, data = {}, config) {
+        return this.request(endPoint, Object.assign(Object.assign({}, config), { method: 'get', params: Object.assign(Object.assign({}, data), this.baseData) }));
     }
-    postForm(endpoint, data = {}, config) {
-        return this.request(endpoint, Object.assign(Object.assign({}, config), { method: 'post', data: qs.stringify(data) }));
+    postJSON(endPoint, data = {}, config) {
+        return this.request(endPoint, Object.assign(Object.assign({}, config), { method: 'post', data: Object.assign(Object.assign({}, data), this.baseData) }));
     }
-    putJSON(endpoint, data = {}, config) {
-        return this.request(endpoint, Object.assign(Object.assign({}, config), { method: 'put', data }));
+    postForm(endPoint, data = {}, config) {
+        return this.request(endPoint, Object.assign(Object.assign({}, config), { method: 'post', data: query_string_1.default.stringify(Object.assign(Object.assign({}, data), this.baseData)) }));
     }
-    patchJSON(endpoint, data = {}, config) {
-        return this.request(endpoint, Object.assign(Object.assign({}, config), { method: 'patch', data }));
+    putJSON(endPoint, data = {}, config) {
+        return this.request(endPoint, Object.assign(Object.assign({}, config), { method: 'put', data: Object.assign(Object.assign({}, data), this.baseData) }));
     }
-    deleteJSON(endpoint, data = {}, config) {
-        return this.request(endpoint, Object.assign(Object.assign({}, config), { method: 'delete', data }));
+    patchJSON(endPoint, data = {}, config) {
+        return this.request(endPoint, Object.assign(Object.assign({}, config), { method: 'patch', data: Object.assign(Object.assign({}, data), this.baseData) }));
+    }
+    deleteJSON(endPoint, data = {}, config) {
+        return this.request(endPoint, Object.assign(Object.assign({}, config), { method: 'delete', data: Object.assign(Object.assign({}, data), this.baseData) }));
     }
     jsonp(endPoint, config = {}) {
         const { handleResp = (resp) => resp.data } = config;
         return new Promise((resolve, reject) => {
-            const url = CreateAPI.getAPIUrl(this.host, endPoint);
-            JSONP(url, { prefix: `__${url.replace(/[^\w\d]/g, '')}` }, (err, resp) => {
+            const url = url_1.default.resolve(this.host, endPoint);
+            jsonp_1.default(url, { prefix: `__${url.replace(/[^\w\d]/g, '')}` }, (err, resp) => {
                 if (err)
                     return reject(err);
                 if (!resp.success) {
@@ -84,10 +72,5 @@ class CreateAPI {
             });
         });
     }
-    static getAPIUrl(prefix, endpoint) {
-        const url = `${prefix}/${endpoint}`;
-        const re = new RegExp(`/+(${endpoint.replace(/^\/+/, '')})`);
-        return url.replace(re, '/$1');
-    }
 }
-export default CreateAPI;
+exports.default = CreateAPI;

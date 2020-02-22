@@ -6,7 +6,7 @@
     "bootstrap": "yarn && lerna bootstrap",
     "build": "leran run build"
   },
-  "author": "金哲豪 <jinzhehao@souche.com>",
+  "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",
@@ -17,5 +17,8 @@
     "eslint-config-alloy": "^3.5.0",
     "lerna": "^3.18.3",
     "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "tslib": "^1.11.0"
   }
 }

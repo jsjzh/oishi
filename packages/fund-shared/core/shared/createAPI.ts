@@ -1,6 +1,7 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios';
+import urlUtil from 'url';
 import qs from 'query-string';
-import JSONP from 'jsonp';
+import jsonp from 'jsonp';
 import ExtendableError from 'es6-error';
 
 class APIError extends ExtendableError {
@@ -8,6 +9,8 @@ class APIError extends ExtendableError {
     super(message);
   }
 }
+
+axios.defaults.withCredentials = true;
 
 type IRequestConfig = AxiosRequestConfig & {
   handleOption?: (option: AxiosRequestConfig) => any;
@@ -19,19 +22,32 @@ type IRequestResult<T> = Promise<T> & {
   cancel: () => void;
 };
 
-axios.defaults.withCredentials = true;
-
-const { CancelToken } = axios;
-
-const noop = () => {};
-
 class CreateAPI {
   host: string;
   baseConfig: IRequestConfig;
+  baseData: { [k: string]: string };
+  instance: AxiosInstance;
 
-  constructor(host: string, baseConfig: IRequestConfig = {}) {
-    this.host = host;
+  constructor(
+    baseURL: string,
+    baseConfig: IRequestConfig = {},
+    baseData: { [k: string]: string } = {},
+  ) {
+    this.host = baseURL;
     this.baseConfig = baseConfig;
+    this.baseData = baseData;
+    this.instance = axios.create({ baseURL });
+  }
+
+  checkStatus(resp: AxiosResponse) {
+    if (resp.status >= 200 && resp.status < 300) return resp;
+    throw new APIError(`[${resp.status}] 请求错误 ${resp.config.url}`);
+  }
+
+  chekcResp(data: any) {
+    return data;
+    // if (data.success) return data;
+    // throw new APIError(`[${data.code}] 请求失败 ${data.msg}`);
   }
 
   request<T = any>(
@@ -39,7 +55,6 @@ class CreateAPI {
     reqConfig: IRequestConfig = {},
   ): IRequestResult<T> {
     const config = { ...this.baseConfig, reqConfig };
-    const url = CreateAPI.getAPIUrl(this.host, endPoint);
 
     const {
       handleOption,
@@ -47,106 +62,88 @@ class CreateAPI {
       ...reqOpts
     } = config;
 
-    let cancel = noop;
+    const opts =
+      typeof handleOption === 'function' ? handleOption(reqOpts) : reqConfig;
 
-    let opts: AxiosRequestConfig = {
-      cancelToken: new CancelToken(c => (cancel = c)),
-      ...reqOpts,
-    };
-
-    opts = typeof handleOption === 'function' && handleOption(opts);
-
-    const promise = axios(url, opts)
+    const promise = this.instance(endPoint, opts)
       .then(this.checkStatus)
       .then(resp => resp.data)
       .then(this.chekcResp)
-      .then(resp => handleResp(resp))
-      .catch(err => {
-        if (axios.isCancel(err)) {
-          console.warn(`请求取消：${endPoint}`);
-          return;
-        }
-        throw err;
-      }) as IRequestResult<T>;
-
-    promise.promise = promise;
-    promise.cancel = cancel;
+      .then(handleResp) as IRequestResult<T>;
 
     return promise;
   }
 
-  checkStatus(resp: AxiosResponse) {
-    if (resp.status >= 200 && resp.status < 300) {
-      return resp;
-    }
-
-    throw new APIError(`[${resp.status}] 请求错误 ${resp.config.url}`);
-  }
-
-  chekcResp(data: any) {
-    return data;
-
-    // if (data.success) {
-    //   return data;
-    // }
-
-    // throw new APIError(`[${data.code}] 请求失败 ${data.msg}`);
-  }
-
-  getJSON<T = any>(
-    endpoint: string,
+  getJSON<T>(
+    endPoint: string,
     data: { [k: string]: string } = {},
     config?: IRequestConfig,
   ) {
-    return this.request<T>(endpoint, {
+    return this.request<T>(endPoint, {
       ...config,
       method: 'get',
-      params: data,
+      params: { ...data, ...this.baseData },
     });
   }
 
   postJSON<T = any>(
-    endpoint: string,
+    endPoint: string,
     data: { [k: string]: string } = {},
     config?: IRequestConfig,
   ) {
-    return this.request<T>(endpoint, { ...config, method: 'post', data });
+    return this.request<T>(endPoint, {
+      ...config,
+      method: 'post',
+      data: { ...data, ...this.baseData },
+    });
   }
 
   postForm<T = any>(
-    endpoint: string,
+    endPoint: string,
     data: { [k: string]: string } = {},
     config?: IRequestConfig,
   ) {
-    return this.request<T>(endpoint, {
+    return this.request<T>(endPoint, {
       ...config,
       method: 'post',
-      data: qs.stringify(data),
+      data: qs.stringify({ ...data, ...this.baseData }),
     });
   }
 
   putJSON<T = any>(
-    endpoint: string,
+    endPoint: string,
     data: { [k: string]: string } = {},
     config?: IRequestConfig,
   ) {
-    return this.request<T>(endpoint, { ...config, method: 'put', data });
+    return this.request<T>(endPoint, {
+      ...config,
+      method: 'put',
+      data: { ...data, ...this.baseData },
+    });
   }
 
   patchJSON<T = any>(
-    endpoint: string,
+    endPoint: string,
     data: { [k: string]: string } = {},
     config?: IRequestConfig,
   ) {
-    return this.request<T>(endpoint, { ...config, method: 'patch', data });
+    return this.request<T>(endPoint, {
+      ...config,
+      method: 'patch',
+      data: { ...data, ...this.baseData },
+    });
   }
 
   deleteJSON<T = any>(
-    endpoint: string,
+    endPoint: string,
     data: { [k: string]: string } = {},
     config?: IRequestConfig,
   ) {
-    return this.request<T>(endpoint, { ...config, method: 'delete', data });
+    return this.request<T>(endPoint, {
+      ...config,
+      method: 'delete',
+      data: { ...data, ...this.baseData },
+    });
   }
 
   jsonp<T = any>(
@@ -155,9 +152,9 @@ class CreateAPI {
   ): Promise<T> {
     const { handleResp = (resp: any) => resp.data } = config;
     return new Promise((resolve, reject) => {
-      const url = CreateAPI.getAPIUrl(this.host, endPoint);
+      const url = urlUtil.resolve(this.host, endPoint);
 
-      JSONP(
+      jsonp(
         url,
         { prefix: `__${url.replace(/[^\w\d]/g, '')}` },
         (err: Error | null, resp: any) => {
@@ -169,12 +166,6 @@ class CreateAPI {
         },
       );
     });
-  }
-
-  static getAPIUrl(prefix: string, endpoint: string) {
-    const url = `${prefix}/${endpoint}`;
-    const re = new RegExp(`/+(${endpoint.replace(/^\/+/, '')})`);
-    return url.replace(re, '/$1');
   }
 }
 

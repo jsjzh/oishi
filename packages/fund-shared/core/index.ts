@@ -1,5 +1,3 @@
-import CreateAPI from './shared/createAPI';
+import _CreateAPI from './shared/createAPI';
 
-export default {
-  CreateAPI,
-};
+export const CreateAPI = _CreateAPI;

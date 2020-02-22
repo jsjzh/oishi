@@ -1,20 +1,28 @@
 {
   "name": "@oishi/fund-shared",
-  "version": "0.0.0",
-  "description": "基金爬虫通用",
+  "version": "0.0.6",
+  "description": "基金爬虫通用库",
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
   "main": "src/index.js",
-  "types": "typing/index.d.ts",
+  "types": "typings/index.d.ts",
   "files": [
     "src",
     "package.json",
-    "typing",
+    "typings",
     "README.md"
   ],
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsjzh/oishi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jsjzh/oishi/issues"
+  },
+  "homepage": "https://github.com/jsjzh/oishi#readme",
   "scripts": {
     "build:ts": "rm -rf ./src ./typings && ../../node_modules/.bin/tsc --project ./",
     "prepublish": "npm run build:ts",
