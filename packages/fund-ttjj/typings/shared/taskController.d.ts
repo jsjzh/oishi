@@ -6,6 +6,7 @@ export default class TaskController {
         [k: string]: any;
     };
     constructor(options: any);
+    initHelper(initFn: Function): this;
     add(cmd: Task): this;
     run(): void;
 }

@@ -1,8 +1,5 @@
 import Task from './task';
 
-import path from 'path';
-import moment from 'moment';
-
 export default class TaskController {
   static create(options?: any) {
     return new TaskController(options);
@@ -13,21 +10,12 @@ export default class TaskController {
 
   constructor(options: any) {
     this.cmds = [];
+    this.helper = {};
+  }
 
-    const time = moment();
-
-    const outputPath = path.resolve(process.cwd(), './output/');
-    const yearPath = path.resolve(outputPath, time.format('YYYY') + ' 年');
-    const monthPath = path.resolve(yearPath, time.format('MM') + ' 月');
-    const dayPath = path.resolve(monthPath, time.format('DD') + ' 日');
-
-    this.helper = {
-      time,
-      outputPath,
-      yearPath,
-      monthPath,
-      dayPath,
-    };
+  initHelper(initFn: Function) {
+    this.helper = initFn();
+    return this;
   }
 
   add(cmd: Task) {
