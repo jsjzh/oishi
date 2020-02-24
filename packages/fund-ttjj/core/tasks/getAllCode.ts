@@ -6,7 +6,7 @@ import fs from 'fs-extra';
 import { GetMyAssetDetails } from '../service';
 import { fileExistAndBack } from '../shared/file';
 
-const main = Task.create();
+const main = Task.create('爬取基金列表');
 
 main.execute(async function(this: Task, callback: any) {
   const helper = this.top.helper;

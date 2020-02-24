@@ -6,7 +6,7 @@ import { GetShareDetail } from '../service';
 import Task from '../shared/task';
 import { fileExistAndBack } from '../shared/file';
 
-const main = Task.create();
+const main = Task.create('爬取基金队列');
 
 main.execute(function(this: Task, callback: any) {
   const helper = this.top.helper;

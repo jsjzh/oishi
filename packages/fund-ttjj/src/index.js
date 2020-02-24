@@ -15,6 +15,7 @@ const tasks_1 = require("./tasks");
 // 是否需要一个来限制并发的方法，一下子发起太多请求，容易被封
 // 是否要使用 inject 来实现数据传递，现在的方式是直接在 execute 中传入的
 // 把 TaskController 给放到 top 中去，在 Task 中可以通过 this.top 来访问
+// 给每个任务一个 title 和 info 什么的，然后在执行的时候给输出出来
 const time = moment_1.default();
 const outputPath = path_1.default.resolve(process.cwd(), './output/');
 const yearPath = path_1.default.resolve(outputPath, time.format('YYYY') + ' 年');

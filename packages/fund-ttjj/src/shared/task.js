@@ -3,12 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const taskController_1 = tslib_1.__importDefault(require("./taskController"));
 class Task {
-    constructor(options) {
+    constructor(title) {
         this._top = null;
+        this.title = title;
         this.cmd = () => { };
     }
-    static create(options) {
-        return new Task(options);
+    static create(title) {
+        return new Task(title);
     }
     get top() {
         return this._top instanceof taskController_1.default

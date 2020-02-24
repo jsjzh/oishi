@@ -9,6 +9,7 @@ import {
   getProfitList,
   getTransactionRecords,
 } from './tasks';
+import { log } from '@oishi/fund-shared';
 
 // 如果异步给 helper 赋值就会出问题，后面的获取不到数据，是否要改造 rxjs 来实现
 //  要实现一个类，因为其实所有的代码都是有一层层逻辑的，而且是一步步执行的
@@ -20,6 +21,7 @@ import {
 // 是否需要一个来限制并发的方法，一下子发起太多请求，容易被封
 // 是否要使用 inject 来实现数据传递，现在的方式是直接在 execute 中传入的
 // 把 TaskController 给放到 top 中去，在 Task 中可以通过 this.top 来访问
+// 给每个任务一个 title 和 info 什么的，然后在执行的时候给输出出来
 
 const time = moment();
 

@@ -1,15 +1,17 @@
 import TaskController from './taskController';
 
 export default class Task {
-  static create(options?: any) {
-    return new Task(options);
+  static create(title: string) {
+    return new Task(title);
   }
 
+  title: string;
   _top: TaskController | null;
   cmd: Function;
 
-  constructor(options: any) {
+  constructor(title: string) {
     this._top = null;
+    this.title = title;
     this.cmd = () => {};
   }
 

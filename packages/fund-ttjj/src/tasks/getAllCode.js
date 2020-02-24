@@ -6,12 +6,12 @@ const path_1 = tslib_1.__importDefault(require("path"));
 const fs_extra_1 = tslib_1.__importDefault(require("fs-extra"));
 const service_1 = require("../service");
 const file_1 = require("../shared/file");
-const main = task_1.default.create();
+const main = task_1.default.create('爬取基金列表');
 main.execute(function (callback) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         const helper = this.top.helper;
         const apiPath = path_1.default.resolve(helper.dayPath, 'GetMyAssetDetails/data.json');
-        const data = file_1.fileExistAndBack(apiPath);
+        const data = yield file_1.fileExistAndBack(apiPath);
         const injectAllCode = (data) => {
             helper.allCode = data.AssetDetails.map((item) => ({
                 code: item.FundCode,
