@@ -9,10 +9,10 @@ const service_1 = require("../service");
 const main = task_1.default.create();
 main.execute(function (callback) {
     const helper = this.top.helper;
-    const apiPath = path_1.default.resolve(helper.dayPath, 'GetShareDetail');
+    const apiPath = path_1.default.resolve(helper.dayPath, 'GetProfitList');
     const reqs = helper.allCode.map(({ code, name }) => (callback) => tslib_1.__awaiter(this, void 0, void 0, function* () {
         const codePath = path_1.default.resolve(apiPath, `${code}-${name}.json`);
-        const data = yield service_1.GetShareDetail({ FundCode: code });
+        const data = yield service_1.GetProfitList({ FundCode: code });
         fs_extra_1.default.ensureFileSync(codePath);
         fs_extra_1.default.writeJSONSync(codePath, data, { spaces: 2 });
         setTimeout(() => callback(), 3000);

@@ -2,7 +2,13 @@ import path from 'path';
 import moment from 'moment';
 
 import TaskController from './shared/taskController';
-import { getAllCode, getCodeDetail } from './tasks';
+
+import {
+  getAllCode,
+  getCodeDetail,
+  getProfitList,
+  getTransactionRecords,
+} from './tasks';
 
 // 如果异步给 helper 赋值就会出问题，后面的获取不到数据，是否要改造 rxjs 来实现
 //  要实现一个类，因为其实所有的代码都是有一层层逻辑的，而且是一步步执行的
@@ -12,7 +18,8 @@ import { getAllCode, getCodeDetail } from './tasks';
 //  并且增加一个 controller.storage 用来专门存储每个步骤获取到的 data
 //  关于这个可以画一下设想图，需要什么功能
 // 是否需要一个来限制并发的方法，一下子发起太多请求，容易被封
-// 是否要使用 inject 来实现数据传递，现在的方式是直接在 excute 中传入的
+// 是否要使用 inject 来实现数据传递，现在的方式是直接在 execute 中传入的
+// 把 TaskController 给放到 top 中去，在 Task 中可以通过 this.top 来访问
 
 const time = moment();
 
@@ -25,4 +32,6 @@ TaskController.create()
   .initHelper(() => ({ time, outputPath, yearPath, monthPath, dayPath }))
   .add(getAllCode)
   .add(getCodeDetail)
-  .run();
+  .add(getProfitList)
+  .add(getTransactionRecords)
+  .next();

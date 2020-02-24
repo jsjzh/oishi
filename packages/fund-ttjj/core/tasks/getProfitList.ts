@@ -4,20 +4,20 @@ import Queue from '../shared/queue';
 import path from 'path';
 import fs from 'fs-extra';
 
-import { GetShareDetail } from '../service';
+import { GetProfitList } from '../service';
 
 const main = Task.create();
 
 main.execute(function(this: Task, callback: any) {
   const helper = this.top.helper;
 
-  const apiPath = path.resolve(helper.dayPath, 'GetShareDetail');
+  const apiPath = path.resolve(helper.dayPath, 'GetProfitList');
   const reqs = helper.allCode.map(
     ({ code, name }: { code: string; name: string }) => async (
       callback: any,
     ) => {
       const codePath = path.resolve(apiPath, `${code}-${name}.json`);
-      const data = await GetShareDetail({ FundCode: code });
+      const data = await GetProfitList({ FundCode: code });
       fs.ensureFileSync(codePath);
       fs.writeJSONSync(codePath, data, { spaces: 2 });
       setTimeout(() => callback(), 3000);

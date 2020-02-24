@@ -1,15 +1,14 @@
 import Task from './task';
-
-export default class TaskController {
+import Queue from './queue';
+export default class TaskController extends Queue {
   static create(options?: any) {
     return new TaskController(options);
   }
 
-  cmds: Task[];
   helper: { [k: string]: any };
 
   constructor(options: any) {
-    this.cmds = [];
+    super();
     this.helper = {};
   }
 
@@ -18,12 +17,9 @@ export default class TaskController {
     return this;
   }
 
-  add(cmd: Task) {
-    this.cmds.push(cmd);
+  add(task: Task) {
+    task.top = this;
+    this.push(task.cmd);
     return this;
-  }
-
-  run() {
-    this.cmds.forEach(cmd => cmd.excute(this.helper));
   }
 }

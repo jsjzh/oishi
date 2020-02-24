@@ -5,13 +5,25 @@ export default class Task {
     return new Task(options);
   }
 
+  _top: TaskController | null;
+  cmd: Function;
+
   constructor(options: any) {
-    console.log('new Task success');
+    this._top = null;
+    this.cmd = () => {};
   }
 
-  inject() {}
+  get top(): TaskController {
+    return this._top instanceof TaskController
+      ? this._top
+      : new TaskController({});
+  }
 
-  excute(helper: TaskController['helper']) {
-    console.log(`you need override instance's method excute()`);
+  set top(controller: TaskController) {
+    this._top = controller;
+  }
+
+  execute(executeFn: Function) {
+    this.cmd = executeFn.bind(this);
   }
 }

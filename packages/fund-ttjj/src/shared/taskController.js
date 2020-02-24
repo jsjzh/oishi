@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class TaskController {
+const tslib_1 = require("tslib");
+const queue_1 = tslib_1.__importDefault(require("./queue"));
+class TaskController extends queue_1.default {
     constructor(options) {
-        this.cmds = [];
+        super();
         this.helper = {};
     }
     static create(options) {
@@ -12,12 +14,10 @@ class TaskController {
         this.helper = initFn();
         return this;
     }
-    add(cmd) {
-        this.cmds.push(cmd);
+    add(task) {
+        task.top = this;
+        this.push(task.cmd);
         return this;
-    }
-    run() {
-        this.cmds.forEach(cmd => cmd.excute(this.helper));
     }
 }
 exports.default = TaskController;

@@ -1,12 +1,11 @@
 import Task from './task';
-export default class TaskController {
+import Queue from './queue';
+export default class TaskController extends Queue {
     static create(options?: any): TaskController;
-    cmds: Task[];
     helper: {
         [k: string]: any;
     };
     constructor(options: any);
     initHelper(initFn: Function): this;
-    add(cmd: Task): this;
-    run(): void;
+    add(task: Task): this;
 }
