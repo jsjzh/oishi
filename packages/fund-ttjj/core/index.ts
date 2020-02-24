@@ -10,9 +10,6 @@ import {
   getTransactionRecords,
 } from './tasks';
 
-// 是否要使用 rxjs 重新改造
-// 是否要写一个函数，可以限制并发数，并且每次发起请求的间隔也可以设置
-
 const time = moment();
 
 const outputPath = path.resolve(process.cwd(), './output/');
