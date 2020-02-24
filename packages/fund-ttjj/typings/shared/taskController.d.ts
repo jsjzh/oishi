@@ -1,5 +1,5 @@
 import Task from './task';
-import Queue from './queue';
+import { Queue } from '@oishi/fund-shared';
 export default class TaskController extends Queue {
     static create(options?: any): TaskController;
     helper: {

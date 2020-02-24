@@ -4,33 +4,34 @@ import path from 'path';
 import fs from 'fs-extra';
 
 import { GetMyAssetDetails } from '../service';
+import { fileExistAndBack } from '../shared/file';
 
 const main = Task.create();
 
-main.execute(function(this: Task, callback: any) {
+main.execute(async function(this: Task, callback: any) {
   const helper = this.top.helper;
   const apiPath = path.resolve(helper.dayPath, 'GetMyAssetDetails/data.json');
 
-  fs.ensureFileSync(apiPath);
-
-  const resData = fs.readFileSync(apiPath);
+  const data = await fileExistAndBack(apiPath);
 
   const injectAllCode = (data: any) => {
-    this.top.helper.allCode = data.AssetDetails.map((item: any) => ({
+    helper.allCode = data.AssetDetails.map((item: any) => ({
       code: item.FundCode,
       name: item.FundName,
     }));
     callback();
   };
 
-  if (!resData.length) {
-    GetMyAssetDetails().then(data => {
-      fs.writeJSONSync(apiPath, data, { spaces: 2 });
-      injectAllCode(data);
-    });
+  let saveData;
+
+  if (!data) {
+    const rspData = await GetMyAssetDetails();
+    await fs.writeJSON(apiPath, rspData, { spaces: 2 });
+    saveData = rspData;
   } else {
-    injectAllCode(JSON.parse(resData.toString()));
+    saveData = JSON.parse(data);
   }
+  injectAllCode(saveData);
 });
 
 export default main;

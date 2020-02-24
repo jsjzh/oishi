@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const task_1 = tslib_1.__importDefault(require("../shared/task"));
-const queue_1 = tslib_1.__importDefault(require("../shared/queue"));
+const fund_shared_1 = require("@oishi/fund-shared");
 const path_1 = tslib_1.__importDefault(require("path"));
 const fs_extra_1 = tslib_1.__importDefault(require("fs-extra"));
 const service_1 = require("../service");
@@ -17,7 +17,7 @@ main.execute(function (callback) {
         fs_extra_1.default.writeJSONSync(codePath, data, { spaces: 2 });
         setTimeout(() => callback(), 3000);
     }));
-    const queue = new queue_1.default(reqs);
+    const queue = new fund_shared_1.Queue(reqs);
     queue.final(callback);
     queue.next();
 });

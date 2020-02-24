@@ -4,6 +4,7 @@ class Queue {
     constructor(fns = []) {
         this.target = -1;
         this.fns = fns;
+        // 当队列处理完成，有的时候需要给到通知
         this.finalFn = () => { };
     }
     push(fn) {

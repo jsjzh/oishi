@@ -1,6 +1,6 @@
 {
   "name": "@oishi/fund-shared",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "基金爬虫通用库",
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",

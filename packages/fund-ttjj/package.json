@@ -29,7 +29,7 @@
     "build": "npm run prepublish"
   },
   "dependencies": {
-    "@oishi/fund-shared": "^0.0.6",
+    "@oishi/fund-shared": "^0.0.7",
     "fs-extra": "^8.1.0",
     "moment": "^2.24.0"
   }

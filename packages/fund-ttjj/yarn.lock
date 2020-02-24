@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@oishi/fund-shared@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.npmjs.org/@oishi/fund-shared/-/fund-shared-0.0.6.tgz#3dcc8123dd90c1ceaeec86f3ea7b5f097a2f2e42"
-  integrity sha512-670Ah6lxso9idxt54mbrE39A268DVM3TzoU23660FzzFPNNHlSRVB9mxRNFqH+5yQ7jN0ju3FgaI+r5QHqwHZQ==
+"@oishi/fund-shared@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.npmjs.org/@oishi/fund-shared/-/fund-shared-0.0.7.tgz#c051da96508ff06003fb0de650feeccb4a33609c"
+  integrity sha512-r3cIXNeoxv4bG1eMDCW8WXkDmUudPSGDdT7mY8UEU9Q1rigzh5KPhKewCDgvh13AhkgWDys0MwWyLc2i6/7d3w==
   dependencies:
     axios "^0.19.2"
     es6-error "^4.1.1"

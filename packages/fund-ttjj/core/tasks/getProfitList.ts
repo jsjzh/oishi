@@ -1,10 +1,10 @@
-import Task from '../shared/task';
-import Queue from '../shared/queue';
-
 import path from 'path';
 import fs from 'fs-extra';
+import { Queue } from '@oishi/fund-shared';
 
 import { GetProfitList } from '../service';
+import Task from '../shared/task';
+import { fileExistAndBack } from '../shared/file';
 
 const main = Task.create();
 
@@ -17,10 +17,12 @@ main.execute(function(this: Task, callback: any) {
       callback: any,
     ) => {
       const codePath = path.resolve(apiPath, `${code}-${name}.json`);
-      const data = await GetProfitList({ FundCode: code });
-      fs.ensureFileSync(codePath);
-      fs.writeJSONSync(codePath, data, { spaces: 2 });
-      setTimeout(() => callback(), 3000);
+      const data = await fileExistAndBack(codePath);
+      if (!data) {
+        const rspData = await GetProfitList({ FundCode: code });
+        await fs.writeJSON(codePath, rspData, { spaces: 2 });
+      }
+      setTimeout(callback, 3000);
     },
   );
 
