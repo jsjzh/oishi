@@ -1,10 +1,10 @@
-import Task from '../shared/task';
+import Task from '../../shared/task';
 
 import path from 'path';
 import fs from 'fs-extra';
 
-import { GetMyAssetDetails } from '../service';
-import { fileExistAndBack } from '../shared/file';
+import { GetMyAssetDetails } from '../../service';
+import { fileExistAndBack } from '../../shared/file';
 
 const main = Task.create('爬取基金列表');
 

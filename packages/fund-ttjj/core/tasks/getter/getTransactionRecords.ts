@@ -2,9 +2,9 @@ import path from 'path';
 import fs from 'fs-extra';
 import { Queue } from '@oishi/fund-shared';
 
-import { GetTransactionRecords } from '../service';
-import Task from '../shared/task';
-import { fileExistAndBack } from '../shared/file';
+import { GetTransactionRecords } from '../../service';
+import Task from '../../shared/task';
+import { fileExistAndBack } from '../../shared/file';
 
 const main = Task.create('爬取操作记录');
 

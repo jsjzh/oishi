@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-const getAllCode_1 = tslib_1.__importDefault(require("./getAllCode"));
-const getCodeDetail_1 = tslib_1.__importDefault(require("./getCodeDetail"));
-const getTransactionRecords_1 = tslib_1.__importDefault(require("./getTransactionRecords"));
-const getProfitList_1 = tslib_1.__importDefault(require("./getProfitList"));
+const getAllCode_1 = tslib_1.__importDefault(require("./getter/getAllCode"));
+const getCodeDetail_1 = tslib_1.__importDefault(require("./getter/getCodeDetail"));
+const getTransactionRecords_1 = tslib_1.__importDefault(require("./getter/getTransactionRecords"));
+const getProfitList_1 = tslib_1.__importDefault(require("./getter/getProfitList"));
 exports.getAllCode = getAllCode_1.default;
 exports.getCodeDetail = getCodeDetail_1.default;
 exports.getProfitList = getProfitList_1.default;
 exports.getTransactionRecords = getTransactionRecords_1.default;
+const resolveFund_1 = tslib_1.__importDefault(require("./resolver/resolveFund"));
+exports.resolveFund = resolveFund_1.default;

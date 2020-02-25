@@ -4,9 +4,9 @@ const tslib_1 = require("tslib");
 const path_1 = tslib_1.__importDefault(require("path"));
 const fs_extra_1 = tslib_1.__importDefault(require("fs-extra"));
 const fund_shared_1 = require("@oishi/fund-shared");
-const service_1 = require("../service");
-const task_1 = tslib_1.__importDefault(require("../shared/task"));
-const file_1 = require("../shared/file");
+const service_1 = require("../../service");
+const task_1 = tslib_1.__importDefault(require("../../shared/task"));
+const file_1 = require("../../shared/file");
 const main = task_1.default.create('爬取基金队列');
 main.execute(function (callback) {
     const helper = this.top.helper;
