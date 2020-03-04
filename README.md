@@ -79,8 +79,8 @@ vscode 中调试和执行普通 js 文件方式，直接执行编译后的 js �
   "runtimeArgs": ["-r", "ts-node/register"],
   "args": [
     "${workspaceFolder}/packages/fund-ttjj/core/index.ts",
-    "create:rn",
-    "xxx"
+    "create",
+    "demo-name"
   ],
   "env": {
     "TS_NODE_FILES": "true",

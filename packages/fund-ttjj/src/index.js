@@ -28,4 +28,5 @@ const resolveData = () => {
         .initHelper(() => ({ outputPath }))
         .next();
 };
-resolveData();
+getData();
+// resolveData();

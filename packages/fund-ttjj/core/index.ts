@@ -41,4 +41,5 @@ const resolveData = () => {
     .next();
 };
 
-resolveData();
+getData();
+// resolveData();
