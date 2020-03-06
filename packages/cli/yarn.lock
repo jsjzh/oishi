@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@oishi/cli-core@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.npmjs.org/@oishi/cli-core/-/cli-core-0.0.9.tgz#76feca6b9a478b9808acfe7b11a81a32d86337a2"
-  integrity sha512-4da3Ta7B1IblKkpKs0U6g/f5tEw48A561mdVWM1eF5m3V+VAl0fyqObu/x3LHDlCWJlonzq6WJ7R11RWmEWp3Q==
+"@oishi/cli-core@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.npmjs.org/@oishi/cli-core/-/cli-core-0.0.10.tgz#3a421ba5a245df6033eaf02717f75d0ebf300c27"
+  integrity sha512-+YBsJLmZff3ezmPb9GTeQIQPigalUkAX9nd6KQ7dN2v/VfoyuYsBHrTsZKGSLS5XmeYR+9HLV16VocHqiTKnlw==
   dependencies:
     "@oishi/fund-shared" "^0.0.9"
     axios "^0.19.2"
@@ -158,3 +158,8 @@ supports-color@^7.1.0:
   integrity sha512-oRSIpR8pxT1Wr2FquTNnGet79b3BWljqOuoW/h4oBhxJ/HUbX5nX6JSruTkvXDCFMwDPvsaTTbvMLKZWSy0R5g==
   dependencies:
     has-flag "^4.0.0"
+
+tslib@^1.11.1:
+  version "1.11.1"
+  resolved "https://registry.npmjs.org/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
+  integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
