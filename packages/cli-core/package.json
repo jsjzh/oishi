@@ -34,5 +34,6 @@
     "axios": "^0.19.2",
     "commander": "^4.1.1",
     "resolve": "^1.15.1"
-  }
+  },
+  "gitHead": "b7ecbe888f519620525a313c3fbdf25eaf119b8d"
 }

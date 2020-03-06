@@ -13,7 +13,7 @@
   "files": [
     "src",
     "package.json",
-    "typing",
+    "typings",
     "README.md"
   ],
   "publishConfig": {
@@ -35,5 +35,6 @@
   "dependencies": {
     "@oishi/cli-core": "^0.0.7",
     "envinfo": "^7.5.0"
-  }
+  },
+  "gitHead": "b7ecbe888f519620525a313c3fbdf25eaf119b8d"
 }
