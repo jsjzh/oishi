@@ -33,8 +33,8 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
-    "@oishi/cli-core": "^0.0.8",
+    "@oishi/cli-core": "^0.0.9",
     "envinfo": "^7.5.0"
   },
-  "gitHead": "b7ecbe888f519620525a313c3fbdf25eaf119b8d"
+  "gitHead": "8d02505c8deaead7bc7c75826b2d4d0cd137e277"
 }

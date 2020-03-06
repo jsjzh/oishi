@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli-core",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "创建脚本命令底层框架",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -35,5 +35,5 @@
     "commander": "^4.1.1",
     "resolve": "^1.15.1"
   },
-  "gitHead": "b7ecbe888f519620525a313c3fbdf25eaf119b8d"
+  "gitHead": "8d02505c8deaead7bc7c75826b2d4d0cd137e277"
 }
