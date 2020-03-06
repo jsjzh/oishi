@@ -1,7 +1,7 @@
-import _CreateAPI from './shared/createAPI';
-import _Queue from './shared/Queue';
-import _log from './shared/log';
+import _CreateAPI from './createAPI';
+import _Queue from './queue';
+import _logger from './logger';
 
-export const log = _log;
-export const Queue = _Queue;
 export const CreateAPI = _CreateAPI;
+export const Queue = _Queue;
+export const logger = _logger;

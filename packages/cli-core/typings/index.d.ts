@@ -1,4 +1,5 @@
-import PluginContainer, { IPluginOption } from './pluginContainer';
+import PluginContainer, { IPluginOption } from './plugin';
+import { Context } from './content';
 export interface IPackage extends DynamicObject {
     name: string;
     version: string;
@@ -7,15 +8,17 @@ export interface IPackage extends DynamicObject {
         node?: string;
     };
 }
-export interface ICliCore {
+export interface ICliCore<CTX> {
     root: string;
+    context: CTX | ((ctx: CTX) => CTX);
     pkg: IPackage;
-    plugins: IPluginOption[];
+    plugins?: IPluginOption[];
 }
-export default class CliCore {
+export default class CliCore<CTX extends DynamicObject> {
     root: string;
-    pluginContainer: PluginContainer;
     pkg: IPackage;
-    constructor({ root, pkg, plugins }: ICliCore);
+    ctx: CTX | ((ctx: Context<CTX>) => CTX);
+    pluginContainer: PluginContainer;
+    constructor({ root, pkg, context, plugins }: ICliCore<CTX>);
     execute(): void;
 }

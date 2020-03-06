@@ -12,17 +12,17 @@ class APIError extends ExtendableError {
 
 axios.defaults.withCredentials = true;
 
-type IRequestConfig = AxiosRequestConfig & {
+export interface IRequestConfig extends AxiosRequestConfig {
   handleOption?: (option: AxiosRequestConfig) => any;
   handleResp?: (data: any) => any;
-};
+}
 
-type IRequestResult<T> = Promise<T> & {
+export interface IRequestResult<T> extends Promise<T> {
   promise: Promise<T>;
   cancel: () => void;
-};
+}
 
-class CreateAPI {
+export default class CreateAPI {
   host: string;
   baseConfig: IRequestConfig;
   baseData: { [k: string]: string };
@@ -168,5 +168,3 @@ class CreateAPI {
     });
   }
 }
-
-export default CreateAPI;

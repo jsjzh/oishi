@@ -22,5 +22,6 @@ module.exports = {
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/prefer-optional-chain': 'off',
     '@typescript-eslint/no-require-imports': 'off',
+    'max-params': 'off',
   },
 };

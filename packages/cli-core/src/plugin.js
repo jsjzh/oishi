@@ -3,12 +3,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const path_1 = tslib_1.__importDefault(require("path"));
 const resolve_1 = tslib_1.__importDefault(require("resolve"));
-const pluginAPI_1 = tslib_1.__importDefault(require("./pluginAPI"));
+class PluginAPI {
+    constructor(container) {
+        this.container = container;
+    }
+    registerCommand(configs, task) {
+        this.container.registerCommand(configs, task);
+    }
+}
+exports.PluginAPI = PluginAPI;
 class PluginContainer {
     constructor(root, plugins) {
         this.root = root;
         this.commands = {};
-        plugins.forEach(this.resolvePlugins);
+        plugins.forEach(this.resolvePlugins.bind(this));
     }
     resolvePlugins(pluginOption) {
         const pluginInfo = this.unifyInfo(pluginOption);
@@ -41,13 +49,21 @@ class PluginContainer {
         return module && module.__esModule ? module.default : module;
     }
     mountedPlugin(pluginInfo, plugin) {
-        plugin.apply(new pluginAPI_1.default(plugin.name, this), pluginInfo.pluginConfig || {});
+        plugin(new PluginAPI(this), pluginInfo.pluginConfig || {});
     }
-    registerCommand(commandItem) {
-        if (this.commands[commandItem.command]) {
+    registerCommand(configs, task) {
+        if (this.commands[configs.command]) {
             throw new Error('command 名重复');
         }
-        this.commands[commandItem.command] = commandItem;
+        const description = configs.description;
+        const options = configs.options;
+        const commondItem = {
+            command: configs.command,
+            description,
+            options,
+            task,
+        };
+        this.commands[configs.command] = commondItem;
     }
     traverse(fn) {
         Object.keys(this.commands).forEach(command => fn(this.commands[command]));

@@ -1,11 +1,14 @@
 {
-  "name": "@oishi/cli-core",
-  "version": "0.0.5",
-  "description": "创建脚本命令底层框架",
+  "name": "@oishi/cli",
+  "version": "1.0.0",
+  "description": "Now I’m the model of a modern major general / The venerated Virginian veteran whose men are all / Lining up, to put me up on a pedestal / Writin’ letters to relatives / Embellishin’ my elegance and eloquence / But the elephant is in the room / The truth is in ya face when ya hear the British cannons go / BOOM",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
   "main": "src/index.js",
+  "bin": {
+    "oishi": "bin/index.js"
+  },
   "types": "typings/index.d.ts",
   "files": [
     "src",
@@ -30,9 +33,7 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
-    "@oishi/fund-shared": "^0.0.9",
-    "axios": "^0.19.2",
-    "commander": "^4.1.1",
-    "resolve": "^1.15.1"
+    "@oishi/cli-core": "^0.0.5",
+    "envinfo": "^7.5.0"
   }
 }

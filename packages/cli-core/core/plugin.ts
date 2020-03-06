@@ -1,18 +1,50 @@
 import path from 'path';
 import resolve from 'resolve';
-import PluginAPI, { ICommandItem } from './pluginAPI';
+import { Context } from './content';
+
+export type OptionsItem = [string, (string | undefined)?, any?];
+
+type ITask<CTX> = (require: any[], ctx: Context<CTX>) => Promise<any>;
+
+// 对外输出处理的 commandItem
+export interface ICommandItem<CTX> {
+  command: string;
+  description: string;
+  options: OptionsItem[];
+  task: ITask<CTX>;
+}
 
 interface IPluginInfo {
   pluginPath: string;
   pluginConfig: DynamicObject;
 }
 
-interface IPlugin {
-  name: string;
-  apply: any;
+// plugin 的类型
+export type IPluginOption = string | IPluginInfo;
+
+interface IRegisterCommandConfig {
+  command: string;
+  description: string;
+  options: OptionsItem[];
 }
 
-export type IPluginOption = string | IPluginInfo;
+// 解析后的 plugin
+export type IPlugin = (
+  pluginAPI: PluginAPI,
+  pluginConfig: DynamicObject,
+) => void;
+
+export class PluginAPI<CTX extends DynamicObject = {}> {
+  container: PluginContainer;
+
+  constructor(container: PluginContainer) {
+    this.container = container;
+  }
+
+  registerCommand(configs: IRegisterCommandConfig, task: ITask<CTX>): void {
+    this.container.registerCommand(configs, task);
+  }
+}
 
 export default class PluginContainer {
   root: string;
@@ -21,7 +53,7 @@ export default class PluginContainer {
   constructor(root: string, plugins: IPluginOption[]) {
     this.root = root;
     this.commands = {};
-    plugins.forEach(this.resolvePlugins);
+    plugins.forEach(this.resolvePlugins.bind(this));
   }
 
   resolvePlugins(pluginOption: IPluginOption): void {
@@ -60,21 +92,27 @@ export default class PluginContainer {
   }
 
   mountedPlugin(pluginInfo: IPluginInfo, plugin: IPlugin) {
-    plugin.apply(
-      new PluginAPI(plugin.name, this),
-      pluginInfo.pluginConfig || {},
-    );
+    plugin(new PluginAPI(this), pluginInfo.pluginConfig || {});
   }
 
-  registerCommand(commandItem: ICommandItem) {
-    if (this.commands[commandItem.command]) {
+  registerCommand<CTX>(configs: IRegisterCommandConfig, task: ITask<CTX>) {
+    if (this.commands[configs.command]) {
       throw new Error('command 名重复');
     }
 
-    this.commands[commandItem.command] = commandItem;
+    const description = configs.description;
+    const options = configs.options;
+    const commondItem: ICommandItem<CTX> = {
+      command: configs.command,
+      description,
+      options,
+      task,
+    };
+
+    this.commands[configs.command] = commondItem;
   }
 
-  traverse(fn: (command: ICommandItem) => any) {
+  traverse<CTX>(fn: (command: ICommandItem<CTX>) => void) {
     Object.keys(this.commands).forEach(command => fn(this.commands[command]));
   }
 }

@@ -1,13 +1,13 @@
 import { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios';
-declare type IRequestConfig = AxiosRequestConfig & {
+export interface IRequestConfig extends AxiosRequestConfig {
     handleOption?: (option: AxiosRequestConfig) => any;
     handleResp?: (data: any) => any;
-};
-declare type IRequestResult<T> = Promise<T> & {
+}
+export interface IRequestResult<T> extends Promise<T> {
     promise: Promise<T>;
     cancel: () => void;
-};
-declare class CreateAPI {
+}
+export default class CreateAPI {
     host: string;
     baseConfig: IRequestConfig;
     baseData: {
@@ -40,4 +40,3 @@ declare class CreateAPI {
     }, config?: IRequestConfig): IRequestResult<T>;
     jsonp<T = any>(endPoint: string, config?: Pick<IRequestConfig, 'handleResp'>): Promise<T>;
 }
-export default CreateAPI;

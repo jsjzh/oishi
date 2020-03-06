@@ -1,5 +1,5 @@
 import Task from './task';
-import { Queue, log } from '@oishi/fund-shared';
+import { Queue, logger } from '@oishi/fund-shared';
 export default class TaskController extends Queue {
   static create(options?: any) {
     return new TaskController(options);
@@ -22,7 +22,7 @@ export default class TaskController extends Queue {
     const title = `「${task.title}」--- `;
 
     this.push((callback: Function) => {
-      log.infoBg(`${title}开始执行`);
+      logger.infoBg(`${title}开始执行`);
       console.time(`${title}耗时`);
       callback();
     });
@@ -30,7 +30,7 @@ export default class TaskController extends Queue {
     this.push(task.cmd);
 
     this.push((callback: Function) => {
-      log.successBg(`${title}执行完毕`);
+      logger.successBg(`${title}执行完毕`);
       console.timeEnd(`${title}耗时`);
       callback();
     });
