@@ -10,7 +10,7 @@
   "files": [
     "src",
     "package.json",
-    "typing",
+    "typings",
     "README.md"
   ],
   "publishConfig": {

@@ -1,3 +1,2 @@
-import { PluginAPI } from '@oishi/cli-core/typings/plugin';
-declare const _default: (api: PluginAPI<{}>) => void;
+declare const _default: (api: any) => void;
 export default _default;
