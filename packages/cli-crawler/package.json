@@ -1,0 +1,40 @@
+{
+  "name": "@oishi/cli-crawler",
+  "version": "0.0.1",
+  "description": "cli 爬虫合集",
+  "keywords": [],
+  "author": "jsjzh <kimimi_king@163.com>",
+  "license": "ISC",
+  "main": "src/index.js",
+  "bin": {
+    "oishi-crawler": "bin/oishi-crawler.js"
+  },
+  "types": "typings/index.d.ts",
+  "files": [
+    "src",
+    "package.json",
+    "typings",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsjzh/oishi.git"
+  },
+  "scripts": {
+    "build:ts": "rm -rf ./src ./typings && ../../node_modules/.bin/tsc --project ./",
+    "prepublish": "npm run build:ts",
+    "build": "npm run prepublish"
+  },
+  "bugs": {
+    "url": "https://github.com/jsjzh/oishi/issues"
+  },
+  "homepage": "https://github.com/jsjzh/oishi#readme",
+  "dependencies": {
+    "@oishi/cli-core": "^0.0.13",
+    "tslib": "^1.11.1",
+    "@oishi/cli-crawler-plugin-ttjj": "0.0.1"
+  }
+}

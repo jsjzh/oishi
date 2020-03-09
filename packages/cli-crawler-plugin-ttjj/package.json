@@ -1,0 +1,40 @@
+{
+  "name": "@oishi/cli-crawler-plugin-ttjj",
+  "version": "0.0.1",
+  "description": "cli-crawler 插件，天天基金",
+  "keywords": [],
+  "author": "jsjzh <kimimi_king@163.com>",
+  "license": "ISC",
+  "main": "src/index.js",
+  "types": "typings/index.d.ts",
+  "files": [
+    "src",
+    "package.json",
+    "typings",
+    "README.md"
+  ],
+  "publishConfig": {
+    "registry": "http://registry.npm.souche-inc.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsjzh/oishi.git"
+  },
+  "scripts": {
+    "build:ts": "rm -rf ./src ./typings && ../../node_modules/.bin/tsc --project ./",
+    "prepublish": "npm run build:ts",
+    "build": "npm run prepublish"
+  },
+  "bugs": {
+    "url": "https://github.com/jsjzh/oishi/issues"
+  },
+  "homepage": "https://github.com/jsjzh/oishi#readme",
+  "devDependencies": {
+    "@oishi/cli-core": "^0.0.13"
+  },
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "ramda": "^0.27.0",
+    "rxjs": "^6.5.4"
+  }
+}

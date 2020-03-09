@@ -17,13 +17,13 @@ class TaskController extends fund_shared_1.Queue {
         task.top = this;
         const title = `「${task.title}」--- `;
         this.push((callback) => {
-            fund_shared_1.logger.infoBg(`${title}开始执行`);
+            fund_shared_1.log.infoBg(`${title}开始执行`);
             console.time(`${title}耗时`);
             callback();
         });
         this.push(task.cmd);
         this.push((callback) => {
-            fund_shared_1.logger.successBg(`${title}执行完毕`);
+            fund_shared_1.log.successBg(`${title}执行完毕`);
             console.timeEnd(`${title}耗时`);
             callback();
         });
