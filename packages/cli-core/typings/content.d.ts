@@ -9,4 +9,4 @@ export declare type Context<CTX> = {
     helper: ErrorHelper & TaskListHelper;
     argv: DynamicObject;
 } & CTX;
-export declare const createContext: <CTX extends DynamicObject<any>>(ctx: CTX | ((ctx: Context<CTX>) => CTX)) => Context<CTX>;
+export declare const createContext: <CTX extends DynamicObject<any>>(root: string, ctx: CTX | ((ctx: Context<CTX>) => CTX)) => Context<CTX>;

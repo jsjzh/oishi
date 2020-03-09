@@ -14,7 +14,7 @@ class CliCore {
     execute() {
         commander_1.default.version(this.pkg.version).usage('<command> [options]');
         this.pluginContainer.traverse((commandItem) => {
-            const context = content_1.createContext(this.ctx);
+            const context = content_1.createContext(this.root, this.ctx);
             const commandHasOptions = !!commandItem.command.match(/<(.+?)>/g) ||
                 !!commandItem.command.match(/\[(.+?)\]/g);
             const miniProgram = commander_1.default
@@ -24,12 +24,12 @@ class CliCore {
                 miniProgram.option.apply(miniProgram, option);
             });
             miniProgram.action((...args) => {
+                Object.assign(context.argv, miniProgram.opts());
                 // 如果 commond 中含有 <...> 或者 [...]
                 // 则需要做处理，提取最后一个参数「options 的参数」
                 // 也就是说，task 接收到的参数是 >= 1 的，而且会随着 commond 中 hasOptions 的增加而增加
                 if (commandHasOptions) {
                     const requiredOptions = args.slice(0, -1);
-                    Object.assign(context.argv, miniProgram.opts());
                     commandItem.task(requiredOptions, context);
                 }
                 else {

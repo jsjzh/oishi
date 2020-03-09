@@ -1,12 +1,10 @@
 import logger, { Logger } from './shared/logger';
-import axios, { AxiosInstance } from 'axios';
 
 import errorHelper, { ErrorHelper } from './shared/error';
 import taskListHelper, { TaskListHelper } from './shared/task-list';
 
 export type Context<CTX> = {
   root: string;
-  http: AxiosInstance;
   logger: Logger;
   helper: ErrorHelper & TaskListHelper;
   argv: DynamicObject;
@@ -19,11 +17,11 @@ const hasOwn = function(v: {}, k: string): boolean {
 };
 
 export const createContext = function<CTX extends DynamicObject>(
+  root: string,
   ctx: CTX | ((ctx: Context<CTX>) => CTX),
 ): Context<CTX> {
   const context = {
-    root: '',
-    http: axios,
+    root: root,
     logger: logger,
     argv: {},
   } as any;

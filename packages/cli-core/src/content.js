@@ -9,9 +9,9 @@ const hasOwnProperty = Object.prototype.hasOwnProperty;
 const hasOwn = function (v, k) {
     return hasOwnProperty.call(v, k);
 };
-exports.createContext = function (ctx) {
+exports.createContext = function (root, ctx) {
     const context = {
-        root: '',
+        root: root,
         http: axios_1.default,
         logger: logger_1.default,
         argv: {},
