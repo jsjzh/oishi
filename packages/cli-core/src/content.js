@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const logger_1 = tslib_1.__importDefault(require("./shared/logger"));
-const axios_1 = tslib_1.__importDefault(require("axios"));
 const error_1 = tslib_1.__importDefault(require("./shared/error"));
 const task_list_1 = tslib_1.__importDefault(require("./shared/task-list"));
 const hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -12,7 +11,6 @@ const hasOwn = function (v, k) {
 exports.createContext = function (root, ctx) {
     const context = {
         root: root,
-        http: axios_1.default,
         logger: logger_1.default,
         argv: {},
     };
