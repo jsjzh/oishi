@@ -14,7 +14,7 @@
     "README.md"
   ],
   "publishConfig": {
-    "registry": "http://registry.npm.souche-inc.com/"
+    "access": "public"
   },
   "repository": {
     "type": "git",
@@ -30,11 +30,13 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "devDependencies": {
-    "@oishi/cli-core": "^0.0.13"
+    "@oishi/cli-core": "^0.0.17"
   },
   "dependencies": {
     "fs-extra": "^8.1.0",
+    "moment": "^2.24.0",
     "ramda": "^0.27.0",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "@oishi/oishi-shared": "0.0.1"
   }
 }

@@ -8,7 +8,9 @@ class TaskList {
         this.options = Object.assign({ concurrent: false, hasTip: false }, options);
     }
     add(taskItem) {
-        this.tasks.push(taskItem);
+        Array.isArray(taskItem)
+            ? (this.tasks = this.tasks.concat(taskItem))
+            : this.tasks.push(taskItem);
         return this;
     }
     _runTask(taskItem) {

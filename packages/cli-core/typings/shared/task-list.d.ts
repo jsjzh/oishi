@@ -10,7 +10,7 @@ declare class TaskList {
     tasks: TaskItem[];
     options: TaskListConfig;
     constructor(options?: TaskListConfig);
-    add(taskItem: TaskItem): this;
+    add(taskItem: TaskItem | TaskItem[]): this;
     _runTask(taskItem: TaskItem): Promise<void>;
     run(): Promise<void>;
 }

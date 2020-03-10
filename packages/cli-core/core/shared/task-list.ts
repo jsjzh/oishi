@@ -24,8 +24,10 @@ class TaskList {
     };
   }
 
-  add(taskItem: TaskItem) {
-    this.tasks.push(taskItem);
+  add(taskItem: TaskItem | TaskItem[]) {
+    Array.isArray(taskItem)
+      ? (this.tasks = this.tasks.concat(taskItem))
+      : this.tasks.push(taskItem);
     return this;
   }
 
