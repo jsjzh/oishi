@@ -4,8 +4,7 @@
   "scripts": {
     "clean": "rm -rf node_modules && lerna clean",
     "bootstrap": "yarn && lerna bootstrap",
-    "build": "leran run build",
-    "run:ttjj": "cd packages/fund-ttjj && yarn run build && node src/index.js"
+    "build": "leran run build"
   },
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
