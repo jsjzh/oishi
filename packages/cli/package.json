@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "cli 脚本，暂时没想好用来做什么，基于 @oishi/cli-core，暂时只有 info 指令",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
