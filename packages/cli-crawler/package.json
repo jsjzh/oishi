@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli-crawler",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "cli 爬虫合集",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -34,8 +34,8 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
-    "@oishi/cli-core": "^0.0.18",
-    "@oishi/cli-crawler-plugin-ttjj": "^0.0.4",
+    "@oishi/cli-core": "^0.0.19",
+    "@oishi/cli-crawler-plugin-ttjj": "^0.0.5",
     "tslib": "^1.11.1"
   },
   "gitHead": "549eeca0974e7b3cf5dcb5aa212219c2f2487d1d"
