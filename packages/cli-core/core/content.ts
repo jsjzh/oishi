@@ -2,6 +2,7 @@ import logger, { Logger } from './shared/logger';
 
 import errorHelper, { ErrorHelper } from './shared/error';
 import taskListHelper, { TaskListHelper } from './shared/task-list';
+import { DynamicObject } from '../global';
 
 export type Context<CTX> = {
   root: string;

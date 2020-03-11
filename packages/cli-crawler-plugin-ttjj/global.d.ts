@@ -1,3 +1,3 @@
-declare interface DynamicObject<T = any> {
+export interface DynamicObject<T = any> {
   [key: string]: T;
 }

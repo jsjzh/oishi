@@ -1,5 +1,6 @@
 import { IRequestConfig } from '@oishi/oishi-shared/typings/shared/createAPI';
 import { CreateAPI } from '@oishi/oishi-shared';
+import { DynamicObject } from '../../global';
 
 export interface ICreateService {
   GetMyAssetDetails<T>(): Promise<T>;

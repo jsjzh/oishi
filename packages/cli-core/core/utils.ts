@@ -1,3 +1,5 @@
+import { DynamicObject } from '../global';
+
 export const camelize = (str: string) => {
   return str.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''));
 };

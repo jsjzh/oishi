@@ -1,6 +1,7 @@
 import path from 'path';
 import resolve from 'resolve';
 import { Context } from './content';
+import { DynamicObject } from '../global';
 
 export type OptionsItem = [string, (string | undefined)?, any?];
 

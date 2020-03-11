@@ -1,5 +1,6 @@
 import PluginContainer, { IPluginOption } from './plugin';
 import { Context } from './content';
+import { DynamicObject } from '../global';
 export interface IPackage extends DynamicObject {
     name: string;
     version: string;

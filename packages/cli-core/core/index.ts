@@ -6,6 +6,7 @@ import PluginContainer, {
   OptionsItem,
 } from './plugin';
 import { createContext, Context } from './content';
+import { DynamicObject } from '../global';
 
 export interface IPackage extends DynamicObject {
   name: string;
