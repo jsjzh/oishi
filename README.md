@@ -1,40 +1,89 @@
 # oishi
 
-> oishi 是日语「好好次」的发音，日语写作「おいしい」。
+> oishi 是日语「好好次」的发音，日语写作「おいしい」
 
 ## 项目介绍
 
-oishi 项目集，包括了很多有用的工具和命令行，下面会逐一介绍。
+oishi 项目集，包括了很多工具和命令行，下面会逐一介绍
 
-### `packages/cli`
-
-#### 使用方式
-
-待补充
-
-### `packages/cli-core`
+### `@oishi/cli`
 
 #### 使用方式
 
-待补充
+```cmd
+npm install -g @oishi/cli
+# yarn global add @oishi/cli
+```
 
-### `packages/cli-crawler`
+```cmd
+oishi -h
+oishi info
+```
+
+#### 介绍
+
+占位库，暂时没想好用来做什么，只有一个简单的指令，后续如果继续赋能的话会在这里补充
+
+### `@oishi/cli-core`
 
 #### 使用方式
 
-待补充
+```cmd
+npm install -S @oishi/cli-core
+# yarn add @oishi/cli-core
+```
 
-### `packages/cli-crawler-plugin-ttjj`
+#### 介绍
+
+重点介绍对象，该库为最基础的底层框架，因为有点长，就不在首页写了，使用的方式可以参考如下
+
+[@oishi/cli-core](./packages/cli-core/README.md)
+
+### `@oishi/cli-crawler`
 
 #### 使用方式
 
-待补充
+```cmd
+npm install -g @oishi/cli-crawler
+# yarn global add @oishi/cli-crawler
+```
 
-### `packages/oishi-shared`
+```cmd
+oishi-crawler -h
+
+oishi-crawler ttjj
+oishi-crawler ttjj --config <path>
+oishi-crawler ttjj --output <path>
+oishi-crawler ttjj --config <path> --output <path>
+```
+
+#### 介绍
+
+作为爬虫的底层脚本包装框架，所有的爬虫可以通过 `plugins: ['@oishi/cli-crawler-plugin-ttjj']` 的方式来自动引入
+
+在使用该脚本命令时，需要一个 config.json，具体的数据根据 charles 可以爬到，config.json 的格式如下
+
+```ts
+interface IConfig {
+  CToken: string;
+  MobileKey: string;
+  ServerVersion: string;
+  UToken: string;
+  UserId: string;
+}
+```
+
+### `@oishi/cli-crawler-plugin-ttjj`
 
 #### 使用方式
 
-待补充
+作为 `@oishi/cli-crawler` 的 plugin 使用
+
+### `@oishi/oishi-shared`
+
+#### 使用方式
+
+作为 `oishi` 的通用库，可作为普通的工具类库来使用
 
 ## node debug
 

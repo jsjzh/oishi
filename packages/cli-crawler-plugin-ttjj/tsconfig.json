@@ -6,5 +6,5 @@
     "declaration": true,
     "declarationDir": "./typings"
   },
-  "include": ["./core/**/*.ts", "../../global.d.ts"]
+  "include": ["./core/**/*.ts", "./global.d.ts"]
 }

@@ -11,6 +11,7 @@
     "src",
     "package.json",
     "typings",
+    "global.d.ts",
     "README.md"
   ],
   "publishConfig": {
