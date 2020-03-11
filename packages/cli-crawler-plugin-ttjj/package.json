@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli-crawler-plugin-ttjj",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "cli-crawler 插件，天天基金",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -31,10 +31,10 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "devDependencies": {
-    "@oishi/cli-core": "^0.0.22"
+    "@oishi/cli-core": "^0.0.23"
   },
   "dependencies": {
-    "@oishi/oishi-shared": "^0.0.3",
+    "@oishi/oishi-shared": "^0.0.4",
     "fs-extra": "^8.1.0",
     "moment": "^2.24.0",
     "ramda": "^0.27.0",
