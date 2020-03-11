@@ -23,6 +23,6 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@oishi/cli-core": "latest"
+    "@oishi/cli-core": "0.0.22"
   }
 }
