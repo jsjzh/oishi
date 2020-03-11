@@ -1,6 +1,13 @@
 import { IRequestConfig } from '@oishi/oishi-shared/typings/shared/createAPI';
 import { CreateAPI } from '@oishi/oishi-shared';
 
+export interface ICreateService {
+  GetMyAssetDetails<T>(): Promise<T>;
+  GetShareDetail<T>(): Promise<T>;
+  GetTransactionRecords<T>(): Promise<T>;
+  GetProfitList<T>(): Promise<T>;
+}
+
 export const createService = (
   baseUrl: string,
   config: IRequestConfig,

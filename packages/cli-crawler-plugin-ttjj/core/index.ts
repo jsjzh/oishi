@@ -1,16 +1,11 @@
 import { PluginAPI } from '@oishi/cli-core/typings/plugin';
 import { Queue } from '@oishi/oishi-shared';
-import {
-  curryGetAbsolutePath,
-  curryTimePath,
-  sleep,
-  getCodePath,
-} from './shared';
-import { readJSON, writeJSON, ensureDir, ensureFile } from 'fs-extra';
+import { curryGetAbsolutePath, curryTimePath, createFundTasks } from './shared';
+import { readJSON, writeJSON, ensureDir } from 'fs-extra';
 import path from 'path';
 import { createService } from './service';
 
-interface IAllCode {
+export interface IAllCode {
   code: string;
   name: string;
 }
@@ -40,23 +35,21 @@ export default (api: PluginAPI<{}>): void => {
       const curryGetRootAbsolutePath = curryGetAbsolutePath(root);
       const curryOutPathTimePath = curryTimePath(output);
 
-      const GetMyAssetDetailsPath = curryOutPathTimePath(
-        'GetMyAssetDetailsPath',
+      const myAssetDetailsPath = curryOutPathTimePath('GetMyAssetDetails');
+      const shareDetailPath = curryOutPathTimePath('GetShareDetail');
+      const transactionRecordsPath = curryOutPathTimePath(
+        'GetTransactionRecords',
       );
-      const GetShareDetailPath = curryOutPathTimePath('GetShareDetailPath');
-      const GetTransactionRecordsPath = curryOutPathTimePath(
-        'GetTransactionRecordsPath',
-      );
-      const GetProfitListPath = curryOutPathTimePath('GetProfitListPath');
+      const profitListPath = curryOutPathTimePath('GetProfitList');
 
       const initAndCheckPathPromises = [
         readJSON(curryGetRootAbsolutePath(config)),
       ].concat(
         [
-          GetMyAssetDetailsPath,
-          GetShareDetailPath,
-          GetTransactionRecordsPath,
-          GetProfitListPath,
+          myAssetDetailsPath,
+          shareDetailPath,
+          transactionRecordsPath,
+          profitListPath,
         ].map((filePath: string) => ensureDir(filePath)),
       );
 
@@ -70,7 +63,7 @@ export default (api: PluginAPI<{}>): void => {
 
       const rspData = await tradeapilvs5.GetMyAssetDetails(configJson);
 
-      await writeJSON(path.join(GetMyAssetDetailsPath, 'data.json'), rspData, {
+      await writeJSON(path.join(myAssetDetailsPath, 'data.json'), rspData, {
         spaces: 2,
       });
 
@@ -79,64 +72,38 @@ export default (api: PluginAPI<{}>): void => {
         name: item.FundName,
       }));
 
-      const sharedDetailTasks = helper.createTaskList({ hasTip: true }).add(
-        allCode.map(({ name, code }) => {
-          const codePath = getCodePath(GetShareDetailPath, code, name);
-          return {
-            title: `爬取基金队列 ${code} ${name}`,
-            task: async () => {
-              const rspData = await tradeapilvs5.GetShareDetail({
-                FundCode: code,
-              });
-              await Promise.all([
-                ensureFile(codePath),
-                writeJSON(codePath, rspData, { spaces: 2 }),
-              ]);
-              return sleep(3);
-            },
-          };
-        }),
-      );
+      const sharedDetailTasks = helper
+        .createTaskList({ hasTip: true })
+        .add(
+          createFundTasks(
+            '爬取基金队列',
+            allCode,
+            shareDetailPath,
+            tradeapilvs5.GetShareDetail,
+          ),
+        );
 
       const transactionRecordsTasks = helper
         .createTaskList({ hasTip: true })
         .add(
-          allCode.map(({ name, code }) => {
-            const codePath = getCodePath(GetTransactionRecordsPath, code, name);
-            return {
-              title: `爬取操作记录 ${code} ${name}`,
-              task: async () => {
-                const rspData = await tradeapilvs5.GetTransactionRecords({
-                  FundCode: code,
-                });
-                await Promise.all([
-                  ensureFile(codePath),
-                  writeJSON(codePath, rspData, { spaces: 2 }),
-                ]);
-                return sleep(3);
-              },
-            };
-          }),
+          createFundTasks(
+            '爬取操作记录',
+            allCode,
+            transactionRecordsPath,
+            tradeapilvs5.GetTransactionRecords,
+          ),
         );
 
-      const profitListTasks = helper.createTaskList({ hasTip: true }).add(
-        allCode.map(({ name, code }) => {
-          const codePath = getCodePath(GetProfitListPath, code, name);
-          return {
-            title: `爬取基金队列 ${code} ${name}`,
-            task: async () => {
-              const rspData = await tradeapilvs5.GetProfitList({
-                FundCode: code,
-              });
-              await Promise.all([
-                ensureFile(codePath),
-                writeJSON(codePath, rspData, { spaces: 2 }),
-              ]);
-              return sleep(3);
-            },
-          };
-        }),
-      );
+      const profitListTasks = helper
+        .createTaskList({ hasTip: true })
+        .add(
+          createFundTasks(
+            '爬取基金队列',
+            allCode,
+            profitListPath,
+            tradeapilvs5.GetProfitList,
+          ),
+        );
 
       const queue = new Queue();
 
