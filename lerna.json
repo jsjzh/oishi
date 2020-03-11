@@ -1,7 +1,6 @@
 {
   "packages": [
     "packages/cli",
-    "packages/cli-core",
     "packages/cli-crawler",
     "packages/cli-crawler-plugin-ttjj",
     "packages/oishi-shared"

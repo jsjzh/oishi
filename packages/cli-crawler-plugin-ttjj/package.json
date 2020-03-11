@@ -31,14 +31,14 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "devDependencies": {
-    "@oishi/cli-core": "^0.0.19"
+    "@oishi/cli-core": "latest"
   },
   "dependencies": {
-    "@oishi/oishi-shared": "^0.0.3",
+    "@oishi/oishi-shared": "latest",
     "fs-extra": "^8.1.0",
     "moment": "^2.24.0",
     "ramda": "^0.27.0",
     "rxjs": "^6.5.4"
   },
-  "gitHead": "549eeca0974e7b3cf5dcb5aa212219c2f2487d1d"
+  "gitHead": "1db5b86b5560cb8a926ce2056fc4867fc394951a"
 }
