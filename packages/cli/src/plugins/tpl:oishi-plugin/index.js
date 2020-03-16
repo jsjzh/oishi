@@ -8,14 +8,14 @@ exports.default = (api) => {
     api.registerCommand({
         command: 'tpl:oishi-plg <command>',
         description: '快速创建 oishi-plugin 代码模板',
-        options: [
-            ['-d, --description <string>', 'plugin 描述', 'plugin 描述，待补充'],
-        ],
+        options: [['-d, --hasDir', '是否要使用 {command}/index.ts 模式']],
     }, (args, ctx) => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
         const [command] = args;
         const { root, argv, helper, logger } = ctx;
-        const { description } = argv;
-        const pluginName = `oishi-plugin-${command}.ts`;
+        const { hasDir } = argv;
+        const pluginName = hasDir
+            ? path_1.default.join(`oishi-plugin-${command}`, 'index.ts')
+            : `oishi-plugin-${command}.ts`;
         const pluginPath = path_1.default.resolve(root, pluginName);
         let _template = '';
         helper
@@ -24,12 +24,12 @@ exports.default = (api) => {
             title: '解析传入数据，修改模板信息',
             task: () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
                 _template = template_1.default
-                    .replace('<% command %>', command)
-                    .replace('<% description %>', description);
+                    .replace(/\<\% command \%\>/g, command)
+                    .replace(/\<\% description \%\>/g, '新建 plugin 待补充内容');
             }),
         })
             .add({
-            title: '装载并写入 plugin',
+            title: '装载 plugin，写入 plugin',
             task: () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
                 yield fs_extra_1.ensureFile(pluginPath);
                 yield fs_extra_1.writeFile(pluginPath, _template);
@@ -38,7 +38,7 @@ exports.default = (api) => {
             .add({
             title: '',
             task: () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
-                logger.successBg(`${pluginName} 装载完毕，现只需要在 CliCore 的实例中，添加 plugin 即可使用，使用方式为 \`<package.json 中的 bin 属性> ${command} hello\``);
+                logger.successBg(`${pluginName} 工程完毕，现只需要在 CliCore 的实例中，添加 plugin 即可使用，使用方式为 \`<package.json 中的 bin 属性> ${command} hello-wrold\``);
             }),
         })
             .run();

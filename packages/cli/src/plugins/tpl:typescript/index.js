@@ -61,15 +61,11 @@ exports.default = (api) => {
             task: () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
                 template_1.default.forEach(item => {
                     if (item.path === 'package.json') {
-                        // "name": "<% name %>",
-                        // "version": "<% version %>",
-                        // "description": "<% description %>",
-                        // "author": "<% author %>",
                         item.value = item.value
-                            .replace('<% name %>', conf.name)
-                            .replace('<% version %>', conf.version)
-                            .replace('<% description %>', conf.description)
-                            .replace('<% author %>', `${conf.userName} <${conf.userEmail}>`);
+                            .replace(/\<\% name \%\>/g, conf.name)
+                            .replace(/\<\% version \%\>/g, conf.version)
+                            .replace(/\<\% description \%\>/g, conf.description)
+                            .replace(/\<\% author \%\>/g, `${conf.userName} <${conf.userEmail}>`);
                     }
                 });
             }),
