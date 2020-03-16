@@ -38,18 +38,36 @@ export default class CliCore<CTX extends DynamicObject> {
   }
 
   execute(): void {
-    program.version(this.pkg.version).usage('<command> [options]');
+    program.version(this.pkg.version).usage('<command>');
 
     this.pluginContainer.traverse((commandItem: ICommandItem<CTX>) => {
       const context = createContext<CTX>(this.root, this.ctx);
 
-      const commandHasOptions =
-        !!commandItem.command.match(/<(.+?)>/g) ||
-        !!commandItem.command.match(/\[(.+?)\]/g);
+      const required = commandItem.command.match(/<(.+?)>/g);
+      const optional = commandItem.command.match(/\[(.+?)\]/g);
+
+      const hasRequired = !!required;
+      const hasOptional = !!optional;
+      const commandHasOptions = hasRequired || hasOptional;
+
+      const requiredUsage = hasRequired && required?.join(' ');
+      const optionalUsage = hasRequired && optional?.join(' ');
 
       const miniProgram = program
         .command(commandItem.command)
         .description(commandItem.description);
+
+      if (hasRequired && hasOptional) {
+        miniProgram.usage(`${requiredUsage} ${optionalUsage}`);
+      } else {
+        if (hasRequired) {
+          miniProgram.usage(`${requiredUsage}`);
+        } else if (hasOptional) {
+          miniProgram.usage(`${optionalUsage}`);
+        } else {
+          miniProgram.usage(' ');
+        }
+      }
 
       commandItem.options.forEach((option: OptionsItem) => {
         miniProgram.option.apply(miniProgram, option);
@@ -57,9 +75,6 @@ export default class CliCore<CTX extends DynamicObject> {
 
       miniProgram.action((...args: any[]) => {
         Object.assign(context.argv, miniProgram.opts());
-        // 如果 commond 中含有 <...> 或者 [...]
-        // 则需要做处理，提取最后一个参数「options 的参数」
-        // 也就是说，task 接收到的参数是 >= 1 的，而且会随着 commond 中 hasOptions 的增加而增加
         if (commandHasOptions) {
           const requiredOptions = args.slice(0, -1);
           commandItem.task(requiredOptions, context);

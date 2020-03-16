@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./src",
+    "rootDir": "./core",
+    "declaration": true,
+    "declarationDir": "./typings"
+  },
+  "include": ["./core/**/*.ts", "./global.d.ts"]
+}

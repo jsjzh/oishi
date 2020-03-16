@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "lib": ["ESNext"],
+    "importHelpers": true,
+    "listEmittedFiles": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    "baseUrl": "./",
+    "outDir": "./src",
+    "rootDir": "./core",
+
+    "declaration": true,
+    "declarationDir": "./typings"
+  },
+  "include": ["./core/**/*.ts", "./global.d.ts"]
+}

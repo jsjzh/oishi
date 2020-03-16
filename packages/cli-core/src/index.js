@@ -12,14 +12,33 @@ class CliCore {
         this.pluginContainer = new plugin_1.default(root, plugins || []);
     }
     execute() {
-        commander_1.default.version(this.pkg.version).usage('<command> [options]');
+        commander_1.default.version(this.pkg.version).usage('<command>');
         this.pluginContainer.traverse((commandItem) => {
             const context = content_1.createContext(this.root, this.ctx);
-            const commandHasOptions = !!commandItem.command.match(/<(.+?)>/g) ||
-                !!commandItem.command.match(/\[(.+?)\]/g);
+            const required = commandItem.command.match(/<(.+?)>/g);
+            const optional = commandItem.command.match(/\[(.+?)\]/g);
+            const hasRequired = !!required;
+            const hasOptional = !!optional;
+            const commandHasOptions = hasRequired || hasOptional;
+            const requiredUsage = hasRequired && (required === null || required === void 0 ? void 0 : required.join(' '));
+            const optionalUsage = hasRequired && (optional === null || optional === void 0 ? void 0 : optional.join(' '));
             const miniProgram = commander_1.default
                 .command(commandItem.command)
                 .description(commandItem.description);
+            if (hasRequired && hasOptional) {
+                miniProgram.usage(`${requiredUsage} ${optionalUsage}`);
+            }
+            else {
+                if (hasRequired) {
+                    miniProgram.usage(`${requiredUsage}`);
+                }
+                else if (hasOptional) {
+                    miniProgram.usage(`${optionalUsage}`);
+                }
+                else {
+                    miniProgram.usage(' ');
+                }
+            }
             commandItem.options.forEach((option) => {
                 miniProgram.option.apply(miniProgram, option);
             });

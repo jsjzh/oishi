@@ -11,5 +11,3 @@ const cli = new CliCore({
   context: { message: 'hello wrold' },
   plugins: [path.resolve(__dirname, './hello')],
 });
-
-cli.execute();

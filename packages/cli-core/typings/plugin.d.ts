@@ -1,7 +1,7 @@
 import { Context } from './content';
 import { DynamicObject } from '../global';
 export declare type OptionsItem = [string, (string | undefined)?, any?];
-declare type ITask<CTX> = (require: any[], ctx: Context<CTX>) => Promise<any>;
+declare type ITask<CTX> = (required: string[], ctx: Context<CTX>) => Promise<any>;
 export interface ICommandItem<CTX> {
     command: string;
     description: string;

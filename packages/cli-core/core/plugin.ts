@@ -5,7 +5,7 @@ import { DynamicObject } from '../global';
 
 export type OptionsItem = [string, (string | undefined)?, any?];
 
-type ITask<CTX> = (require: any[], ctx: Context<CTX>) => Promise<any>;
+type ITask<CTX> = (required: string[], ctx: Context<CTX>) => Promise<any>;
 
 // 对外输出处理的 commandItem
 export interface ICommandItem<CTX> {

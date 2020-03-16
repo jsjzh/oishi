@@ -13,7 +13,10 @@ export default class OishiCli {
       root: process.cwd(),
       pkg: require('../package.json'),
       context: {},
-      plugins: [path.resolve(__dirname, './plugins/info')],
+      plugins: [
+        path.resolve(__dirname, './plugins/tpl:oishi-plugin'),
+        path.resolve(__dirname, './plugins/tpl:typescript'),
+      ],
     });
   }
 

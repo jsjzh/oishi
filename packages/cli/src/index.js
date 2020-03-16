@@ -9,7 +9,10 @@ class OishiCli {
             root: process.cwd(),
             pkg: require('../package.json'),
             context: {},
-            plugins: [path_1.default.resolve(__dirname, './plugins/info')],
+            plugins: [
+                path_1.default.resolve(__dirname, './plugins/tpl:oishi-plugin'),
+                path_1.default.resolve(__dirname, './plugins/tpl:typescript'),
+            ],
         });
     }
     static create() {
