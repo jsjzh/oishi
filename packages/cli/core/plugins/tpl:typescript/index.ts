@@ -73,16 +73,12 @@ export default (api: PluginAPI<{}>): void => {
           task: async () => {
             templateJson.forEach(item => {
               if (item.path === 'package.json') {
-                // "name": "<% name %>",
-                // "version": "<% version %>",
-                // "description": "<% description %>",
-                // "author": "<% author %>",
                 item.value = item.value
-                  .replace('<% name %>', conf.name)
-                  .replace('<% version %>', conf.version)
-                  .replace('<% description %>', conf.description)
+                  .replace(/\<\% name \%\>/g, conf.name)
+                  .replace(/\<\% version \%\>/g, conf.version)
+                  .replace(/\<\% description \%\>/g, conf.description)
                   .replace(
-                    '<% author %>',
+                    /\<\% author \%\>/g,
                     `${conf.userName} <${conf.userEmail}>`,
                   );
               }

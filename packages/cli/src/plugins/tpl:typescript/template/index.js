@@ -116,7 +116,7 @@ const templates = [
         "README.md"
       ],
       "scripts": {
-        "build:ts": "rm -rf ./src ./typings && npx tsc --project ./",
+        "build:ts": "rm -rf ./src ./typings && tsc --project ./",
         "prepublish": "npm run build:ts"
       },
       "dependencies": {
