@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli-core",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "创建脚本命令底层框架",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
+    "chalk": "^3.0.0",
     "commander": "^4.1.1",
     "resolve": "^1.15.1",
     "tslib": "^1.11.1"

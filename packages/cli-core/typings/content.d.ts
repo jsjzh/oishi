@@ -2,7 +2,7 @@ import { Logger } from './shared/logger';
 import { ErrorHelper } from './shared/error';
 import { TaskListHelper } from './shared/task-list';
 import { DynamicObject } from '../global';
-export declare type Context<CTX> = {
+export declare type Context<CTX = {}> = {
     root: string;
     logger: Logger;
     helper: ErrorHelper & TaskListHelper;

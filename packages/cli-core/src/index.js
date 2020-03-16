@@ -44,9 +44,6 @@ class CliCore {
             });
             miniProgram.action((...args) => {
                 Object.assign(context.argv, miniProgram.opts());
-                // 如果 commond 中含有 <...> 或者 [...]
-                // 则需要做处理，提取最后一个参数「options 的参数」
-                // 也就是说，task 接收到的参数是 >= 1 的，而且会随着 commond 中 hasOptions 的增加而增加
                 if (commandHasOptions) {
                     const requiredOptions = args.slice(0, -1);
                     commandItem.task(requiredOptions, context);
