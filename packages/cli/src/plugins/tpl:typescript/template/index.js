@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const files = [
+const templates = [
     {
         path: 'core/index.ts',
         value: `import { DynamicObject } from '../global';
@@ -177,4 +177,4 @@ const files = [
     `,
     },
 ];
-exports.default = files;
+exports.default = templates;
