@@ -14,8 +14,9 @@ export default class OishiCli {
       pkg: require('../package.json'),
       context: {},
       plugins: [
-        path.resolve(__dirname, './plugins/tpl:oishi-plugin'),
-        path.resolve(__dirname, './plugins/tpl:typescript'),
+        path.resolve(__dirname, './plugins/create:cli'),
+        path.resolve(__dirname, './plugins/create:plg'),
+        path.resolve(__dirname, './plugins/create:ts'),
       ],
     });
   }
