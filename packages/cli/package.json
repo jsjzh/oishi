@@ -41,7 +41,7 @@
     "tslib": "^1.11.1",
     "validate-npm-package-name": "^3.0.0"
   },
-  "gitHead": "1db5b86b5560cb8a926ce2056fc4867fc394951a",
+  "gitHead": "b890bbda9456350293882391ec7f0a4250536808",
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",
     "@types/ramda": "^0.27.4",
