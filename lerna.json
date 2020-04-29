@@ -3,8 +3,8 @@
     "packages/cli",
     "packages/cli-core",
     "packages/cli-crawler",
-    "packages/cli-crawler-plugin-ttjj",
-    "packages/oishi-shared"
+    "packages/oishi-shared",
+    "packages/cli-shared"
   ],
   "version": "independent",
   "npmClient": "yarn",

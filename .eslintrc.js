@@ -23,5 +23,7 @@ module.exports = {
     '@typescript-eslint/prefer-optional-chain': 'off',
     '@typescript-eslint/no-require-imports': 'off',
     'max-params': 'off',
+    '@typescript-eslint/class-literal-property-style': 0,
+    '@typescript-eslint/method-signature-style': 0,
   },
 };

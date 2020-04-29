@@ -9,18 +9,12 @@
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
   "devDependencies": {
-    "@types/fs-extra": "^8.1.0",
-    "@types/jsonp": "^0.2.0",
-    "@types/minimist": "^1.2.0",
-    "@types/ramda": "^0.26.43",
-    "@types/resolve": "^1.14.0",
-    "@types/validate-npm-package-name": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.20.0",
-    "@typescript-eslint/parser": "^2.20.0",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
     "eslint": "^6.8.0",
-    "eslint-config-alloy": "^3.5.0",
-    "lerna": "^3.18.3",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.7.5"
+    "eslint-config-alloy": "^3.7.1",
+    "lerna": "^3.20.2",
+    "ts-node": "^8.9.1",
+    "typescript": "^3.8.3"
   }
 }

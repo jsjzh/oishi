@@ -5,7 +5,10 @@ class Queue {
         this.target = -1;
         this.fns = fns;
         // 当队列处理完成，有的时候需要给到通知
-        this.finalFn = () => { };
+        this.finalFn = this.init;
+    }
+    init() {
+        this.target = -1;
     }
     push(fn) {
         this.fns.push(fn);
@@ -25,6 +28,7 @@ class Queue {
     }
     final(callback) {
         this.finalFn = callback;
+        this.init();
     }
 }
 exports.default = Queue;

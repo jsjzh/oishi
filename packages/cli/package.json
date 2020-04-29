@@ -5,16 +5,16 @@
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
-  "main": "src/index.js",
+  "main": "",
   "bin": {
-    "oishi": "bin/oishi.js"
+    "oishi": "bin/oishi.js",
+    "@oishi/cli": "bin/oishi.js"
   },
-  "types": "typings/index.d.ts",
+  "types": "",
   "files": [
+    "bin",
     "src",
-    "typings",
     "package.json",
-    "global.d.ts",
     "README.md"
   ],
   "publishConfig": {
@@ -25,7 +25,7 @@
     "url": "git+https://github.com/jsjzh/oishi.git"
   },
   "scripts": {
-    "build:ts": "rm -rf ./src ./typings && ../../node_modules/.bin/tsc --project ./",
+    "build:ts": "rm -rf ./src && ../../node_modules/.bin/tsc --project ./",
     "prepublish": "npm run build:ts",
     "build": "npm run prepublish"
   },
@@ -35,12 +35,16 @@
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
     "@oishi/cli-core": "^0.0.33",
-    "envinfo": "^7.5.0",
     "execa": "^4.0.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "ramda": "^0.27.0",
     "tslib": "^1.11.1",
     "validate-npm-package-name": "^3.0.0"
   },
-  "gitHead": "1db5b86b5560cb8a926ce2056fc4867fc394951a"
+  "gitHead": "1db5b86b5560cb8a926ce2056fc4867fc394951a",
+  "devDependencies": {
+    "@types/fs-extra": "^8.1.0",
+    "@types/ramda": "^0.27.4",
+    "@types/validate-npm-package-name": "^3.0.0"
+  }
 }

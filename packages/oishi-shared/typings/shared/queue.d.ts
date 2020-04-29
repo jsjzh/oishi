@@ -1,10 +1,13 @@
+declare type IFn = (...rests: any) => any;
 export default class Queue {
     target: number;
-    fns: Function[];
-    finalFn: Function;
-    constructor(fns?: Function[]);
-    push(fn: Function): this;
+    fns: IFn[];
+    finalFn: IFn;
+    constructor(fns?: IFn[]);
+    init(): void;
+    push(fn: IFn): this;
     next(): void;
     execute(): void;
-    final(callback: Function): void;
+    final(callback: IFn): void;
 }
+export {};

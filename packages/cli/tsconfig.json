@@ -2,9 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./src",
-    "rootDir": "./core",
-    "declaration": true,
-    "declarationDir": "./typings"
+    "rootDir": "./core"
   },
   "include": ["./core/**/*.ts", "./global.d.ts"]
 }

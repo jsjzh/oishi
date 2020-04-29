@@ -1,16 +1,22 @@
+type IFn = (...rests: any) => any;
+
 export default class Queue {
   target: number;
-  fns: Function[];
-  finalFn: Function;
+  fns: IFn[];
+  finalFn: IFn;
 
-  constructor(fns: Function[] = []) {
+  constructor(fns: IFn[] = []) {
     this.target = -1;
     this.fns = fns;
     // 当队列处理完成，有的时候需要给到通知
-    this.finalFn = () => {};
+    this.finalFn = this.init;
   }
 
-  push(fn: Function) {
+  init() {
+    this.target = -1;
+  }
+
+  push(fn: IFn) {
     this.fns.push(fn);
     return this;
   }
@@ -28,7 +34,8 @@ export default class Queue {
     }
   }
 
-  final(callback: Function) {
+  final(callback: IFn) {
     this.finalFn = callback;
+    this.init();
   }
 }
