@@ -12,7 +12,7 @@ export default class OishiCrawlerCli {
       root: process.cwd(),
       pkg: require('../package.json'),
       context: {},
-      plugins: ['@oishi/cli-crawler-plugin-ttjj'],
+      plugins: [],
     });
   }
 

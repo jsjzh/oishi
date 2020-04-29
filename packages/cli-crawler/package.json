@@ -35,7 +35,6 @@
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
     "@oishi/cli-core": "^0.0.35",
-    "@oishi/cli-crawler-plugin-ttjj": "^0.0.6",
     "tslib": "^1.11.1"
   },
   "gitHead": "b890bbda9456350293882391ec7f0a4250536808"
