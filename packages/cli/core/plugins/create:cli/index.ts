@@ -41,7 +41,7 @@ export default (api: PluginAPI<{}>): void => {
         .add({
           title: 'oishi create:cli 修改模板',
           task: async () => {
-            templatesJson.forEach(item => {
+            templatesJson.forEach((item) => {
               if (item.type === 'bin')
                 item.path = item.path.replace(/\<\% name \%\>/g, name);
               if (item.type === 'core')
@@ -49,7 +49,7 @@ export default (api: PluginAPI<{}>): void => {
             });
 
             await Promise.all(
-              templatesJson.map(async item => {
+              templatesJson.map(async (item) => {
                 const fileCurrPath = path.join(projectPath, item.path);
                 await ensureFile(fileCurrPath);
                 await writeFile(fileCurrPath, item.value);

@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const cli_core_1 = tslib_1.__importDefault(require("@oishi/cli-core"));
-class OishiCrawlerCli {
+import CliCore from '@oishi/cli-core';
+export default class OishiCrawlerCli {
     constructor() {
-        this.cli = new cli_core_1.default({
+        this.cli = new CliCore({
             root: process.cwd(),
             pkg: require('../package.json'),
             context: {},
@@ -18,4 +15,3 @@ class OishiCrawlerCli {
         this.cli.execute();
     }
 }
-exports.default = OishiCrawlerCli;

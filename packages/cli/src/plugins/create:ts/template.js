@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const templates = [
     {
         type: 'core',
@@ -191,4 +189,4 @@ https://github.com/jsjzh/oishi
 `,
     },
 ];
-exports.default = templates;
+export default templates;

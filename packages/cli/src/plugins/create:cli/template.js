@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const templates = [
     {
         type: 'bin',
@@ -53,4 +51,4 @@ export default class Cli {
 `,
     },
 ];
-exports.default = templates;
+export default templates;

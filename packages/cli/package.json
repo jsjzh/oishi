@@ -26,8 +26,8 @@
   },
   "scripts": {
     "build:ts": "rm -rf ./src && ../../node_modules/.bin/tsc --project ./",
-    "prepublish": "npm run build:ts",
-    "build": "npm run prepublish"
+    "prepublish": "npm run build",
+    "build": "npm run build:ts"
   },
   "bugs": {
     "url": "https://github.com/jsjzh/oishi/issues"

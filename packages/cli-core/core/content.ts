@@ -1,23 +1,23 @@
 import logger, { Logger } from './shared/logger';
-
 import errorHelper, { ErrorHelper } from './shared/error';
 import taskListHelper, { TaskListHelper } from './shared/task-list';
-import { DynamicObject } from '../global';
+
+import T from './types';
 
 export type Context<CTX = {}> = {
   root: string;
   logger: Logger;
   helper: ErrorHelper & TaskListHelper;
-  argv: DynamicObject;
+  argv: T.DynamicObject;
 } & CTX;
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
-const hasOwn = function(v: {}, k: string): boolean {
+const hasOwn = function (v: {}, k: string): boolean {
   return hasOwnProperty.call(v, k);
 };
 
-export const createContext = function<CTX extends DynamicObject>(
+export const createContext = function <CTX extends T.DynamicObject>(
   root: string,
   ctx: CTX | ((ctx: Context<CTX>) => CTX),
 ): Context<CTX> {

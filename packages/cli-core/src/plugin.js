@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const path_1 = tslib_1.__importDefault(require("path"));
-const resolve_1 = tslib_1.__importDefault(require("resolve"));
-class PluginAPI {
+import path from 'path';
+import resolve from 'resolve';
+export class PluginAPI {
     constructor(container) {
         this.container = container;
     }
@@ -11,8 +8,7 @@ class PluginAPI {
         this.container.registerCommand(configs, task);
     }
 }
-exports.PluginAPI = PluginAPI;
-class PluginContainer {
+export default class PluginContainer {
     constructor(root, plugins) {
         this.root = root;
         this.commands = {};
@@ -28,16 +24,14 @@ class PluginContainer {
             ? { pluginPath: pluginOption, pluginConfig: {} }
             : pluginOption;
         if (/^(\.|\.\.)/.test(pluginInfo.pluginPath)) {
-            pluginInfo.pluginPath = path_1.default.resolve(this.root, pluginInfo.pluginPath);
+            pluginInfo.pluginPath = path.resolve(this.root, pluginInfo.pluginPath);
         }
-        if (!path_1.default.isAbsolute(pluginInfo.pluginPath)) {
+        if (!path.isAbsolute(pluginInfo.pluginPath)) {
             try {
-                // 直接查找，插件可能在 plugin 的 node_modules 下
                 require.resolve(pluginInfo.pluginPath);
             }
             catch (e) {
-                // 插件也可能在项目的 node_modules 下
-                pluginInfo.pluginPath = resolve_1.default.sync(pluginInfo.pluginPath, {
+                pluginInfo.pluginPath = resolve.sync(pluginInfo.pluginPath, {
                     basedir: this.root,
                 });
             }
@@ -69,4 +63,3 @@ class PluginContainer {
         Object.keys(this.commands).forEach(command => fn(this.commands[command]));
     }
 }
-exports.default = PluginContainer;

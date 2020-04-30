@@ -1,18 +1,15 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const cli_core_1 = tslib_1.__importDefault(require("@oishi/cli-core"));
-const path_1 = tslib_1.__importDefault(require("path"));
-class OishiCli {
+import CliCore from '@oishi/cli-core';
+import path from 'path';
+export default class OishiCli {
     constructor() {
-        this.cli = new cli_core_1.default({
+        this.cli = new CliCore({
             root: process.cwd(),
             pkg: require('../package.json'),
             context: {},
             plugins: [
-                path_1.default.resolve(__dirname, './plugins/create:cli'),
-                path_1.default.resolve(__dirname, './plugins/create:plg'),
-                path_1.default.resolve(__dirname, './plugins/create:ts'),
+                path.resolve(__dirname, './plugins/create:cli'),
+                path.resolve(__dirname, './plugins/create:plg'),
+                path.resolve(__dirname, './plugins/create:ts'),
             ],
         });
     }
@@ -23,4 +20,3 @@ class OishiCli {
         this.cli.execute();
     }
 }
-exports.default = OishiCli;

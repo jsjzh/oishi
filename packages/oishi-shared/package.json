@@ -1,17 +1,16 @@
 {
   "name": "@oishi/oishi-shared",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "oishi 通用库",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "types": "typings/index.d.ts",
   "files": [
-    "src",
+    "lib",
     "package.json",
     "typings",
-    "global.d.ts",
     "README.md"
   ],
   "publishConfig": {
@@ -23,8 +22,9 @@
   },
   "scripts": {
     "build:ts": "rm -rf ./src ./typings && ../../node_modules/.bin/tsc --project ./",
-    "prepublish": "npm run build:ts",
-    "build": "npm run prepublish"
+    "build:rollup": "rm -rf ./lib && ../../node_modules/.bin/rollup --config rollup.config.js",
+    "prepublish": "npm run build",
+    "build": "npm run build:ts && npm run build:rollup"
   },
   "bugs": {
     "url": "https://github.com/jsjzh/oishi/issues"

@@ -79,7 +79,7 @@ export default (api: PluginAPI<{}>): void => {
         .add({
           title: 'oishi create:ts 修改模板',
           task: async () => {
-            templatesJson.forEach(item => {
+            templatesJson.forEach((item) => {
               if (item.type === 'package') {
                 // 这里其实可以改成 replace(RegExp, callback) 类型的
                 // 不过为了方便修改，还是先不这么搞
@@ -99,7 +99,7 @@ export default (api: PluginAPI<{}>): void => {
           title: 'oishi create:ts 生成项目',
           task: async () => {
             await Promise.all(
-              templatesJson.map(async item => {
+              templatesJson.map(async (item) => {
                 const fileCurrPath = path.join(conf.projectPath, item.path);
                 await ensureFile(fileCurrPath);
                 await writeFile(fileCurrPath, item.value);

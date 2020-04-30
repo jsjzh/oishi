@@ -1,4 +1,4 @@
-import logger from './logger';
+import logger from '../shared/logger';
 
 interface TaskItem {
   title: string;

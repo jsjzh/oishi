@@ -5,10 +5,12 @@ import PluginContainer, {
   ICommandItem,
   OptionsItem,
 } from './plugin';
-import { createContext, Context } from './content';
-import { DynamicObject } from '../global';
 
-export interface IPackage extends DynamicObject {
+import { createContext, Context } from './content';
+
+import T from './types';
+
+export interface IPackage extends T.DynamicObject {
   name: string;
   version: string;
   description: string;
@@ -24,7 +26,7 @@ export interface ICliCore<CTX> {
   plugins?: IPluginOption[];
 }
 
-export default class CliCore<CTX extends DynamicObject> {
+export default class CliCore<CTX extends T.DynamicObject> {
   root: string;
   pkg: IPackage;
   ctx: CTX | ((ctx: Context<CTX>) => CTX);

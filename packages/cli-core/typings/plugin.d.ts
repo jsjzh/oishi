@@ -1,5 +1,5 @@
 import { Context } from './content';
-import { DynamicObject } from '../global';
+import T from './types';
 export declare type OptionsItem = [string, (string | undefined)?, any?];
 declare type ITask<CTX> = (required: string[], ctx: Context<CTX>) => Promise<any>;
 export interface ICommandItem<CTX> {
@@ -10,7 +10,7 @@ export interface ICommandItem<CTX> {
 }
 interface IPluginInfo {
     pluginPath: string;
-    pluginConfig: DynamicObject;
+    pluginConfig: T.DynamicObject;
 }
 export declare type IPluginOption = string | IPluginInfo;
 interface IRegisterCommandConfig {
@@ -18,15 +18,15 @@ interface IRegisterCommandConfig {
     description: string;
     options: OptionsItem[];
 }
-export declare type IPlugin = (pluginAPI: PluginAPI, pluginConfig: DynamicObject) => void;
-export declare class PluginAPI<CTX extends DynamicObject = {}> {
+export declare type IPlugin = (pluginAPI: PluginAPI, pluginConfig: T.DynamicObject) => void;
+export declare class PluginAPI<CTX extends T.DynamicObject = {}> {
     container: PluginContainer;
     constructor(container: PluginContainer);
     registerCommand(configs: IRegisterCommandConfig, task: ITask<CTX>): void;
 }
 export default class PluginContainer {
     root: string;
-    commands: DynamicObject;
+    commands: T.DynamicObject;
     constructor(root: string, plugins: IPluginOption[]);
     resolvePlugins(pluginOption: IPluginOption): void;
     unifyInfo(pluginOption: IPluginOption): IPluginInfo;

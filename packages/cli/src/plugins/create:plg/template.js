@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const template = `import { PluginAPI } from '@oishi/cli-core/typings/plugin';
 
 interface UserData {
@@ -54,4 +52,4 @@ export default (api: PluginAPI<UserData>): void => {
   );
 };
 `;
-exports.default = template;
+export default template;

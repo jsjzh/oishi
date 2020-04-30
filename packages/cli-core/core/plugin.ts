@@ -1,7 +1,7 @@
 import path from 'path';
 import resolve from 'resolve';
 import { Context } from './content';
-import { DynamicObject } from '../global';
+import T from './types';
 
 export type OptionsItem = [string, (string | undefined)?, any?];
 
@@ -17,7 +17,7 @@ export interface ICommandItem<CTX> {
 
 interface IPluginInfo {
   pluginPath: string;
-  pluginConfig: DynamicObject;
+  pluginConfig: T.DynamicObject;
 }
 
 // plugin 的类型
@@ -32,10 +32,10 @@ interface IRegisterCommandConfig {
 // 解析后的 plugin
 export type IPlugin = (
   pluginAPI: PluginAPI,
-  pluginConfig: DynamicObject,
+  pluginConfig: T.DynamicObject,
 ) => void;
 
-export class PluginAPI<CTX extends DynamicObject = {}> {
+export class PluginAPI<CTX extends T.DynamicObject = {}> {
   container: PluginContainer;
 
   constructor(container: PluginContainer) {
@@ -49,7 +49,7 @@ export class PluginAPI<CTX extends DynamicObject = {}> {
 
 export default class PluginContainer {
   root: string;
-  commands: DynamicObject;
+  commands: T.DynamicObject;
 
   constructor(root: string, plugins: IPluginOption[]) {
     this.root = root;

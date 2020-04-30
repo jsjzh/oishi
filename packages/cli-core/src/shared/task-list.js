@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const logger_1 = tslib_1.__importDefault(require("./logger"));
+import { __awaiter } from "tslib";
+import logger from '../shared/logger';
 class TaskList {
     constructor(options) {
         this.tasks = [];
@@ -14,18 +12,18 @@ class TaskList {
         return this;
     }
     _runTask(taskItem) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             this.options.hasTip &&
                 taskItem.title &&
-                logger_1.default.infoBgTip('TASK', `${taskItem.title} START`);
+                logger.infoBgTip('TASK', `${taskItem.title} START`);
             yield taskItem.task();
             this.options.hasTip &&
                 taskItem.title &&
-                logger_1.default.successBgTip('TASK', `${taskItem.title} DONE`);
+                logger.successBgTip('TASK', `${taskItem.title} DONE`);
         });
     }
     run() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (this.options.concurrent) {
                 yield Promise.all(this.tasks.map(this._runTask.bind(this)));
             }
@@ -36,7 +34,7 @@ class TaskList {
         });
     }
 }
-exports.default = {
+export default {
     createTaskList(options) {
         return new TaskList(options);
     },

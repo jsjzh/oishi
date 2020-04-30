@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 class OishiError extends Error {
     static creeate(msg) {
         return msg instanceof Error
@@ -13,7 +11,7 @@ class OishiError extends Error {
         stack && (this.stack = stack);
     }
 }
-exports.default = {
+export default {
     createError(msg) {
         return OishiError.creeate(msg);
     },
