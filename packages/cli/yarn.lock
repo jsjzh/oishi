@@ -2,16 +2,24 @@
 # yarn lockfile v1
 
 
-"@oishi/cli-core@^0.0.36":
-  version "0.0.36"
-  resolved "http://registry.npm.souche-inc.com/@oishi/cli-core/download/@oishi/cli-core-0.0.36.tgz#1d42f99060da94cba48e272b93475178f5aada07"
-  integrity sha1-HUL5kGDalMukjicrk0dRePWq2gc=
+"@oishi/cli-core@^0.0.38":
+  version "0.0.38"
+  resolved "https://registry.npmjs.org/@oishi/cli-core/-/cli-core-0.0.38.tgz#375acf33c59e1d3b6f4c76b6d09859802b426313"
+  integrity sha512-t/vxUR2QK+kaxJKfuw0dAudqcKEb355SixQrfP3Jk0cW2dpc/kaKTUQc72wjQgHZSUiXhgf0be4h6EUPjiGgfg==
   dependencies:
     "@types/resolve" "^1.14.0"
     chalk "^4.0.0"
     commander "^4.1.1"
+    fs-extra "^9.0.0"
     resolve "^1.17.0"
     tslib "^1.11.1"
+
+"@oishi/cli-shared@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.npmjs.org/@oishi/cli-shared/-/cli-shared-0.0.7.tgz#6e5975e2db95ca62599daa7f8a0e685acb5403b8"
+  integrity sha512-EJ/pA4tflwMRdSlIZYX2qQra4TRRYzFMIyVhhuNLu26w6jxAYdlai/Morgme1nA72rMFcOyuDRm6yCBSRzKb7g==
+  dependencies:
+    execa "^4.0.0"
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
@@ -48,6 +56,11 @@
   version "3.0.0"
   resolved "https://registry.npmjs.org/@types/validate-npm-package-name/-/validate-npm-package-name-3.0.0.tgz#0bc835adc7d6f41cf96a59b591fe8699468f6fab"
   integrity sha512-iFNNIrEaJH1lbPiyX+O/QyxSbKxrTjdNBVZGckt+iEL9So0hdZNBL68sOfHnt2txuUD8UJXvmKv/1DkgkebgUg==
+
+"@yarnpkg/lockfile@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
+  integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
 ansi-styles@^4.1.0:
   version "4.2.1"
@@ -204,6 +217,11 @@ onetime@^5.1.0:
   integrity sha512-5NcSkPHhwTVFIQN+TUqXoS5+dlElHXdpAWu9I0HP20YOtIi+aZ0Ct82jdlILDxjLEAWwvm+qj1m6aEtsDVmm6Q==
   dependencies:
     mimic-fn "^2.1.0"
+
+parse-package-name@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/parse-package-name/-/parse-package-name-0.1.0.tgz#3f44dd838feb4c2be4bf318bae4477d7706bade4"
+  integrity sha1-P0Tdg4/rTCvkvzGLrkR313BrreQ=
 
 path-key@^3.0.0, path-key@^3.1.0:
   version "3.1.1"

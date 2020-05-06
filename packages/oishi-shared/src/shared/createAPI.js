@@ -15,7 +15,7 @@ export default class CreateAPI {
         let currentOptions = Object.assign(Object.assign({}, this.baseOptions), (options || {}));
         if (isFunction(currentOptions.handleOption))
             currentOptions = currentOptions.handleOption(currentOptions);
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             request(Object.assign({ baseUrl: this.baseUrl, uri: endPoint }, currentOptions), (error, response, body) => {
                 error &&
                     isFunction(currentOptions.handleError) &&
