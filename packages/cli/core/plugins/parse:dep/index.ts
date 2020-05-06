@@ -36,8 +36,8 @@ export default (api: PluginAPI<{}>): void => {
   api.registerCommand(
     {
       command: 'parse:dep',
-      description: '解析项目依赖',
-      options: [['--show-dep', '是否显示项目依赖']],
+      description: '解析并输出项目依赖',
+      options: [],
     },
     async (args, ctx) => {
       const { logger, root, helper, argv } = ctx;
