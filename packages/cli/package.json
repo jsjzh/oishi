@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "description": "oishi -h || oishi <command> -h",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
-    "@oishi/cli-core": "^0.0.36",
+    "@oishi/cli-core": "^0.0.37",
     "execa": "^4.0.0",
     "fs-extra": "^9.0.0",
     "ramda": "^0.27.0",
