@@ -10,9 +10,9 @@ export interface ICommandItem<CTX> {
 }
 interface IPluginInfo {
     pluginPath: string;
-    pluginConfig: T.DynamicObject;
+    pluginConfig?: T.DynamicObject;
 }
-export declare type IPluginOption = string | IPluginInfo;
+export declare type IPluginOption = string | IPluginInfo | IPlugin;
 interface IRegisterCommandConfig {
     command: string;
     description: string;
@@ -29,8 +29,8 @@ export default class PluginContainer {
     commands: T.DynamicObject;
     constructor(root: string, plugins: IPluginOption[]);
     resolvePlugins(pluginOption: IPluginOption): void;
-    unifyInfo(pluginOption: IPluginOption): IPluginInfo;
-    unifyRequire(pluginPath: string): IPlugin;
+    unifyInfo(pluginOption: IPluginOption): IPluginInfo | void;
+    unifyRequire(pluginPath: string): IPlugin | void;
     mountedPlugin(pluginInfo: IPluginInfo, plugin: IPlugin): void;
     registerCommand<CTX>(configs: IRegisterCommandConfig, task: ITask<CTX>): void;
     traverse<CTX>(fn: (command: ICommandItem<CTX>) => void): void;

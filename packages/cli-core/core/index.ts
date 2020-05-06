@@ -10,6 +10,9 @@ import { createContext, Context } from './content';
 
 import T from './types';
 
+import { readJSONSync } from 'fs-extra';
+import path from 'path';
+
 export interface IPackage extends T.DynamicObject {
   name: string;
   version: string;
@@ -21,21 +24,21 @@ export interface IPackage extends T.DynamicObject {
 
 export interface ICliCore<CTX> {
   root: string;
-  context: CTX | ((ctx: CTX) => CTX);
-  pkg: IPackage;
-  plugins?: IPluginOption[];
+  plugins: IPluginOption[];
+  pkg?: IPackage;
+  context?: CTX | ((ctx: CTX) => CTX);
 }
 
 export default class CliCore<CTX extends T.DynamicObject> {
   root: string;
   pkg: IPackage;
-  ctx: CTX | ((ctx: Context<CTX>) => CTX);
+  context: CTX | ((ctx: Context<CTX>) => CTX);
   pluginContainer: PluginContainer;
 
   constructor({ root, pkg, context, plugins }: ICliCore<CTX>) {
     this.root = root;
-    this.pkg = pkg;
-    this.ctx = context || {};
+    this.pkg = pkg ? pkg : readJSONSync(path.resolve(root, 'package.json'));
+    this.context = context ? context : (): any => ({});
     this.pluginContainer = new PluginContainer(root, plugins || []);
   }
 
@@ -43,7 +46,7 @@ export default class CliCore<CTX extends T.DynamicObject> {
     program.version(this.pkg.version).usage('<command>');
 
     this.pluginContainer.traverse((commandItem: ICommandItem<CTX>) => {
-      const context = createContext<CTX>(this.root, this.ctx);
+      const context = createContext<CTX>(this.root, this.context);
 
       const required = commandItem.command.match(/<(.+?)>/g);
       const optional = commandItem.command.match(/\[(.+?)\]/g);
@@ -52,8 +55,8 @@ export default class CliCore<CTX extends T.DynamicObject> {
       const hasOptional = !!optional;
       const commandHasOptions = hasRequired || hasOptional;
 
-      const requiredUsage = hasRequired && required?.join(' ');
-      const optionalUsage = hasRequired && optional?.join(' ');
+      const requiredUsage = hasRequired && required && required.join(' ');
+      const optionalUsage = hasRequired && optional && optional.join(' ');
 
       const miniProgram = program
         .command(commandItem.command)

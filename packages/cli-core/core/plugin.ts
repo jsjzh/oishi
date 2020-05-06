@@ -2,6 +2,7 @@ import path from 'path';
 import resolve from 'resolve';
 import { Context } from './content';
 import T from './types';
+import oishiError from './shared/error';
 
 export type OptionsItem = [string, (string | undefined)?, any?];
 
@@ -17,11 +18,11 @@ export interface ICommandItem<CTX> {
 
 interface IPluginInfo {
   pluginPath: string;
-  pluginConfig: T.DynamicObject;
+  pluginConfig?: T.DynamicObject;
 }
 
 // plugin 的类型
-export type IPluginOption = string | IPluginInfo;
+export type IPluginOption = string | IPluginInfo | IPlugin;
 
 interface IRegisterCommandConfig {
   command: string;
@@ -58,12 +59,23 @@ export default class PluginContainer {
   }
 
   resolvePlugins(pluginOption: IPluginOption): void {
-    const pluginInfo = this.unifyInfo(pluginOption);
-    const plugin = this.unifyRequire(pluginInfo.pluginPath);
-    this.mountedPlugin(pluginInfo, plugin);
+    if (typeof pluginOption !== 'function') {
+      const pluginInfo = this.unifyInfo(pluginOption);
+      const plugin = pluginInfo && this.unifyRequire(pluginInfo.pluginPath);
+      plugin && pluginInfo && this.mountedPlugin(pluginInfo, plugin);
+    } else {
+      this.mountedPlugin(
+        {
+          pluginPath: '',
+          pluginConfig: {},
+        },
+        pluginOption,
+      );
+    }
   }
 
-  unifyInfo(pluginOption: IPluginOption): IPluginInfo {
+  unifyInfo(pluginOption: IPluginOption): IPluginInfo | void {
+    if (typeof pluginOption === 'function') return;
     const pluginInfo =
       typeof pluginOption === 'string'
         ? { pluginPath: pluginOption, pluginConfig: {} }
@@ -87,7 +99,8 @@ export default class PluginContainer {
     return pluginInfo;
   }
 
-  unifyRequire(pluginPath: string): IPlugin {
+  unifyRequire(pluginPath: string): IPlugin | void {
+    if (typeof pluginPath === 'function') return;
     const module = require(pluginPath);
     return module && module.__esModule ? module.default : module;
   }
@@ -98,7 +111,7 @@ export default class PluginContainer {
 
   registerCommand<CTX>(configs: IRegisterCommandConfig, task: ITask<CTX>) {
     if (this.commands[configs.command]) {
-      throw new Error('command 名重复');
+      throw oishiError.createError('command 名重复');
     }
 
     const description = configs.description;
@@ -114,6 +127,6 @@ export default class PluginContainer {
   }
 
   traverse<CTX>(fn: (command: ICommandItem<CTX>) => void) {
-    Object.keys(this.commands).forEach(command => fn(this.commands[command]));
+    Object.keys(this.commands).forEach((command) => fn(this.commands[command]));
   }
 }

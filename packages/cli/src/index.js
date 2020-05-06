@@ -1,22 +1,8 @@
 import CliCore from '@oishi/cli-core';
-import path from 'path';
-export default class OishiCli {
-    constructor() {
-        this.cli = new CliCore({
-            root: process.cwd(),
-            pkg: require('../package.json'),
-            context: {},
-            plugins: [
-                path.resolve(__dirname, './plugins/create:cli'),
-                path.resolve(__dirname, './plugins/create:plg'),
-                path.resolve(__dirname, './plugins/create:ts'),
-            ],
-        });
-    }
-    static create() {
-        return new OishiCli();
-    }
-    execute() {
-        this.cli.execute();
-    }
-}
+import createCli from './plugins/create:cli';
+import createPlg from './plugins/create:plg';
+import createTs from './plugins/create:ts';
+export default new CliCore({
+    root: process.cwd(),
+    plugins: [createCli, createPlg, createTs],
+});

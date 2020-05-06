@@ -7,7 +7,7 @@ class OishiError extends Error {
 
   constructor(msg: string, stack?: Error['stack']) {
     super();
-    this.name = 'oishiError';
+    this.name = '「oishi-cli-Error」';
     this.message = msg;
     stack && (this.stack = stack);
   }

@@ -1,5 +1,6 @@
 import path from 'path';
 import resolve from 'resolve';
+import oishiError from './shared/error';
 export class PluginAPI {
     constructor(container) {
         this.container = container;
@@ -15,11 +16,21 @@ export default class PluginContainer {
         plugins.forEach(this.resolvePlugins.bind(this));
     }
     resolvePlugins(pluginOption) {
-        const pluginInfo = this.unifyInfo(pluginOption);
-        const plugin = this.unifyRequire(pluginInfo.pluginPath);
-        this.mountedPlugin(pluginInfo, plugin);
+        if (typeof pluginOption !== 'function') {
+            const pluginInfo = this.unifyInfo(pluginOption);
+            const plugin = pluginInfo && this.unifyRequire(pluginInfo.pluginPath);
+            plugin && pluginInfo && this.mountedPlugin(pluginInfo, plugin);
+        }
+        else {
+            this.mountedPlugin({
+                pluginPath: '',
+                pluginConfig: {},
+            }, pluginOption);
+        }
     }
     unifyInfo(pluginOption) {
+        if (typeof pluginOption === 'function')
+            return;
         const pluginInfo = typeof pluginOption === 'string'
             ? { pluginPath: pluginOption, pluginConfig: {} }
             : pluginOption;
@@ -39,6 +50,8 @@ export default class PluginContainer {
         return pluginInfo;
     }
     unifyRequire(pluginPath) {
+        if (typeof pluginPath === 'function')
+            return;
         const module = require(pluginPath);
         return module && module.__esModule ? module.default : module;
     }
@@ -47,7 +60,7 @@ export default class PluginContainer {
     }
     registerCommand(configs, task) {
         if (this.commands[configs.command]) {
-            throw new Error('command 名重复');
+            throw oishiError.createError('command 名重复');
         }
         const description = configs.description;
         const options = configs.options;
@@ -60,6 +73,6 @@ export default class PluginContainer {
         this.commands[configs.command] = commondItem;
     }
     traverse(fn) {
-        Object.keys(this.commands).forEach(command => fn(this.commands[command]));
+        Object.keys(this.commands).forEach((command) => fn(this.commands[command]));
     }
 }

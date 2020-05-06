@@ -1,5 +1,7 @@
 import CliCore from '@oishi/cli-core';
-import path from 'path';
+import createCli from './plugins/create:cli';
+import createPlg from './plugins/create:plg';
+import createTs from './plugins/create:ts';
 
 export default class OishiCli {
   static create(): OishiCli {
@@ -11,13 +13,7 @@ export default class OishiCli {
   constructor() {
     this.cli = new CliCore({
       root: process.cwd(),
-      pkg: require('../package.json'),
-      context: {},
-      plugins: [
-        path.resolve(__dirname, './plugins/create:cli'),
-        path.resolve(__dirname, './plugins/create:plg'),
-        path.resolve(__dirname, './plugins/create:ts'),
-      ],
+      plugins: [createCli, createPlg, createTs],
     });
   }
 
