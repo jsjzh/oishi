@@ -2,15 +2,16 @@
 # yarn lockfile v1
 
 
-"@oishi/cli-core@^0.0.38":
-  version "0.0.38"
-  resolved "https://registry.npmjs.org/@oishi/cli-core/-/cli-core-0.0.38.tgz#375acf33c59e1d3b6f4c76b6d09859802b426313"
-  integrity sha512-t/vxUR2QK+kaxJKfuw0dAudqcKEb355SixQrfP3Jk0cW2dpc/kaKTUQc72wjQgHZSUiXhgf0be4h6EUPjiGgfg==
+"@oishi/cli-core@^0.0.39":
+  version "0.0.39"
+  resolved "https://registry.npmjs.org/@oishi/cli-core/-/cli-core-0.0.39.tgz#d0b35401359c2f7bb53f388869914d278fb129fa"
+  integrity sha512-AVFnL+JUNbwINQmTJ65YYwTDuEdOAhjjIlul885f3tQIAvSGdMdaqvW/T0D5iIO74KYdcaFl9UUhOYEEJeagvA==
   dependencies:
     "@types/resolve" "^1.14.0"
     chalk "^4.0.0"
     commander "^4.1.1"
     fs-extra "^9.0.0"
+    leven "^3.1.0"
     resolve "^1.17.0"
     tslib "^1.11.1"
 
@@ -186,6 +187,11 @@ jsonfile@^6.0.1:
     universalify "^1.0.0"
   optionalDependencies:
     graceful-fs "^4.1.6"
+
+leven@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.npmjs.org/leven/-/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"
+  integrity sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==
 
 merge-stream@^2.0.0:
   version "2.0.0"
