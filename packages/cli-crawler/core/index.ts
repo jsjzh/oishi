@@ -10,8 +10,6 @@ export default class OishiCrawlerCli {
   constructor() {
     this.cli = new CliCore({
       root: process.cwd(),
-      pkg: require('../package.json'),
-      context: {},
       plugins: [],
     });
   }

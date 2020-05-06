@@ -49,7 +49,7 @@ export default class CreateAPI {
     if (isFunction(currentOptions.handleOption))
       currentOptions = currentOptions.handleOption(currentOptions);
 
-    return new Promise<T>(resolve => {
+    return new Promise<T>((resolve) => {
       request(
         {
           baseUrl: this.baseUrl,
