@@ -1,6 +1,6 @@
+import T from './types';
 import PluginContainer, { IPluginOption } from './plugin';
 import { Context } from './content';
-import T from './types';
 export interface IPackage extends T.DynamicObject {
     name: string;
     version: string;

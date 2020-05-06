@@ -1,17 +1,16 @@
-import program from 'commander';
-
+import T from './types';
 import PluginContainer, {
   IPluginOption,
   ICommandItem,
   OptionsItem,
 } from './plugin';
-
 import { createContext, Context } from './content';
-
-import T from './types';
-
 import { readJSONSync } from 'fs-extra';
+import logger from './shared/logger';
+import program, { Command } from 'commander';
 import path from 'path';
+import chalk from 'chalk';
+import leven from 'leven';
 
 export interface IPackage extends T.DynamicObject {
   name: string;
@@ -43,7 +42,30 @@ export default class CliCore<CTX extends T.DynamicObject> {
   }
 
   execute(): void {
-    program.version(this.pkg.version).usage('<command>');
+    program
+      .version(this.pkg.version)
+      .usage('<command>')
+      .action(({ args: [inputCommand] }) => {
+        program.outputHelp();
+        console.log();
+        logger.error(`Unknown command ${inputCommand}`);
+        console.log();
+        let suggestion = '';
+
+        program.commands
+          .map((cmd: Command) => cmd.name())
+          .forEach((cmd: string) => {
+            const isBestMatch =
+              leven(cmd, inputCommand) < leven(suggestion, inputCommand);
+            if (leven(cmd, inputCommand) < 3 && isBestMatch) {
+              suggestion = cmd;
+            }
+          });
+
+        if (suggestion) {
+          logger.info(`Did you mean ${suggestion}?`);
+        }
+      });
 
     this.pluginContainer.traverse((commandItem: ICommandItem<CTX>) => {
       const context = createContext<CTX>(this.root, this.context);

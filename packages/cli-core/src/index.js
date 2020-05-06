@@ -1,8 +1,10 @@
-import program from 'commander';
 import PluginContainer from './plugin';
 import { createContext } from './content';
 import { readJSONSync } from 'fs-extra';
+import logger from './shared/logger';
+import program from 'commander';
 import path from 'path';
+import leven from 'leven';
 export default class CliCore {
     constructor({ root, pkg, context, plugins }) {
         this.root = root;
@@ -11,7 +13,27 @@ export default class CliCore {
         this.pluginContainer = new PluginContainer(root, plugins || []);
     }
     execute() {
-        program.version(this.pkg.version).usage('<command>');
+        program
+            .version(this.pkg.version)
+            .usage('<command>')
+            .action(({ args: [inputCommand] }) => {
+            program.outputHelp();
+            console.log();
+            logger.error(`Unknown command ${inputCommand}`);
+            console.log();
+            let suggestion = '';
+            program.commands
+                .map((cmd) => cmd.name())
+                .forEach((cmd) => {
+                const isBestMatch = leven(cmd, inputCommand) < leven(suggestion, inputCommand);
+                if (leven(cmd, inputCommand) < 3 && isBestMatch) {
+                    suggestion = cmd;
+                }
+            });
+            if (suggestion) {
+                logger.info(`Did you mean ${suggestion}?`);
+            }
+        });
         this.pluginContainer.traverse((commandItem) => {
             const context = createContext(this.root, this.context);
             const required = commandItem.command.match(/<(.+?)>/g);

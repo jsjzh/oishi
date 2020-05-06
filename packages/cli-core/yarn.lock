@@ -93,6 +93,11 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+leven@^3.1.0:
+  version "3.1.0"
+  resolved "http://registry.npm.souche-inc.com/leven/download/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"
+  integrity sha1-d4kd6DQGTMy6gq54QrtrFKE+1/I=
+
 path-parse@^1.0.6:
   version "1.0.6"
   resolved "http://registry.npm.souche-inc.com/path-parse/download/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
