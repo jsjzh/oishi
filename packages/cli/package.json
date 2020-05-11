@@ -28,7 +28,9 @@
     "build:ts": "rm -rf ./src && ../../node_modules/.bin/tsc --project ./",
     "build:rollup": "rm -rf ./lib && ../../node_modules/.bin/rollup --config rollup.config.js",
     "prepublish": "npm run build",
-    "build": "npm run build:ts && npm run build:rollup"
+    "build": "npm run build:ts && npm run build:rollup",
+    "test": "npm run test:parse-dep",
+    "test:parse-dep": "npm run prepublish && node bin/oishi.js parse:dep"
   },
   "bugs": {
     "url": "https://github.com/jsjzh/oishi/issues"

@@ -106,6 +106,7 @@ export default (api: PluginAPI<{}>): void => {
                 );
 
             logger.info(JSON.stringify(result));
+            logger.info(`您的项目共有依赖 ${Object.keys(result).length} 个`);
           },
         })
         .run();
