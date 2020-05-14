@@ -13,10 +13,10 @@ export default (options) => {
 
   const banner = `
 /* @preserve
- * ${name}@${version}
- * desc: ${description}
- * author: ${author}
- * home: ${homepage}
+ * ${name || 'unknown'}@${version || 'unknown'}
+ * desc: ${description || 'unknown'}
+ * author: ${author || 'unknown'}
+ * home: ${homepage || 'unknown'}
  * update: ${new Date()}
  */
 `;
