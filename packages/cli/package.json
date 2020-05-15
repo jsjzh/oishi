@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli",
-  "version": "0.0.46-3",
+  "version": "0.0.46",
   "description": "oishi -h || oishi <command> -h",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -37,8 +37,8 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
-    "@oishi/cli-core": "^0.0.41",
-    "@oishi/cli-shared": "^0.0.7",
+    "@oishi/cli-core": "^0.0.42",
+    "@oishi/cli-shared": "^0.0.8",
     "@yarnpkg/lockfile": "^1.1.0",
     "execa": "^4.0.0",
     "fs-extra": "^9.0.0",
