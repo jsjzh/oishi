@@ -1,22 +1,32 @@
-import builtins from 'builtin-modules';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import progress from 'rollup-plugin-progress';
 import { terser } from 'rollup-plugin-terser';
+import progress from 'rollup-plugin-progress';
 import filesize from 'rollup-plugin-filesize';
 
-export default (options) => {
+import builtins from 'builtin-modules';
+
+import pkg from './package.json';
+
+const libRollupConfig = (options) => {
   const { pkg } = options;
 
-  const { name, version, dependencies, author, description, homepage } = pkg;
+  const {
+    name = 'unknown',
+    version = 'unknown',
+    dependencies = {},
+    author = 'unknown',
+    description = 'unknown',
+    homepage = 'unknown',
+  } = pkg;
 
   const banner = `
 /* @preserve
- * ${name || 'unknown'}@${version || 'unknown'}
- * desc: ${description || 'unknown'}
- * author: ${author || 'unknown'}
- * home: ${homepage || 'unknown'}
+ * ${name}@${version}
+ * desc: ${description}
+ * author: ${author}
+ * home: ${homepage}
  * update: ${new Date()}
  */
 `;
@@ -40,3 +50,5 @@ export default (options) => {
     ],
   });
 };
+
+export default libRollupConfig({ pkg });

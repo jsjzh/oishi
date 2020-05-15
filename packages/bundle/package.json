@@ -1,7 +1,7 @@
 {
-  "name": "@oishi/cli-shared",
-  "version": "0.0.7",
-  "description": "cli shared",
+  "name": "@oishi/bundle",
+  "version": "0.0.1",
+  "description": "整合 rollup，打包类库的最佳实践",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
@@ -9,8 +9,8 @@
   "types": "typings/index.d.ts",
   "files": [
     "lib",
-    "package.json",
     "typings",
+    "package.json",
     "README.md"
   ],
   "publishConfig": {
@@ -21,7 +21,7 @@
     "url": "git+https://github.com/jsjzh/oishi.git"
   },
   "scripts": {
-    "build:ts": "rm -rf ./src ./typings && npx tsc --project ./",
+    "build:ts": "rm -rf ./src && npx tsc --project ./",
     "build:rollup": "rm -rf ./lib && npx rollup --config rollup.config.js",
     "prepublish": "npm run build",
     "build": "npm run build:ts && npm run build:rollup"
@@ -31,8 +31,14 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
-    "execa": "^4.0.0",
+    "@rollup/plugin-commonjs": "^11.1.0",
+    "@rollup/plugin-json": "^4.0.3",
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "builtin-modules": "^3.1.0",
+    "rollup": "^2.10.0",
+    "rollup-plugin-filesize": "^9.0.0",
+    "rollup-plugin-progress": "^1.1.2",
+    "rollup-plugin-terser": "^5.3.0",
     "tslib": "^2.0.0"
-  },
-  "gitHead": "df6127be6a60588ad15faaf6dd6a8b9d6a9c4588"
+  }
 }

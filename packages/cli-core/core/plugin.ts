@@ -22,7 +22,7 @@ interface IPluginInfo {
 }
 
 // plugin 的类型
-export type IPluginOption = string | IPluginInfo | IPlugin;
+export type IPluginOption<T> = string | IPluginInfo | IPlugin<T>;
 
 interface IRegisterCommandConfig {
   command: string;
@@ -31,15 +31,15 @@ interface IRegisterCommandConfig {
 }
 
 // 解析后的 plugin
-export type IPlugin = (
-  pluginAPI: PluginAPI,
+export type IPlugin<T> = (
+  pluginAPI: PluginAPI<T>,
   pluginConfig: T.DynamicObject,
 ) => void;
 
-export class PluginAPI<CTX extends T.DynamicObject = {}> {
-  container: PluginContainer;
+export class PluginAPI<CTX extends T.DynamicObject> {
+  container: PluginContainer<CTX>;
 
-  constructor(container: PluginContainer) {
+  constructor(container: PluginContainer<CTX>) {
     this.container = container;
   }
 
@@ -48,17 +48,17 @@ export class PluginAPI<CTX extends T.DynamicObject = {}> {
   }
 }
 
-export default class PluginContainer {
+export default class PluginContainer<CTX> {
   root: string;
   commands: T.DynamicObject;
 
-  constructor(root: string, plugins: IPluginOption[]) {
+  constructor(root: string, plugins: IPluginOption<CTX>[]) {
     this.root = root;
     this.commands = {};
     plugins.forEach(this.resolvePlugins.bind(this));
   }
 
-  resolvePlugins(pluginOption: IPluginOption): void {
+  resolvePlugins(pluginOption: IPluginOption<CTX>): void {
     if (typeof pluginOption !== 'function') {
       const pluginInfo = this.unifyInfo(pluginOption);
       const plugin = pluginInfo && this.unifyRequire(pluginInfo.pluginPath);
@@ -74,7 +74,7 @@ export default class PluginContainer {
     }
   }
 
-  unifyInfo(pluginOption: IPluginOption): IPluginInfo | void {
+  unifyInfo(pluginOption: IPluginOption<CTX>): IPluginInfo | void {
     if (typeof pluginOption === 'function') return;
     const pluginInfo =
       typeof pluginOption === 'string'
@@ -99,13 +99,13 @@ export default class PluginContainer {
     return pluginInfo;
   }
 
-  unifyRequire(pluginPath: string): IPlugin | void {
+  unifyRequire(pluginPath: string): IPlugin<CTX> | void {
     if (typeof pluginPath === 'function') return;
     const module = require(pluginPath);
     return module && module.__esModule ? module.default : module;
   }
 
-  mountedPlugin(pluginInfo: IPluginInfo, plugin: IPlugin) {
+  mountedPlugin(pluginInfo: IPluginInfo, plugin: IPlugin<CTX>) {
     plugin(new PluginAPI(this), pluginInfo.pluginConfig || {});
   }
 

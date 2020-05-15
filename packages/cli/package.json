@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli",
-  "version": "0.0.45",
+  "version": "0.0.46-3",
   "description": "oishi -h || oishi <command> -h",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -25,8 +25,8 @@
     "url": "git+https://github.com/jsjzh/oishi.git"
   },
   "scripts": {
-    "build:ts": "rm -rf ./src && ../../node_modules/.bin/tsc --project ./",
-    "build:rollup": "rm -rf ./lib && ../../node_modules/.bin/rollup --config rollup.config.js",
+    "build:ts": "rm -rf ./src && npx tsc --project ./",
+    "build:rollup": "rm -rf ./lib && npx rollup --config rollup.config.js",
     "prepublish": "npm run build",
     "build": "npm run build:ts && npm run build:rollup",
     "test": "npm run test:parse-dep",
@@ -37,20 +37,18 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
-    "@oishi/cli-core": "^0.0.39",
+    "@oishi/cli-core": "^0.0.41",
     "@oishi/cli-shared": "^0.0.7",
     "@yarnpkg/lockfile": "^1.1.0",
     "execa": "^4.0.0",
     "fs-extra": "^9.0.0",
     "parse-package-name": "^0.1.0",
-    "ramda": "^0.27.0",
-    "tslib": "^1.11.1",
+    "tslib": "^2.0.0",
     "validate-npm-package-name": "^3.0.0"
   },
   "gitHead": "df6127be6a60588ad15faaf6dd6a8b9d6a9c4588",
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",
-    "@types/ramda": "^0.27.4",
     "@types/validate-npm-package-name": "^3.0.0"
   }
 }

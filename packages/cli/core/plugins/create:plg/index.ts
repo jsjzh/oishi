@@ -2,8 +2,9 @@ import { PluginAPI } from '@oishi/cli-core/typings/plugin';
 import { ensureFile, writeFile } from 'fs-extra';
 import template from './template';
 import path from 'path';
+import { IContent } from '../../index';
 
-export default (api: PluginAPI<{}>): void => {
+export default (api: PluginAPI<IContent>): void => {
   api.registerCommand(
     {
       command: 'create:plg <command>',

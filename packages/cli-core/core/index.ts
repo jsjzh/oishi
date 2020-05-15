@@ -23,7 +23,7 @@ export interface IPackage extends T.DynamicObject {
 
 export interface ICliCore<CTX> {
   root: string;
-  plugins: IPluginOption[];
+  plugins: IPluginOption<CTX>[];
   pkg?: IPackage;
   context?: CTX | ((ctx: CTX) => CTX);
 }
@@ -32,7 +32,7 @@ export default class CliCore<CTX extends T.DynamicObject> {
   root: string;
   pkg: IPackage;
   context: CTX | ((ctx: Context<CTX>) => CTX);
-  pluginContainer: PluginContainer;
+  pluginContainer: PluginContainer<CTX>;
 
   constructor({ root, pkg, context, plugins }: ICliCore<CTX>) {
     this.root = root;

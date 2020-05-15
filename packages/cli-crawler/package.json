@@ -25,8 +25,8 @@
     "url": "git+https://github.com/jsjzh/oishi.git"
   },
   "scripts": {
-    "build:ts": "rm -rf ./src && ../../node_modules/.bin/tsc --project ./",
-    "build:rollup": "rm -rf ./lib && ../../node_modules/.bin/rollup --config rollup.config.js",
+    "build:ts": "rm -rf ./src && npx tsc --project ./",
+    "build:rollup": "rm -rf ./lib && npx rollup --config rollup.config.js",
     "prepublish": "npm run build",
     "build": "npm run build:ts && npm run build:rollup"
   },
@@ -36,7 +36,7 @@
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
     "@oishi/cli-core": "^0.0.39",
-    "tslib": "^1.11.1"
+    "tslib": "^2.0.0"
   },
   "gitHead": "df6127be6a60588ad15faaf6dd6a8b9d6a9c4588"
 }

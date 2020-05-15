@@ -12,26 +12,26 @@ interface IPluginInfo {
     pluginPath: string;
     pluginConfig?: T.DynamicObject;
 }
-export declare type IPluginOption = string | IPluginInfo | IPlugin;
+export declare type IPluginOption<T> = string | IPluginInfo | IPlugin<T>;
 interface IRegisterCommandConfig {
     command: string;
     description: string;
     options: OptionsItem[];
 }
-export declare type IPlugin = (pluginAPI: PluginAPI, pluginConfig: T.DynamicObject) => void;
-export declare class PluginAPI<CTX extends T.DynamicObject = {}> {
-    container: PluginContainer;
-    constructor(container: PluginContainer);
+export declare type IPlugin<T> = (pluginAPI: PluginAPI<T>, pluginConfig: T.DynamicObject) => void;
+export declare class PluginAPI<CTX extends T.DynamicObject> {
+    container: PluginContainer<CTX>;
+    constructor(container: PluginContainer<CTX>);
     registerCommand(configs: IRegisterCommandConfig, task: ITask<CTX>): void;
 }
-export default class PluginContainer {
+export default class PluginContainer<CTX> {
     root: string;
     commands: T.DynamicObject;
-    constructor(root: string, plugins: IPluginOption[]);
-    resolvePlugins(pluginOption: IPluginOption): void;
-    unifyInfo(pluginOption: IPluginOption): IPluginInfo | void;
-    unifyRequire(pluginPath: string): IPlugin | void;
-    mountedPlugin(pluginInfo: IPluginInfo, plugin: IPlugin): void;
+    constructor(root: string, plugins: IPluginOption<CTX>[]);
+    resolvePlugins(pluginOption: IPluginOption<CTX>): void;
+    unifyInfo(pluginOption: IPluginOption<CTX>): IPluginInfo | void;
+    unifyRequire(pluginPath: string): IPlugin<CTX> | void;
+    mountedPlugin(pluginInfo: IPluginInfo, plugin: IPlugin<CTX>): void;
     registerCommand<CTX>(configs: IRegisterCommandConfig, task: ITask<CTX>): void;
     traverse<CTX>(fn: (command: ICommandItem<CTX>) => void): void;
 }

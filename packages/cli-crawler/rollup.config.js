@@ -1,3 +1,3 @@
 import pkg from './package.json';
-import cliRollupConfig from '../../configs/cli.rollup.config';
+import { cliRollupConfig } from '@oishi/bundle';
 export default cliRollupConfig({ pkg });

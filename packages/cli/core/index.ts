@@ -4,19 +4,31 @@ import createCli from './plugins/create:cli';
 import createPlg from './plugins/create:plg';
 import createTs from './plugins/create:ts';
 import parseDep from './plugins/parse:dep';
-import bundleLib from './plugins/bundle:lib';
+
+import path from 'path';
+
+export interface IContent {
+  cliRoot: string;
+}
 
 export default class OishiCli {
   static create(): OishiCli {
     return new OishiCli();
   }
 
-  cli: CliCore<{}>;
+  cli: CliCore<IContent>;
 
   constructor() {
     this.cli = new CliCore({
       root: process.cwd(),
-      plugins: [createCli, createPlg, createTs, parseDep, bundleLib],
+      context: {
+        // 这里因为使用了 rollup，把打包的文件输出到了 ${roocliRoott}/lib 下
+        // 所以如果想要获取 cliRoot 的话，就到 lib 的上一层，也就是 ../
+        // 为什么需要获取 cliRoot 呢？因为使用 rollup 打包的话，我们需要 rollup.config.js
+        // 而现在这个配置文件由 cli 提供
+        cliRoot: path.resolve(__dirname, '../'),
+      },
+      plugins: [createCli, createPlg, createTs, parseDep],
     });
   }
 

@@ -331,6 +331,11 @@ tough-cookie@~2.5.0:
     psl "^1.1.28"
     punycode "^2.1.1"
 
+tslib@^2.0.0:
+  version "2.0.0"
+  resolved "http://registry.npm.souche-inc.com/tslib/download/tslib-2.0.0.tgz#18d13fc2dce04051e20f074cc8387fd8089ce4f3"
+  integrity sha1-GNE/wtzgQFHiDwdMyDh/2Aic5PM=
+
 tunnel-agent@^0.6.0:
   version "0.6.0"
   resolved "http://registry.npm.souche-inc.com/tunnel-agent/download/tunnel-agent-0.6.0.tgz#27a5dea06b36b04a0a9966774b290868f0fc40fd"

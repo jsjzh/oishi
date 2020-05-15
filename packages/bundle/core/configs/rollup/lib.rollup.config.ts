@@ -1,22 +1,35 @@
-import builtins from 'builtin-modules';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import progress from 'rollup-plugin-progress';
 import { terser } from 'rollup-plugin-terser';
-import filesize from 'rollup-plugin-filesize';
+import builtins from 'builtin-modules';
+const progress = require('rollup-plugin-progress');
+const filesize = require('rollup-plugin-filesize');
 
-export default (options) => {
+import T from '../../types';
+
+export interface ILibOptions {
+  pkg: Partial<T.IBasePkg> & Record<keyof any, any>;
+}
+
+export default (options: ILibOptions) => {
   const { pkg } = options;
 
-  const { name, version, dependencies, author, description, homepage } = pkg;
+  const {
+    name = 'unknown',
+    version = 'unknown',
+    dependencies = {},
+    author = 'unknown',
+    description = 'unknown',
+    homepage = 'unknown',
+  } = pkg;
 
   const banner = `
 /* @preserve
- * ${name || 'unknown'}@${version || 'unknown'}
- * desc: ${description || 'unknown'}
- * author: ${author || 'unknown'}
- * home: ${homepage || 'unknown'}
+ * ${name}@${version}
+ * desc: ${description}
+ * author: ${author}
+ * home: ${homepage}
  * update: ${new Date()}
  */
 `;

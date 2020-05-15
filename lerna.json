@@ -1,6 +1,7 @@
 {
   "packages": [
     "packages/cli",
+    "packages/bundle",
     "packages/cli-core",
     "packages/cli-crawler",
     "packages/oishi-shared",

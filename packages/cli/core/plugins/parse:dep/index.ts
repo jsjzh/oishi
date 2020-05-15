@@ -7,7 +7,7 @@ import {
 import path from 'path';
 import { pathExists, readJson, readFile } from 'fs-extra';
 import { ensureCli } from '@oishi/cli-shared';
-
+import { IContent } from '../../index';
 const yarnLockFile = require('@yarnpkg/lockfile');
 
 interface INpmLockJson {
@@ -31,8 +31,7 @@ interface IConfig {
     version: string;
   }[];
 }
-
-export default (api: PluginAPI<{}>): void => {
+export default (api: PluginAPI<IContent>): void => {
   api.registerCommand(
     {
       command: 'parse:dep',

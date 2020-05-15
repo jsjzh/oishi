@@ -4,7 +4,7 @@ import validateNpmPackageName from 'validate-npm-package-name';
 import { ensureDir, writeFile, ensureFile } from 'fs-extra';
 import { PluginAPI } from '@oishi/cli-core/typings/plugin';
 import templatesJson from './template';
-
+import { IContent } from '../../index';
 interface IConfig {
   projectPath: string;
   name: string;
@@ -13,8 +13,7 @@ interface IConfig {
   userName: string;
   userEmail: string;
 }
-
-export default (api: PluginAPI<{}>): void => {
+export default (api: PluginAPI<IContent>): void => {
   api.registerCommand(
     {
       command: 'create:ts <name>',

@@ -121,6 +121,11 @@ strip-final-newline@^2.0.0:
   resolved "http://registry.npm.souche-inc.com/strip-final-newline/download/strip-final-newline-2.0.0.tgz#89b852fb2fcbe936f6f4b3187afb0a12c1ab58ad"
   integrity sha1-ibhS+y/L6Tb29LMYevsKEsGrWK0=
 
+tslib@^2.0.0:
+  version "2.0.0"
+  resolved "http://registry.npm.souche-inc.com/tslib/download/tslib-2.0.0.tgz#18d13fc2dce04051e20f074cc8387fd8089ce4f3"
+  integrity sha1-GNE/wtzgQFHiDwdMyDh/2Aic5PM=
+
 which@^2.0.1:
   version "2.0.2"
   resolved "http://registry.npm.souche-inc.com/which/download/which-2.0.2.tgz#7c6a8dd0a636a0327e10b59c9286eee93f3f51b1"

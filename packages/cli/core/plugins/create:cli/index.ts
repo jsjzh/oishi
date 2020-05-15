@@ -3,8 +3,9 @@ import execa from 'execa';
 import path from 'path';
 import { writeJSON, ensureFile, writeFile, ensureDir } from 'fs-extra';
 import templatesJson from './template';
+import { IContent } from '../../index';
 
-export default (api: PluginAPI<{}>): void => {
+export default (api: PluginAPI<IContent>): void => {
   api.registerCommand(
     {
       command: 'create:cli <name> <command>',

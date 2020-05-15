@@ -5,7 +5,7 @@ module.exports = {
     // Your environments (which contains several predefined global variables)
     //
     // browser: true,
-    // node: true,
+    node: true,
     // mocha: true,
     // jest: true,
     // jquery: true

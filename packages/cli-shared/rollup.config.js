@@ -1,3 +1,3 @@
 import pkg from './package.json';
-import libraryRollupConfig from '../../configs/library.rollup.config';
-export default libraryRollupConfig({ pkg });
+import { libRollupConfig } from '@oishi/bundle';
+export default libRollupConfig({ pkg });

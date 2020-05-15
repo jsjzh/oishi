@@ -19,10 +19,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-13.13.4.tgz#1581d6c16e3d4803eb079c87d4ac893ee7501c2c"
   integrity sha512-x26ur3dSXgv5AwKS0lNfbjpCakGIduWU1DU91Zz58ONRWrIKGunmZBNv4P7N+e27sJkiGDsw/3fT4AtsqQBrBA==
 
-"@types/resolve@^1.14.0":
-  version "1.14.0"
-  resolved "https://registry.npmjs.org/@types/resolve/-/resolve-1.14.0.tgz#c95d696264f8e53e764a7c0b83e9317b458b76c3"
-  integrity sha512-bmjNBW6tok+67iOsASeYSJxSgY++BIR35nGyGLORTDirhra9reJ0shgGL3U7KPDUbOBCx8JrlCjd4d/y5uiMRQ==
+"@types/resolve@^1.17.1":
+  version "1.17.1"
+  resolved "http://registry.npm.souche-inc.com/@types/resolve/download/@types/resolve-1.17.1.tgz#3afd6ad8967c77e4376c598a82ddd58f46ec45d6"
+  integrity sha1-Ov1q2JZ8d+Q3bFmKgt3Vj0bsRdY=
   dependencies:
     "@types/node" "*"
 
@@ -117,10 +117,10 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-tslib@^1.11.1:
-  version "1.11.1"
-  resolved "https://registry.npmjs.org/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
-  integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
+tslib@^2.0.0:
+  version "2.0.0"
+  resolved "http://registry.npm.souche-inc.com/tslib/download/tslib-2.0.0.tgz#18d13fc2dce04051e20f074cc8387fd8089ce4f3"
+  integrity sha1-GNE/wtzgQFHiDwdMyDh/2Aic5PM=
 
 universalify@^1.0.0:
   version "1.0.0"
