@@ -7,7 +7,6 @@ import path from 'path';
 import leven from 'leven';
 export default class CliCore {
     constructor({ root, pkg, context, plugins }) {
-        console.log('hello world');
         this.root = root;
         this.context = context ? context : () => ({});
         this.pluginContainer = new PluginContainer(root, plugins || []);

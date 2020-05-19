@@ -35,7 +35,6 @@ export default class CliCore<CTX extends T.DynamicObject> {
   pluginContainer: PluginContainer<CTX>;
 
   constructor({ root, pkg, context, plugins }: ICliCore<CTX>) {
-    console.log('hello world');
     this.root = root;
     this.context = context ? context : (): any => ({});
     this.pluginContainer = new PluginContainer(root, plugins || []);
