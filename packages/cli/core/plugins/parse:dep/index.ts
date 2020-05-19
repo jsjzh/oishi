@@ -106,7 +106,7 @@ export default (api: PluginAPI<IContent>): void => {
 
             let depCount = 0;
             let repCount = 0;
-            let repDeps = [];
+            let repDeps: string[] = [];
 
             Object.keys(result).forEach((key) => {
               depCount = depCount + 1;
@@ -124,7 +124,7 @@ export default (api: PluginAPI<IContent>): void => {
             logger.info(`同一依赖，但有多个版本：${repCount} 个`);
             logger.space();
             if (repCount && repDeps.length) {
-              logger.info(`分别为如下依赖：${JSON.stringify(depCount)}`);
+              logger.info(`具有多个版本的依赖：${JSON.stringify(repDeps)}`);
             }
           },
         })
