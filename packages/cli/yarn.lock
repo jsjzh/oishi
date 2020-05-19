@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@oishi/cli-core@^0.0.44":
-  version "0.0.44"
-  resolved "https://registry.npmjs.org/@oishi/cli-core/-/cli-core-0.0.44.tgz#4fe978d97595fb5684df77b59fc86f5b7f99ab07"
-  integrity sha512-PQfAU7x15MYBUfZ0Tn6eL9NC2hriItt9S6Zn88GTfYsldUw9AC27nXiH81XcmFlM9BOzBytVWlVSs9k3MpSYtw==
+"@oishi/cli-core@^0.0.45":
+  version "0.0.45"
+  resolved "https://registry.npmjs.org/@oishi/cli-core/-/cli-core-0.0.45.tgz#f22ac79571e885662d7b23288c475c48eb98be9f"
+  integrity sha512-VOxYW7ZBjmm1L8hK+psLVBdqz5HOm+aqeoouj1sZhfODIpc8Pe9SKpIq3F/Eprlw2DYNNTqAextsPG8revHTRw==
   dependencies:
     "@types/resolve" "^1.17.1"
     chalk "^4.0.0"
