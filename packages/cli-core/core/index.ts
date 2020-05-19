@@ -35,10 +35,21 @@ export default class CliCore<CTX extends T.DynamicObject> {
   pluginContainer: PluginContainer<CTX>;
 
   constructor({ root, pkg, context, plugins }: ICliCore<CTX>) {
+    console.log('hello world');
     this.root = root;
-    this.pkg = pkg ? pkg : readJSONSync(path.resolve(root, 'package.json'));
     this.context = context ? context : (): any => ({});
     this.pluginContainer = new PluginContainer(root, plugins || []);
+
+    let _pkg = pkg;
+
+    if (!_pkg) {
+      try {
+        _pkg = readJSONSync(path.resolve(root, 'package.json'));
+      } catch (error) {
+        _pkg = {} as any;
+      }
+    }
+    this.pkg = _pkg as IPackage;
   }
 
   execute(): void {
