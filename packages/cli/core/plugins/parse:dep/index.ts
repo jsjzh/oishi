@@ -104,8 +104,28 @@ export default (api: PluginAPI<IContent>): void => {
                   {},
                 );
 
+            let depCount = 0;
+            let repCount = 0;
+            let repDeps = [];
+
+            Object.keys(result).forEach((key) => {
+              depCount = depCount + 1;
+              const item = result[key];
+              if (item.versions.length !== 1) {
+                repCount = repCount + 1;
+                repDeps.push(key);
+              }
+            });
+
             logger.info(JSON.stringify(result));
-            logger.info(`您的项目共有依赖 ${Object.keys(result).length} 个`);
+            logger.space();
+            logger.info(`项目依赖共有：${depCount} 个`);
+            logger.space();
+            logger.info(`同一依赖，但有多个版本：${repCount} 个`);
+            logger.space();
+            if (repCount && repDeps.length) {
+              logger.info(`分别为如下依赖：${JSON.stringify(depCount)}`);
+            }
           },
         })
         .run();

@@ -3,6 +3,9 @@ export class Logger {
     _log(str) {
         console.log(str);
     }
+    space() {
+        this._log('');
+    }
     success(str) {
         this._log(chalk.green(str));
     }

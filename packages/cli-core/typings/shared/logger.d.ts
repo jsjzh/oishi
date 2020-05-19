@@ -1,5 +1,6 @@
 export declare class Logger {
     _log(str: string): void;
+    space(): void;
     success(str: string): void;
     info(str: string): void;
     error(str: string): void;
