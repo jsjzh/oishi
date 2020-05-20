@@ -36,9 +36,10 @@ class TaskList {
       taskItem.title &&
       logger.infoBgTip('TASK', `${taskItem.title} START`);
     await taskItem.task();
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     this.options.hasTip &&
       taskItem.title &&
-      logger.successBgTip('TASK', `${taskItem.title} DONE`);
+      (logger.successBgTip('TASK', `${taskItem.title} DONE`), logger.space());
   }
 
   async run() {

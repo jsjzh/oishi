@@ -19,7 +19,7 @@ class TaskList {
             yield taskItem.task();
             this.options.hasTip &&
                 taskItem.title &&
-                logger.successBgTip('TASK', `${taskItem.title} DONE`);
+                (logger.successBgTip('TASK', `${taskItem.title} DONE`), logger.space());
         });
     }
     run() {

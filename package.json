@@ -9,7 +9,7 @@
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
   "devDependencies": {
-    "@oishi/bundle": "^0.0.1",
+    "@oishi/bundle": "latest",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "eslint": "^7.0.0",
