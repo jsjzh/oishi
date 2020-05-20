@@ -1,20 +1,13 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-node_modules
-
-yarn-error.log
-
-# misc
 .DS_Store
-npm-debug.log*
 
+node_modules
 dist
 lib
 src
+.idea
+.vscode
 
-.idea/
-.vscode/
-
-secret.*
-**/output
+yarn-error.log
+npm-debug.log*

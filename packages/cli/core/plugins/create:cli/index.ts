@@ -35,7 +35,7 @@ export default (api: PluginAPI<T.IContent>): void => {
           '0.0.0',
         ],
         [
-          '--has-tip',
+          '--skip-tip',
           'Do you need to be prompted during the project creation process?',
         ],
         [
@@ -47,7 +47,7 @@ export default (api: PluginAPI<T.IContent>): void => {
     async (args, ctx) => {
       const [name] = args;
       const { argv, root, helper, logger, cliRoot, npmRegistry } = ctx;
-      const { description, version, hasTip, skipInstall } = argv;
+      const { description, version, skipTip, skipInstall } = argv;
 
       const conf: IConfig = {
         projectPath: path.join(root, name),
@@ -60,7 +60,7 @@ export default (api: PluginAPI<T.IContent>): void => {
       };
 
       helper
-        .createTaskList({ hasTip: !!hasTip })
+        .createTaskList({ hasTip: !skipTip })
         .add({
           title: 'get project info ...',
           task: async () => {
