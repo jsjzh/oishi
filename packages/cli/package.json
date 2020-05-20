@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "description": "oishi -h || oishi <command> -h",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",

@@ -1,6 +1,6 @@
 {
   "name": "@oishi/oishi-shared",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "oishi 通用库",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -31,9 +31,9 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
+    "@types/fs-extra": "^9.0.1",
     "@types/lodash": "^4.14.150",
     "@types/request": "^2.48.4",
-    "@types/fs-extra": "^9.0.1",
     "fs-extra": "^9.0.0",
     "lodash": "^4.17.15",
     "request": "^2.88.2",
