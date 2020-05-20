@@ -1,51 +1,157 @@
 import { PluginAPI } from '@oishi/cli-core/typings/plugin';
-import { ensureFile, writeFile } from 'fs-extra';
-import template from './template';
+import { getGitConfig } from '@oishi/cli-shared';
+import { Files } from '@oishi/oishi-shared';
 import path from 'path';
-import { IContent } from '../../index';
+import validateNpmPackageName from 'validate-npm-package-name';
+import fs from 'fs-extra';
+import tmp from 'tmp-promise';
+import T from '../../types';
+import execa from 'execa';
 
-export default (api: PluginAPI<IContent>): void => {
+interface IConfig {
+  projectPath: string;
+  templatePath: string;
+  name: string;
+  version: string;
+  description: string;
+  author: string;
+  tmpDirPath: string;
+}
+
+export default (api: PluginAPI<T.IContent>): void => {
   api.registerCommand(
     {
-      command: 'create:plg <command>',
-      description: '快速创建 plugin 代码模板',
+      command: 'create:plg <name>',
+      description: 'Quickly create plg templates',
       options: [
-        ['--dir', '是否要使用 {command}/index.ts 模式'],
-        ['--tip', '是否需要 tip 提示信息'],
+        [
+          '-d, --description <string>',
+          'Please enter a description of the project',
+          'Project description to be added',
+        ],
+        [
+          '-v, --version <string>',
+          'Please enter the version number of the project',
+          '0.0.0',
+        ],
+        [
+          '--has-tip',
+          'Do you need to be prompted during the project creation process?',
+        ],
+        [
+          '--skip-install',
+          'Do you want to adjust the installation dependency process after creating the project?',
+        ],
       ],
     },
     async (args, ctx) => {
-      const [command] = args;
-      const { root, argv, helper, logger } = ctx;
-      const { dir, tip } = argv;
+      const [name] = args;
+      const { argv, root, helper, logger, cliRoot, npmRegistry } = ctx;
+      const { description, version, hasTip, skipInstall } = argv;
 
-      const pluginName = dir ? path.join(command, 'index.ts') : `${command}.ts`;
-      const pluginPath = path.resolve(root, pluginName);
+      const conf: IConfig = {
+        projectPath: path.join(root, name),
+        templatePath: path.join(cliRoot, '/templates/create:cli'),
+        name,
+        version,
+        description,
+        author: '',
+        tmpDirPath: '',
+      };
 
-      let _template = '';
       helper
-        .createTaskList({ hasTip: !!tip })
+        .createTaskList({ hasTip: !!hasTip })
         .add({
-          title: 'oishi create:plg 解析数据',
+          title: 'get project info ...',
           task: async () => {
-            _template = template
-              .replace(/\<\% command \%\>/g, command)
-              .replace(/\<\% description \%\>/g, '新建 plugin 待补充内容');
+            const [userName = '', userEmail = ''] = await Promise.all([
+              getGitConfig('user.name', root),
+              getGitConfig('user.email', root),
+            ]);
+            conf.author = `${userName} <${userEmail}>`;
           },
         })
         .add({
-          title: 'oishi create:plg 写入数据',
+          title: 'check project name',
           task: async () => {
-            await ensureFile(pluginPath);
-            await writeFile(pluginPath, _template);
+            const {
+              errors,
+              validForNewPackages,
+              warnings,
+            } = validateNpmPackageName(conf.name);
+            if (!validForNewPackages) {
+              if (errors)
+                throw new Error(`输入的 name 不合规：${errors.join(' ')}`);
+              if (warnings)
+                throw new Error(`输入的 name 不合规：${warnings.join(' ')}`);
+            }
           },
         })
+        .add({
+          title: 'modify project info',
+          task: async () => {
+            const { path: tmpPath } = await tmp.dir();
+            conf.tmpDirPath = path.join(tmpPath, name);
+            await fs.copy(conf.templatePath, conf.tmpDirPath);
+            const tmpPkg = path.join(conf.tmpDirPath, 'package.json');
+            const pkgStr = (await fs.readFile(tmpPkg)).toString('utf-8');
+
+            interface Replacer extends T.DynamicObject {
+              name: string;
+              version: string;
+              description: string;
+              author: string;
+            }
+
+            const obj: Replacer = {
+              name: conf.name,
+              version: conf.version,
+              description: conf.description,
+              author: conf.author,
+            };
+
+            await fs.writeFile(
+              tmpPkg,
+              pkgStr.replace(/<% (.+?) %>/g, (search, sub: string) =>
+                obj[sub] ? obj[sub] : `unknown ${sub}`,
+              ),
+            );
+          },
+        })
+        .add({
+          title: 'create your project',
+          task: async () => {
+            await fs.copy(conf.tmpDirPath, conf.projectPath);
+
+            (await new Files(conf.projectPath).getAllFiles()).forEach((file) =>
+              logger._log(`create success ${file}`),
+            );
+          },
+        })
+
+        .add({
+          title: 'install deps',
+          task: async () => {
+            if (skipInstall) {
+              logger.info(
+                `发现 skipInstall 参数为 truthy，不安装依赖，请在之后手动安装`,
+              );
+            } else {
+              await execa('npm', ['install', `--registry=${npmRegistry}`], {
+                cwd: conf.projectPath,
+                stdio: 'inherit',
+              });
+            }
+          },
+        })
+
         .add({
           title: '',
           task: async () => {
-            logger.success(
-              `${pluginName} 注入工程完毕，现只需要在 CliCore 的实例中，添加 plugin 即可使用，使用方式为 \`<package.json 中的 bin 属性> ${command} hello-wrold\``,
-            );
+            tmp.setGracefulCleanup();
+            logger.success(`🚀 cd ${conf.name}`);
+            if (skipInstall) logger.success(`🚀 npm install`);
+            logger.success(`🚀 npm run test`);
           },
         })
         .run();

@@ -5,11 +5,14 @@
   "keywords": [],
   "author": "<% author %>",
   "license": "ISC",
-  "main": "lib/index.js",
-  "types": "typings/index.d.ts",
+  "main": "",
+  "types": "",
+  "bin": {
+    "<% name %>": "bin/index.js"
+  },
   "files": [
+    "bin",
     "lib",
-    "typings",
     "package.json",
     "README.md"
   ],
@@ -19,9 +22,12 @@
     "prepublish": "npm run build",
     "build": "npm run build:ts && npm run build:rollup",
     "test": "npm run test:simple",
-    "test:simple": "node lib/index.js"
+    "test:simple": "node bin/index.js hello:world ミク"
   },
   "dependencies": {
+    "@oishi/cli-core": "latest",
+    "@oishi/cli-shared": "latest",
+    "@oishi/oishi-shared": "latest",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

@@ -1,37 +1,31 @@
 import CliCore from '@oishi/cli-core';
 import path from 'path';
 
-interface UserData {
-  userName: string;
-  userEmail: string;
-  userGit: string;
-}
+import T from './types';
+import helloWorld from './plugins/hello:world';
 
-export default class Cli {
-  public static create(): Cli {
-    return new Cli();
+export default class OishiCli {
+  static create(): OishiCli {
+    return new OishiCli();
   }
 
-  // 需要传入 context 否则 context 校验会出错
-  private cli: CliCore<UserData>;
+  cli: CliCore<T.IContent>;
 
-  public constructor() {
+  constructor() {
     this.cli = new CliCore({
       root: process.cwd(),
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      pkg: require('../package.json'),
-      // 这里设置的 context 会经过 assgin
-      // 使用 plugin 时，透传到 ctx 上
       context: {
-        userName: 'jsjzh',
-        userEmail: 'kimimi_king@163.com',
-        userGit: 'https://github.com/jsjzh',
+        // 这里因为使用了 rollup，把打包的文件输出到了 ${roocliRoott}/lib 下
+        // 所以如果想要获取 cliRoot 的话，就到 lib 的上一层，也就是 ../
+        // 为什么需要获取 cliRoot 呢？因为使用 rollup 打包的话，我们需要 rollup.config.js
+        // 而现在这个配置文件由 cli 提供
+        cliRoot: path.resolve(__dirname, '../'),
       },
-      plugins: [path.resolve(__dirname, './plugins/<% command %>')],
+      plugins: [helloWorld],
     });
   }
 
-  public execute(): void {
+  execute(): void {
     this.cli.execute();
   }
 }

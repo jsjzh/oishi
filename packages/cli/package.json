@@ -29,26 +29,31 @@
     "build:rollup": "rm -rf ./lib && npx rollup --config rollup.config.js",
     "prepublish": "npm run build",
     "build": "npm run build:ts && npm run build:rollup",
-    "test": "npm run test:parse-dep",
-    "test:parse-dep": "node bin/oishi.js parse:dep"
+    "test": "npm run test:create-cli",
+    "test:parse-dep": "node bin/oishi.js parse:dep",
+    "test:create-ts": "node bin/oishi.js create:ts demo --has-tip --skip-install",
+    "test:create-cli": "node bin/oishi.js create:cli demo --has-tip --skip-install"
   },
   "bugs": {
     "url": "https://github.com/jsjzh/oishi/issues"
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
-    "@oishi/cli-core": "^0.0.47",
-    "@oishi/cli-shared": "^0.0.8",
+    "@oishi/cli-core": "latest",
+    "@oishi/cli-shared": "latest",
+    "@oishi/oishi-shared": "latest",
     "@yarnpkg/lockfile": "^1.1.0",
     "execa": "^4.0.0",
     "fs-extra": "^9.0.0",
     "parse-package-name": "^0.1.0",
+    "tmp-promise": "^3.0.2",
     "tslib": "^2.0.0",
     "validate-npm-package-name": "^3.0.0"
   },
   "gitHead": "df6127be6a60588ad15faaf6dd6a8b9d6a9c4588",
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",
+    "@types/tmp": "^0.2.0",
     "@types/validate-npm-package-name": "^3.0.0"
   }
 }

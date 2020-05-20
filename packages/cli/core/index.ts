@@ -1,22 +1,19 @@
 import CliCore from '@oishi/cli-core';
+import path from 'path';
 
 import createCli from './plugins/create:cli';
-import createPlg from './plugins/create:plg';
+// import createPlg from './plugins/create:plg';
 import createTs from './plugins/create:ts';
 import parseDep from './plugins/parse:dep';
 
-import path from 'path';
-
-export interface IContent {
-  cliRoot: string;
-}
+import T from './types';
 
 export default class OishiCli {
   static create(): OishiCli {
     return new OishiCli();
   }
 
-  cli: CliCore<IContent>;
+  cli: CliCore<T.IContent>;
 
   constructor() {
     this.cli = new CliCore({
@@ -27,8 +24,9 @@ export default class OishiCli {
         // 为什么需要获取 cliRoot 呢？因为使用 rollup 打包的话，我们需要 rollup.config.js
         // 而现在这个配置文件由 cli 提供
         cliRoot: path.resolve(__dirname, '../'),
+        npmRegistry: 'https://registry.npm.taobao.org/',
       },
-      plugins: [createCli, createPlg, createTs, parseDep],
+      plugins: [createCli, createTs, parseDep],
     });
   }
 

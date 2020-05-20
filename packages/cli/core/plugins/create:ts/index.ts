@@ -1,60 +1,78 @@
-import path from 'path';
-import execa from 'execa';
-import validateNpmPackageName from 'validate-npm-package-name';
-import { ensureDir, writeFile, ensureFile } from 'fs-extra';
 import { PluginAPI } from '@oishi/cli-core/typings/plugin';
-import templatesJson from './template';
-import { IContent } from '../../index';
+import { getGitConfig } from '@oishi/cli-shared';
+import { Files } from '@oishi/oishi-shared';
+import path from 'path';
+import validateNpmPackageName from 'validate-npm-package-name';
+import fs from 'fs-extra';
+import tmp from 'tmp-promise';
+import T from '../../types';
+import execa from 'execa';
+
 interface IConfig {
   projectPath: string;
+  templatePath: string;
   name: string;
-  description: string;
   version: string;
-  userName: string;
-  userEmail: string;
+  description: string;
+  author: string;
+  tmpDirPath: string;
 }
-export default (api: PluginAPI<IContent>): void => {
+
+export default (api: PluginAPI<T.IContent>): void => {
   api.registerCommand(
     {
       command: 'create:ts <name>',
-      description: '快速创建 typescript 代码模板',
+      description: 'Quickly create typescript templates',
       options: [
-        ['-d, --description <string>', '项目名称描述', '项目名称描述，待补充'],
-        ['-v, --version <string>', '项目版本', '0.0.0'],
-        ['--tip', '是否需要 tip 提示信息'],
+        [
+          '-d, --description <string>',
+          'Please enter a description of the project',
+          'Project description to be added',
+        ],
+        [
+          '-v, --version <string>',
+          'Please enter the version number of the project',
+          '0.0.0',
+        ],
+        [
+          '--has-tip',
+          'Do you need to be prompted during the project creation process?',
+        ],
+        [
+          '--skip-install',
+          'Do you want to adjust the installation dependency process after creating the project?',
+        ],
       ],
     },
     async (args, ctx) => {
       const [name] = args;
-      const { argv, root, helper, logger } = ctx;
-      const { description, version, tip } = argv;
+      const { argv, root, helper, logger, cliRoot, npmRegistry } = ctx;
+      const { description, version, hasTip, skipInstall } = argv;
 
       const conf: IConfig = {
         projectPath: path.join(root, name),
+        templatePath: path.join(cliRoot, '/templates/create:ts'),
         name,
-        description,
         version,
-        userName: '',
-        userEmail: '',
+        description,
+        author: '',
+        tmpDirPath: '',
       };
 
-      await ensureDir(conf.projectPath);
-
       helper
-        .createTaskList({ hasTip: !!tip })
+        .createTaskList({ hasTip: !!hasTip })
         .add({
-          title: 'oishi create:ts 获取参数',
+          title: 'get project info ...',
           task: async () => {
-            const [userName, userEmail] = await Promise.all([
-              getGitConfig('user.name', conf.projectPath),
-              getGitConfig('user.email', conf.projectPath),
+            const [userName = '', userEmail = ''] = await Promise.all([
+              getGitConfig('user.name', root),
+              getGitConfig('user.email', root),
             ]);
-            conf.userName = userName;
-            conf.userEmail = userEmail;
+            conf.author = `${userName} <${userEmail}>`;
           },
         })
         .add({
-          title: 'oishi create:ts 验证参数',
+          title: 'check project name',
           task: async () => {
             const {
               errors,
@@ -67,61 +85,76 @@ export default (api: PluginAPI<IContent>): void => {
               if (warnings)
                 throw new Error(`输入的 name 不合规：${warnings.join(' ')}`);
             }
-            if (!conf.userName) {
-              logger.info('无法获取到 git user.name');
-            }
-            if (!conf.userEmail) {
-              logger.info('无法获取到 git user.email');
-            }
           },
         })
         .add({
-          title: 'oishi create:ts 修改模板',
+          title: 'modify project info',
           task: async () => {
-            templatesJson.forEach((item) => {
-              if (item.type === 'package') {
-                // 这里其实可以改成 replace(RegExp, callback) 类型的
-                // 不过为了方便修改，还是先不这么搞
-                item.value = item.value
-                  .replace(/\<\% name \%\>/g, conf.name)
-                  .replace(/\<\% version \%\>/g, conf.version)
-                  .replace(/\<\% description \%\>/g, conf.description)
-                  .replace(
-                    /\<\% author \%\>/g,
-                    `${conf.userName} <${conf.userEmail}>`,
-                  );
-              }
-            });
-          },
-        })
-        .add({
-          title: 'oishi create:ts 生成项目',
-          task: async () => {
-            await Promise.all(
-              templatesJson.map(async (item) => {
-                const fileCurrPath = path.join(conf.projectPath, item.path);
-                await ensureFile(fileCurrPath);
-                await writeFile(fileCurrPath, item.value);
-              }),
+            const { path: tmpPath } = await tmp.dir();
+            conf.tmpDirPath = path.join(tmpPath, name);
+            await fs.copy(conf.templatePath, conf.tmpDirPath);
+            const tmpPkg = path.join(conf.tmpDirPath, 'package.json');
+            const pkgStr = (await fs.readFile(tmpPkg)).toString('utf-8');
+
+            interface Replacer extends T.DynamicObject {
+              name: string;
+              version: string;
+              description: string;
+              author: string;
+            }
+
+            const obj: Replacer = {
+              name: conf.name,
+              version: conf.version,
+              description: conf.description,
+              author: conf.author,
+            };
+
+            await fs.writeFile(
+              tmpPkg,
+              pkgStr.replace(/<% (.+?) %>/g, (search, sub: string) =>
+                obj[sub] ? obj[sub] : `unknown ${sub}`,
+              ),
             );
           },
         })
         .add({
+          title: 'create your project',
+          task: async () => {
+            await fs.copy(conf.tmpDirPath, conf.projectPath);
+
+            (await new Files(conf.projectPath).getAllFiles()).forEach((file) =>
+              logger._log(`create success ${file}`),
+            );
+          },
+        })
+
+        .add({
+          title: 'install deps',
+          task: async () => {
+            if (skipInstall) {
+              logger.info(
+                `发现 skipInstall 参数为 truthy，不安装依赖，请在之后手动安装`,
+              );
+            } else {
+              await execa('npm', ['install', `--registry=${npmRegistry}`], {
+                cwd: conf.projectPath,
+                stdio: 'inherit',
+              });
+            }
+          },
+        })
+
+        .add({
           title: '',
           task: async () => {
-            console.log();
+            tmp.setGracefulCleanup();
             logger.success(`🚀 cd ${conf.name}`);
-            logger.success(`🚀 yarn`);
-            logger.success(`🚀 node src/index.js`);
-            console.log();
+            if (skipInstall) logger.success(`🚀 npm install`);
+            logger.success(`🚀 npm run test`);
           },
         })
         .run();
     },
   );
-};
-
-const getGitConfig = async (props: string, cwd: string): Promise<string> => {
-  const { stdout } = await execa('git', ['config', '--get', props], { cwd });
-  return stdout ? stdout : '';
 };
