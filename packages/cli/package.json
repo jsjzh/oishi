@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "oishi -h || oishi <command> -h",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -32,8 +32,8 @@
     "build": "npm run build:ts && npm run build:rollup",
     "test": "npm run test:create-cli",
     "test:parse-dep": "node bin/oishi.js parse:dep",
-    "test:create-ts": "node bin/oishi.js create:ts demo --has-tip --skip-install",
-    "test:create-cli": "node bin/oishi.js create:cli demo --has-tip --skip-install"
+    "test:create-ts": "node bin/oishi.js create ts demo-ts --skip-install",
+    "test:create-cli": "node bin/oishi.js create cli demo-cli --skip-install"
   },
   "bugs": {
     "url": "https://github.com/jsjzh/oishi/issues"
