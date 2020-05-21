@@ -18,11 +18,15 @@ interface IConfig {
   tmpDirPath: string;
 }
 
+const usefulTypes = ['ts', 'cli'];
+
 export default (api: PluginAPI<T.IContent>): void => {
   api.registerCommand(
     {
       command: 'create <type> <name>',
-      description: 'Quickly create templates',
+      description: `Quickly create templates, type includes [${usefulTypes.join(
+        ' ',
+      )}]`,
       options: [
         [
           '-d, --description <string>',
@@ -48,8 +52,6 @@ export default (api: PluginAPI<T.IContent>): void => {
       const [type, name] = args;
       const { argv, root, helper, logger, cliRoot, npmRegistry } = ctx;
       const { description, version, skipTip, skipInstall } = argv;
-
-      const usefulTypes = ['ts', 'cli'];
 
       if (!usefulTypes.includes(type)) {
         throw new Error(

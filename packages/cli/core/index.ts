@@ -2,9 +2,7 @@ import CliCore from '@oishi/cli-core';
 import path from 'path';
 
 import create from './plugins/create';
-// import createCli from './plugins/create:cli';
 // import createPlg from './plugins/create:plg';
-// import createTs from './plugins/create:ts';
 import parseDep from './plugins/parse:dep';
 
 import T from './types';
