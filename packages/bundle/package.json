@@ -1,6 +1,6 @@
 {
   "name": "@oishi/bundle",
-  "version": "0.0.3-0",
+  "version": "0.0.3-1",
   "description": "整合 rollup，打包类库的最佳实践",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
