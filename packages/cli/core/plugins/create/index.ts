@@ -21,8 +21,8 @@ interface IConfig {
 export default (api: PluginAPI<T.IContent>): void => {
   api.registerCommand(
     {
-      command: 'create:cli <type> <name>',
-      description: 'Quickly create cli templates',
+      command: 'create <type> <name>',
+      description: 'Quickly create templates',
       options: [
         [
           '-d, --description <string>',
@@ -49,9 +49,17 @@ export default (api: PluginAPI<T.IContent>): void => {
       const { argv, root, helper, logger, cliRoot, npmRegistry } = ctx;
       const { description, version, skipTip, skipInstall } = argv;
 
+      const usefulTypes = ['ts', 'cli'];
+
+      if (!usefulTypes.includes(type)) {
+        throw new Error(
+          `创建使用的 type 有误，请使用 ${usefulTypes.join(' ')} 中的一个`,
+        );
+      }
+
       const conf: IConfig = {
         projectPath: path.join(root, name),
-        templatePath: path.join(cliRoot, '/templates/create:cli'),
+        templatePath: path.join(cliRoot, `/templates/create:${type}`),
         name,
         version,
         description,

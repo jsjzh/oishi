@@ -1,9 +1,10 @@
 import CliCore from '@oishi/cli-core';
 import path from 'path';
 
-import createCli from './plugins/create:cli';
+import create from './plugins/create';
+// import createCli from './plugins/create:cli';
 // import createPlg from './plugins/create:plg';
-import createTs from './plugins/create:ts';
+// import createTs from './plugins/create:ts';
 import parseDep from './plugins/parse:dep';
 
 import T from './types';
@@ -26,7 +27,7 @@ export default class OishiCli {
         cliRoot: path.resolve(__dirname, '../'),
         npmRegistry: 'https://registry.npm.taobao.org/',
       },
-      plugins: [createCli, createTs, parseDep],
+      plugins: [create, parseDep],
     });
   }
 
