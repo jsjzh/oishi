@@ -38,7 +38,7 @@ export default (options: ILibOptions) => {
     input: './src/index.js',
     output: {
       file: 'lib/index.js',
-      name: name,
+      name,
       banner,
       format: 'cjs',
     },
