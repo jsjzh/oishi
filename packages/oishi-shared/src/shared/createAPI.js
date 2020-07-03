@@ -16,7 +16,7 @@ class CreateAPIError extends Error {
 export default class CreateAPI {
     constructor(baseURL, baseOptions) {
         this.baseURL = baseURL;
-        this.baseOptions = baseOptions;
+        this.baseOptions = baseOptions || {};
     }
     static create(baseURL, baseOptions = {}) {
         return new CreateAPI(baseURL, baseOptions);

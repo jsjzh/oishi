@@ -35,9 +35,9 @@ export default class CreateAPI {
   baseURL: string;
   baseOptions: AxiosRequestConfig;
 
-  constructor(baseURL: string, baseOptions: CreateAPIOptions) {
+  constructor(baseURL: string, baseOptions?: CreateAPIOptions) {
     this.baseURL = baseURL;
-    this.baseOptions = baseOptions;
+    this.baseOptions = baseOptions || {};
   }
 
   getJSON<T = any>(

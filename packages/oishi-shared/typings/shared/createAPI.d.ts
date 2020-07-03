@@ -12,7 +12,7 @@ export default class CreateAPI {
     static create(baseURL: string, baseOptions?: CreateAPIOptions): CreateAPI;
     baseURL: string;
     baseOptions: AxiosRequestConfig;
-    constructor(baseURL: string, baseOptions: CreateAPIOptions);
+    constructor(baseURL: string, baseOptions?: CreateAPIOptions);
     getJSON<T = any>(endPoint: string, params: CreateAPIOptions['params'], options?: CreateAPIOptions): IRequestResult<T>;
     postJSON<T = any>(endPoint: string, data: CreateAPIOptions['data'], options?: CreateAPIOptions): IRequestResult<T>;
     postForm<T = any>(endPoint: string, data: CreateAPIOptions['data'], options?: CreateAPIOptions): IRequestResult<T>;
