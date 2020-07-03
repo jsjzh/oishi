@@ -5,5 +5,5 @@
     "outDir": "./src",
     "rootDir": "./core"
   },
-  "include": ["./core/**/*.ts", "./global.d.ts"]
+  "include": ["./core/**/*.ts"]
 }
