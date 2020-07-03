@@ -8,6 +8,8 @@ lib
 src
 .idea
 .vscode
+data
+data.zip
 
 yarn-error.log
 npm-debug.log*
