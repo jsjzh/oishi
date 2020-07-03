@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 
-class Files {
+export default class Files {
   root: string;
 
   constructor(root: string) {
@@ -26,5 +26,3 @@ class Files {
     return files;
   }
 }
-
-export default Files;
