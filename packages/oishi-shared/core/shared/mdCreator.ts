@@ -181,15 +181,18 @@ export default class MdCreator {
   }
 
   line() {
-    const preRender = (currText: ITextInterface) => '\n\n';
+    const preRender = (currText: ITextInterface) => {
+      if (blockArr.includes(currText.next?.type || '')) return '';
+      return '\n';
+    };
     const nextRender = (currText: ITextInterface) => {
       if (blockArr.includes(currText.next?.type || '')) return '';
-      return '\n\n';
+      return '\n';
     };
 
     return this.next({
       type: 'line',
-      text: `\n\n`,
+      text: ``,
       preRender,
       nextRender,
     });
@@ -206,6 +209,12 @@ export default class MdCreator {
 
       next = next.next;
     }
+
+    // 上面的 next.next 判断，正好把最后一个给排除了
+    // 正好，指针 curr 指着最后一个，那就再执行一次 curr 的逻辑就好了
+    document += this.curr.preRender(this.curr);
+    document += this.curr.text;
+    document += this.curr.nextRender(this.curr);
 
     return document;
   }
