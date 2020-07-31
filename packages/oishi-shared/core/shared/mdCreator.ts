@@ -11,54 +11,145 @@ type TextType =
 
 type Text = string | number;
 
+const blockArr = ['title', 'list', 'line', 'divider', 'image'];
+
+interface ITextInterface {
+  type: TextType;
+  text: string;
+
+  pre?: ITextInterface | null;
+  next?: ITextInterface | null;
+
+  preRender: (currText: ITextInterface) => string;
+  nextRender: (currText: ITextInterface) => string;
+}
+
 export default class MdCreator {
-  static from(document?: string) {
+  static create(document?: string) {
     return new MdCreator(document);
   }
 
-  protected document: string;
-  protected preType: TextType;
+  protected base: string;
+  protected head: ITextInterface;
+  protected curr: ITextInterface;
 
-  constructor(docuemnt = '') {
-    this.document = docuemnt;
-    this.preType = '';
+  constructor(document = '') {
+    this.base = document;
+
+    this.head = {
+      type: '',
+      text: '',
+      pre: null,
+      next: null,
+      preRender: () => '',
+      nextRender: () => '',
+    };
+
+    this.curr = this.head;
   }
 
   text(text: Text) {
-    const curr = `${text}`;
-    return this.__edit('text', curr);
+    const preRender = (currText: ITextInterface) => '';
+    const nextRender = (currText: ITextInterface) => {
+      if (currText.next?.type === 'text') return '  \n';
+      if (currText.next?.type === 'quote') return '\n\n';
+      return '';
+    };
+
+    return this.next({
+      type: 'text',
+      text: `${text}`,
+      preRender,
+      nextRender,
+    });
   }
 
   title(deep: 1 | 2 | 3 | 4 | 5 | 6, text: Text) {
-    const curr = `${new Array(deep).fill('#').join('')} ${text}`;
-    return this.__edit('title', curr);
+    const preRender = (currText: ITextInterface) => '\n\n';
+    const nextRender = (currText: ITextInterface) => {
+      if (blockArr.includes(currText.next?.type || '')) return '';
+      return '\n\n';
+    };
+
+    return this.next({
+      type: 'title',
+      text: `${new Array(deep).fill('#').join('')} ${text}`,
+      preRender,
+      nextRender,
+    });
   }
 
   quote(text: Text) {
-    const curr = `> ${text}`;
-    return this.__edit('quote', curr);
+    const preRender = (currText: ITextInterface) => '';
+    const nextRender = (currText: ITextInterface) => {
+      if (currText.next?.type === 'text') return '\n\n';
+      if (currText.next?.type === 'quote') return '  \n';
+      return '';
+    };
+
+    return this.next({
+      type: 'quote',
+      text: `> ${text}`,
+      preRender,
+      nextRender,
+    });
   }
 
-  link(url: string, title?: Text) {
-    const curr = `[${title || ''}](${url})`;
-    return this.__edit('link', curr);
+  link(url: string, placeholder?: Text) {
+    const preRender = (currText: ITextInterface) => '';
+    const nextRender = (currText: ITextInterface) => '';
+
+    return this.next({
+      type: 'link',
+      text: `[${placeholder || ''}](${url})`,
+      preRender,
+      nextRender,
+    });
   }
 
-  image(imageUrl: string, title?: Text) {
-    const curr = `![${title || ''}](${imageUrl})`;
-    return this.__edit('image', curr);
+  image(imageUrl: string, placeholder?: Text) {
+    const preRender = (currText: ITextInterface) => '\n\n';
+    const nextRender = (currText: ITextInterface) => {
+      if (blockArr.includes(currText.next?.type || '')) return '';
+      return '\n\n';
+    };
+
+    return this.next({
+      type: 'image',
+      text: `![${placeholder || ''}](${imageUrl})`,
+      preRender,
+      nextRender,
+    });
   }
 
   list(arr: Text[]) {
+    const preRender = (currText: ITextInterface) => '\n\n';
+    const nextRender = (currText: ITextInterface) => {
+      if (blockArr.includes(currText.next?.type || '')) return '';
+      return '\n\n';
+    };
+
     const curr = arr.reduce(
       (pre, curr, index) =>
         index === arr.length - 1 ? `${pre}- ${curr}` : `${pre}- ${curr}\n`,
       '',
     );
-    return this.__edit('list', `${curr}`);
+
+    return this.next({
+      type: 'list',
+      text: `${curr}`,
+      preRender,
+      nextRender,
+    });
   }
 
   listNum(arr: Text[]) {
+    const preRender = (currText: ITextInterface) => '\n\n';
+    const nextRender = (currText: ITextInterface) => {
+      if (blockArr.includes(currText.next?.type || '')) return '';
+      return '\n\n';
+    };
+
     const curr = arr.reduce(
       (pre, curr, index) =>
         index === arr.length - 1
@@ -66,50 +157,65 @@ export default class MdCreator {
           : `${pre}${index + 1}. ${curr}\n`,
       '',
     );
-    return this.__edit('list', `${curr}`);
+    return this.next({
+      type: 'list',
+      text: `${curr}`,
+      preRender,
+      nextRender,
+    });
   }
 
   divider() {
-    const curr = '---';
-    return this.__edit('divider', curr);
+    const preRender = (currText: ITextInterface) => '\n\n';
+    const nextRender = (currText: ITextInterface) => {
+      if (blockArr.includes(currText.next?.type || '')) return '';
+      return '\n\n';
+    };
+
+    return this.next({
+      type: 'divider',
+      text: `---`,
+      preRender,
+      nextRender,
+    });
   }
 
   line() {
-    const curr = '\n\n';
-    return this.__edit('line', curr);
+    const preRender = (currText: ITextInterface) => '\n\n';
+    const nextRender = (currText: ITextInterface) => {
+      if (blockArr.includes(currText.next?.type || '')) return '';
+      return '\n\n';
+    };
+
+    return this.next({
+      type: 'line',
+      text: `\n\n`,
+      preRender,
+      nextRender,
+    });
   }
 
   output() {
-    return this.document;
+    let next = this.head;
+    let document = this.base;
+
+    while (next.next) {
+      document += next.preRender(next);
+      document += next.text;
+      document += next.nextRender(next);
+
+      next = next.next;
+    }
+
+    return document;
   }
 
-  protected __editBefore(pre: TextType, curr: TextType) {
-    const newSpaceType = ['text', 'quote'];
-    const newLineType = ['title', 'image', 'list', 'divider'];
-    // 如果 pre 和 curr 都是 text 或者 quote，则通过「  \n」来分行
-    if (pre === curr && newSpaceType.includes(curr)) return '  \n';
-    // 如果 pre 和 curr 都已经走过 \n\n 逻辑，则不再分行
-    if (newLineType.includes(pre) && newLineType.includes(curr)) return '';
-    // 第一个是对于特殊类型分行
-    // 第二个是对于 text 和 quote 写一起的时候，为了美观，需要用 quote，因为 text 和 quote 都是属于行内元素
-    if (newLineType.includes(curr) || (pre === 'text' && curr === 'quote'))
-      return '\n\n';
-    return '';
-  }
+  protected next(obj: ITextInterface) {
+    obj.pre = this.curr;
+    obj.next = null;
 
-  protected __editAfter(pre: TextType, curr: TextType) {
-    const newLineType = ['title', 'image', 'list', 'divider'];
-    // 对于这四种特殊的类型下一行肯定需要分行
-    // 注：listNum 和 list 一样，都是 list 类型
-    if (newLineType.includes(curr)) return '\n\n';
-    return '';
-  }
-
-  protected __edit(type: TextType, curr: string) {
-    this.document += this.__editBefore(this.preType, type);
-    this.document += curr;
-    this.document += this.__editAfter(this.preType, type);
-    this.preType = type;
+    this.curr.next = obj;
+    this.curr = obj;
     return this;
   }
 }
