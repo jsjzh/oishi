@@ -1,0 +1,42 @@
+{
+  "name": "@oishi/cli-sotck",
+  "version": "0.0.0",
+  "description": "股票交易策略",
+  "keywords": [],
+  "author": "jsjzh <kimimi_king@163.com>",
+  "license": "ISC",
+  "main": "",
+  "types": "",
+  "bin": {
+    "cli-sotck": "bin/index.js",
+    "@oishi/cli-health": "bin/index.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build:ts": "rm -rf ./src ./typings && npx tsc --project ./",
+    "build:rollup": "rm -rf ./lib && npx rollup --config rollup.config.js",
+    "prepublish": "npm run build",
+    "build": "npm run build:ts && npm run build:rollup",
+    "test": "npm run test:sotck",
+    "test:sotck": "node bin/index.js sotck"
+  },
+  "dependencies": {
+    "@oishi/cli-core": "latest",
+    "@oishi/cli-shared": "latest",
+    "@oishi/oishi-shared": "latest",
+    "tslib": "^2.0.0",
+    "fs-extra": "^9.0.1",
+    "inquirer": "^7.2.0",
+    "tmp-promise": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.1",
+    "@types/inquirer": "^6.5.0",
+    "@types/tmp": "^0.2.0"
+  }
+}

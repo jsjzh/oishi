@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "esNext",
+    "lib": ["ESNext"],
+    "moduleResolution": "node",
+
+    "baseUrl": "./",
+    "outDir": "./src",
+    "rootDir": "./core",
+
+    "removeComments": true,
+    "importHelpers": true,
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["./core/**/*.ts"],
+  "exclude": ["node_modules"]
+}

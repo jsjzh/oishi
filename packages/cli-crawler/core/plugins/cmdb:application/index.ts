@@ -1,13 +1,7 @@
 import { PluginAPI } from '@oishi/cli-core/typings/plugin';
 import T from '../../types';
 
-import {
-  getFoodDetail,
-  searchFood,
-  getFoodList,
-  IGetFoodList,
-  IGetFoodListResp,
-} from './service';
+import { IGetApplicationList, getApplicationList } from '../../service/cmdb';
 
 import { RandomPromise } from '../../shared';
 import fs from 'fs-extra';
@@ -16,19 +10,13 @@ import path from 'path';
 export default (api: PluginAPI<T.IContent>): void => {
   api.registerCommand(
     {
-      command: 'food',
-      description: '爬取薄荷 app 食物信息',
+      command: 'cmdb:application',
+      description: '爬取 cmdb 应用信息',
       options: [],
     },
     async (args, ctx) => {
       const [name] = args;
       const { argv, cliRoot, root, helper, logger } = ctx;
-
-      // const { word, age } = argv;
-
-      // const globalConfig = {
-      //   currentPage
-      // } as any;
 
       helper
         // helper 创建任务链函数
@@ -36,41 +24,35 @@ export default (api: PluginAPI<T.IContent>): void => {
         .add({
           title: '开始爬取数据',
           task: async () => {
-            const deal = new RandomPromise<IGetFoodList, IGetFoodListResp>(
-              getFoodList,
-              {
-                value: 1,
-                page: 0,
-                kind: 'group',
-              },
+            const deal = new RandomPromise<IGetApplicationList, any>(
+              getApplicationList,
+              { pageSize: 100, page: 0 },
               {
                 async handleWhile(data, resp: any) {
                   data.page++;
 
+                  // TODO 这里似乎有点问题，为什么一定要 if resp
                   if (resp) {
-                    if (Number(resp.total_pages) >= Number(data.page)) {
+                    if (Number(resp.data.totalPage) >= Number(data.page)) {
                       return true;
                     } else {
-                      if (data.value < 7) {
-                        data.page = 1;
-                        data.value++;
-                        return true;
-                      } else {
-                        return false;
-                      }
+                      return false;
                     }
                   } else {
                     return true;
                   }
                 },
                 async handleResp(resp, data) {
-                  const fileWay = `${data.kind}/${data.value}/${data.page}`;
-                  const filePath = path.resolve(root, `./data/${fileWay}.json`);
+                  const fileWay = `application/page - ${data.page}`;
+                  const filePath = path.resolve(
+                    root,
+                    `./data/cmdb/${fileWay}.json`,
+                  );
 
                   logger.info(`获取 ${fileWay} 数据成功，正在写入 ${filePath}`);
 
                   await fs.ensureFile(filePath);
-                  await fs.writeJSON(filePath, resp);
+                  await fs.writeJSON(filePath, resp.data.items);
                 },
               },
             );

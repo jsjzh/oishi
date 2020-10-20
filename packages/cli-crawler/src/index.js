@@ -1,14 +1,18 @@
 import CliCore from '@oishi/cli-core';
 import path from 'path';
-import food from './plugins/food';
+import helloWorld from './plugins/hello:world';
+import boheFood from './plugins/bohe:food';
+import cmdbApplication from './plugins/cmdb:application';
+const pkg = require('../package.json');
 export default class OishiCrawlerCli {
     constructor() {
         this.cli = new CliCore({
             root: process.cwd(),
+            pkg,
             context: {
                 cliRoot: path.resolve(__dirname, '../'),
             },
-            plugins: [food],
+            plugins: [helloWorld, boheFood, cmdbApplication],
         });
     }
     static create() {

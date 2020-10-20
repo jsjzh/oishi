@@ -1,6 +1,9 @@
+import * as utils from './shared/utils';
+
 import CreateAPI from './shared/createAPI';
 import Queue from './shared/queue';
 import Files from './shared/files';
 import MdCreator from './shared/mdCreator';
+import RandomPromise from './shared/randomPromise';
 
-export { CreateAPI, Queue, Files, MdCreator };
+export { utils, CreateAPI, Queue, Files, MdCreator, RandomPromise };

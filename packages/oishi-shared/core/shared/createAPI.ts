@@ -139,7 +139,7 @@ export default class CreateAPI {
     return promise;
   }
 
-  protected __formatURL(baseURL: string, endPoint: string) {
+  protected __formatURL(baseURL: string, endPoint = '') {
     const urlInfo = url.parse(url.resolve(baseURL, endPoint));
     urlInfo.protocol || (urlInfo.protocol = 'https:');
     return url.format(urlInfo);

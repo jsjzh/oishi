@@ -2,6 +2,7 @@ import CliCore from '@oishi/cli-core';
 import path from 'path';
 
 import T from './types';
+
 import calorie from './plugins/calorie';
 
 export default class OishiCliHealth {
