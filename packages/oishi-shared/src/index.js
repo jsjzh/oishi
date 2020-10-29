@@ -4,5 +4,5 @@ import Queue from './shared/queue';
 import Files from './shared/files';
 import MdCreator from './shared/mdCreator';
 import RandomPromise from './shared/randomPromise';
-import ParseGItUrl from './shared/parseGItUrl';
-export { utils, CreateAPI, Queue, Files, MdCreator, RandomPromise, ParseGItUrl, };
+import ParseGit from './shared/parseGit';
+export { utils, CreateAPI, Queue, Files, MdCreator, RandomPromise, ParseGit };

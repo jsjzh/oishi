@@ -1,4 +1,4 @@
-export default class ParseGitUrl {
+export default class ParseGit {
     private sshReg;
     private httpsReg;
     private protocol;
