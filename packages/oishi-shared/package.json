@@ -25,7 +25,8 @@
     "build:ts": "rm -rf ./src ./typings && npx tsc --project ./",
     "build:rollup": "rm -rf ./lib && npx rollup --config rollup.config.js",
     "build": "npm run build:ts && npm run build:rollup",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "test": "node test/index.js"
   },
   "bugs": {
     "url": "https://github.com/jsjzh/oishi/issues"

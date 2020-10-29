@@ -20,7 +20,7 @@ export default class CreateAPI {
     patchJSON<T = any>(endpoint: string, data: CreateAPIOptions['data'], options?: CreateAPIOptions): IRequestResult<T>;
     deleteJSON<T = any>(endpoint: string, data: CreateAPIOptions['data'], options?: CreateAPIOptions): IRequestResult<T>;
     request<T>(endPoint: string, options?: CreateAPIOptions): IRequestResult<T>;
-    protected __formatURL(baseURL: string, endPoint: string): string;
+    protected __formatURL(baseURL: string, endPoint?: string): string;
     protected __checkStatus(resp: AxiosResponse): AxiosResponse<any>;
     protected __checkResp(data: any): any;
 }

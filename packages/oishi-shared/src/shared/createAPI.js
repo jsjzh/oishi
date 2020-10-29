@@ -69,7 +69,7 @@ export default class CreateAPI {
         promise.cancel = cancel;
         return promise;
     }
-    __formatURL(baseURL, endPoint) {
+    __formatURL(baseURL, endPoint = '') {
         const urlInfo = url.parse(url.resolve(baseURL, endPoint));
         urlInfo.protocol || (urlInfo.protocol = 'https:');
         return url.format(urlInfo);
