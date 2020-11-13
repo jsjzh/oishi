@@ -1,7 +1,13 @@
-import json from '@rollup/plugin-json';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
+import json, { RollupJsonOptions as jsonOptions } from '@rollup/plugin-json';
+import resolve, {
+  Options as resolveOptions,
+} from '@rollup/plugin-node-resolve';
+import commonjs, {
+  RollupCommonJSOptions as commonjsOptions,
+} from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
+import { MinifyOptions } from 'terser';
+
 import builtins from 'builtin-modules';
 const progress = require('rollup-plugin-progress');
 const filesize = require('rollup-plugin-filesize');
@@ -10,10 +16,20 @@ import T from '../../types';
 
 export interface ICliOptions {
   pkg: Partial<T.IBasePkg> & Record<keyof any, any>;
+  json: jsonOptions;
+  resolve: resolveOptions;
+  terser: Omit<MinifyOptions, 'sourceMap'>;
+  commonjs: commonjsOptions;
 }
 
 export default (options: ICliOptions) => {
-  const { pkg } = options;
+  const {
+    pkg,
+    json: _json = {},
+    resolve: _resolve = {},
+    terser: _terser = {},
+    commonjs: _commonjs = { include: '/node_modules/' },
+  } = options;
 
   const {
     name = 'unknown',
@@ -44,12 +60,12 @@ export default (options: ICliOptions) => {
     },
     external: Object.keys(dependencies).concat(builtins),
     plugins: [
-      json(),
-      resolve(),
-      terser(),
+      json(_json),
+      resolve(_resolve),
+      terser(_terser),
       progress(),
       filesize(),
-      commonjs({ include: '/node_modules/' }),
+      commonjs(_commonjs),
     ],
   });
 };
