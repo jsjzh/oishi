@@ -10,10 +10,11 @@ import T from '../../types';
 
 export interface ILibOptions {
   pkg: Partial<T.IBasePkg> & Record<keyof any, any>;
+  terser: Record<keyof any, any>;
 }
 
 export default (options: ILibOptions) => {
-  const { pkg } = options;
+  const { pkg, terser: _terser = {} } = options;
 
   const {
     name = 'unknown',
@@ -46,7 +47,7 @@ export default (options: ILibOptions) => {
     plugins: [
       json(),
       resolve(),
-      terser(),
+      terser(_terser),
       progress(),
       filesize(),
       commonjs({ include: '/node_modules/' }),
