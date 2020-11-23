@@ -20,3 +20,41 @@ export const retryPromise = async <T = any, D = any>(
   for (let i = 0; i < maxRetryCount; i++)
     if (handleResp(await promise(data))) return;
 };
+
+/**
+ * 判断数组中的元素是否都符合一个「异步判断函数」的返回
+ * usage
+ * cosnt result = await asyncEvery(arr, async (item) => await fn(item))
+ */
+export const asyncEvery = async <T>(
+  arr: T[],
+  callbackfn: (value: T, index: number, array: T[]) => Promise<boolean>,
+) => {
+  for (let i = 0; i < arr.length; i++)
+    if (!(await callbackfn(arr[i], i, arr))) return false;
+  return true;
+};
+
+/**
+ * 判断数组中是否有一个元素符合「异步判断函数」的返回
+ * usage
+ * cosnt result = await asyncSome(arr, async (item) => await fn(item))
+ */
+export const asyncSome = async <T>(
+  arr: T[],
+  callbackfn: (value: T, index: number, array: T[]) => Promise<boolean>,
+) => {
+  for (let i = 0; i < arr.length; i++)
+    if (await callbackfn(arr[i], i, arr)) return true;
+  return false;
+};
+
+// Array.prototype.find
+// Array.prototype.findIndex
+// Array.prototype.forEach
+// Array.prototype.reduce
+// Array.prototype.reduceRight
+// Array.prototype.sort
+// Array.prototype.filter
+// Array.prototype.map
+// Array.prototype.flatMap

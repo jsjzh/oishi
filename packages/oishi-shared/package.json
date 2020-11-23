@@ -1,6 +1,6 @@
 {
   "name": "@oishi/oishi-shared",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "oishi 通用库",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -35,9 +35,11 @@
   "dependencies": {
     "@types/fs-extra": "^9.0.1",
     "@types/lodash": "^4.14.150",
+    "@yarnpkg/lockfile": "^1.1.0",
     "axios": "^0.19.2",
     "fs-extra": "^9.0.0",
     "lodash": "^4.17.15",
+    "parse-package-name": "^0.1.0",
     "query-string": "^6.13.1",
     "tslib": "^2.0.0"
   },

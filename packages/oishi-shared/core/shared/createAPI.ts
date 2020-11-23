@@ -42,18 +42,26 @@ export default class CreateAPI {
 
   getJSON<T = any>(
     endPoint: string,
-    params: CreateAPIOptions['params'],
+    query: CreateAPIOptions['params'],
     options?: CreateAPIOptions,
   ) {
-    return this.request<T>(endPoint, { ...options, method: 'get', params });
+    return this.request<T>(endPoint, {
+      ...options,
+      method: 'get',
+      params: query,
+    });
   }
 
   postJSON<T = any>(
     endPoint: string,
-    data: CreateAPIOptions['data'],
+    body: CreateAPIOptions['data'],
     options?: CreateAPIOptions,
   ) {
-    return this.request<T>(endPoint, { ...options, method: 'post', data });
+    return this.request<T>(endPoint, {
+      ...options,
+      method: 'post',
+      data: body,
+    });
   }
 
   postForm<T = any>(

@@ -21,11 +21,11 @@ export default class CreateAPI {
     static create(baseURL, baseOptions = {}) {
         return new CreateAPI(baseURL, baseOptions);
     }
-    getJSON(endPoint, params, options) {
-        return this.request(endPoint, Object.assign(Object.assign({}, options), { method: 'get', params }));
+    getJSON(endPoint, query, options) {
+        return this.request(endPoint, Object.assign(Object.assign({}, options), { method: 'get', params: query }));
     }
-    postJSON(endPoint, data, options) {
-        return this.request(endPoint, Object.assign(Object.assign({}, options), { method: 'post', data }));
+    postJSON(endPoint, body, options) {
+        return this.request(endPoint, Object.assign(Object.assign({}, options), { method: 'post', data: body }));
     }
     postForm(endPoint, data, options) {
         return this.request(endPoint, Object.assign(Object.assign({}, options), { method: 'post', data: stringify(data) }));
