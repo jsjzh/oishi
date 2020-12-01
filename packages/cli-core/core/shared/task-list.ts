@@ -31,6 +31,14 @@ class TaskList {
     return this;
   }
 
+  async run() {
+    if (this.options.concurrent) {
+      await Promise.all(this.tasks.map(this._runTask.bind(this)));
+    } else {
+      for (const item of this.tasks) await this._runTask(item);
+    }
+  }
+
   async _runTask(taskItem: TaskItem) {
     this.options.hasTip &&
       taskItem.title &&
@@ -39,15 +47,7 @@ class TaskList {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     this.options.hasTip &&
       taskItem.title &&
-      (logger.successBgTip('TASK', `${taskItem.title} DONE`), logger.space());
-  }
-
-  async run() {
-    if (this.options.concurrent) {
-      await Promise.all(this.tasks.map(this._runTask.bind(this)));
-    } else {
-      for (const item of this.tasks) await this._runTask(item);
-    }
+      (logger.infoBgTip('TASK', `${taskItem.title} DONE`), logger.space());
   }
 }
 

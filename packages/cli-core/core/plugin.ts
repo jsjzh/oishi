@@ -74,7 +74,7 @@ export default class PluginContainer<CTX> {
     }
   }
 
-  unifyInfo(pluginOption: IPluginOption<CTX>): IPluginInfo | void {
+  unifyInfo(pluginOption: IPluginOption<CTX>): IPluginInfo | undefined {
     if (typeof pluginOption === 'function') return;
     const pluginInfo =
       typeof pluginOption === 'string'
@@ -99,7 +99,7 @@ export default class PluginContainer<CTX> {
     return pluginInfo;
   }
 
-  unifyRequire(pluginPath: string): IPlugin<CTX> | void {
+  unifyRequire(pluginPath: string): IPlugin<CTX> | undefined {
     if (typeof pluginPath === 'function') return;
     const module = require(pluginPath);
     return module && module.__esModule ? module.default : module;
