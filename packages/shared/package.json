@@ -1,0 +1,46 @@
+{
+  "name": "@oishi/shared",
+  "version": "1.0.0",
+  "description": "oishi 通用库，reset from @oishi/oishi-shared",
+  "keywords": [],
+  "author": "jsjzh <kimimi_king@163.com>",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "types": "typings/index.d.ts",
+  "files": [
+    "lib",
+    "src",
+    "typings",
+    "package.json",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsjzh/oishi.git"
+  },
+  "scripts": {
+    "build:ts": "rm -rf ./src ./typings && npx tsc --project ./",
+    "build:rollup": "rm -rf ./lib && npx rollup --config rollup.config.js",
+    "build": "npm run build:ts && npm run build:rollup",
+    "prepublish": "npm run build",
+    "test": "node test/index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/jsjzh/oishi/issues"
+  },
+  "homepage": "https://github.com/jsjzh/oishi#readme",
+  "dependencies": {
+    "@types/fs-extra": "^9.0.1",
+    "@types/lodash": "^4.14.150",
+    "@yarnpkg/lockfile": "^1.1.0",
+    "axios": "^0.19.2",
+    "fs-extra": "^9.0.0",
+    "lodash": "^4.17.15",
+    "parse-package-name": "^0.1.0",
+    "query-string": "^6.13.1",
+    "tslib": "^2.0.0"
+  }
+}
