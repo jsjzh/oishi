@@ -21,10 +21,13 @@ export class OishiJoi {
     this.__options = options || {};
   }
 
-  createSchema(schema: _JoiType.Schema, options?: OishiJoiOptions) {
+  createSchema<T extends _JoiType.Schema>(
+    schema: T,
+    options?: OishiJoiOptions,
+  ) {
     return {
-      validate: (value: any) =>
-        this.__validate(
+      validate: (value: RealType<T>) =>
+        this.__validate<T>(
           schema,
           { ...this.__options, ...(options || {}) },
           value,
@@ -32,11 +35,11 @@ export class OishiJoi {
     };
   }
 
-  private __validate(
+  private __validate<T>(
     schema: _JoiType.Schema,
     options: OishiJoiOptions,
-    _value: any,
-  ) {
+    _value: RealType<T>,
+  ): RealType<T> {
     const { value, ...errorResult } = schema.validate(_value, options);
 
     if (errorResult.error || errorResult.errors || errorResult.warning) {
@@ -61,10 +64,14 @@ export class OishiJoi {
 
 // const one = oishiJoi.createSchema(
 //   Joi.object({
-//     name: Joi.string(),
+//     name: Joi.object({
+//       names: Joi.number(),
+//     }),
 //   }),
 // );
 
-// const body = {};
-
-// const result = one.validate(body);
+// const result = one.validate({
+//   name: {
+//     names: 123,
+//   },
+// });
