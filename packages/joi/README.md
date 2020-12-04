@@ -1,11 +1,9 @@
 # `@oishi/joi`
 
-> TODO: description
+做了一点微小的工作，修改了 @type/joi 的描述文件，重新包装了一下 Joi 的调用方式，在 validate 和 validateAsync 时，可以返回确切的 value 类型，typescript 不香么？
 
-## Usage
+## 使用
 
-```
-const joi = require('@oishi/joi');
-
-// TODO: DEMONSTRATE API
+```ts
+import Joi, { OishiJoi } from '@oishi/joi';
 ```

@@ -1,15 +1,17 @@
 {
   "name": "@oishi/joi",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "description": "simple joi",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
   "main": "lib/index.js",
-  "types": "index.d.ts",
+  "types": "typings/index.d.ts",
   "files": [
     "lib",
     "src",
+    "typings",
+    "joi.d.ts",
     "package.json",
     "README.md"
   ],
