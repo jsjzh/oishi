@@ -1,4 +1,4 @@
-# `@oishi/joi`
+## `@oishi/joi`
 
 simple Joi。做了一点微小的工作，修改了 `@type/joi` 的描述文件，重新包装了 `Joi` 的调用方式，`typescript` 不香么？
 
@@ -10,11 +10,11 @@ simple Joi。做了一点微小的工作，修改了 `@type/joi` 的描述文件
 
 这里附上 `Joi` 的相关资源 [Joi Gitub](https://github.com/sideway/joi)，[Joi doc](https://joi.dev/)，有需要可以自查
 
-## 介绍
+### 介绍
 
 既然有了 `Joi`，为什么我还要包裹一层，多此一举？私以为，在实际使用过程中，对于验证后的参数没有智能提示，返回的 `result` 是个 `any` 类型，这就非常不 `ts`，所以就做了一些改动，包装了调用方式，并增加了两个可以获取确切值类型的 `ts` 类型推论方法，具体可以参见 [使用](#使用) 环节
 
-## 安装
+### 安装
 
 ```shell
 npm install @oishi/joi
@@ -22,14 +22,14 @@ npm install @oishi/joi
 yarn add @oishi/joi
 ```
 
-## 特性
+### 特性
 
 1. 使用 `Joi` 验证值后，`result` 可以返回正确的类型
 2. 曝露 `SchemaType` 和 `ValidateType` 方法，方便获取值类型
 
-## 使用
+### 使用
 
-### 简单参数验证
+#### 简单参数验证
 
 这里旨在介绍日常简单的使用方式
 
@@ -65,7 +65,7 @@ console.log(result.detail.job);
 const result2 = validator.validate(notAllow);
 ```
 
-### 获取正确类型
+#### 获取正确类型
 
 在平时开发时，声明 `schema` 之后，往往还需要声明 `interface`，这里提供两个 `helper` 函数，用于获取 `schema` 或者 `validator` 的接口类型
 
@@ -94,7 +94,7 @@ let validateItem: RealValidateType;
 // validateItemschemaItem.detail.job
 ```
 
-### 友好错误处理
+#### 友好错误处理
 
 若不传入 `handleError`，则会在验证出错时直接将错误信息抛出，若想捕获错误只能通过 `try catch`
 
@@ -128,13 +128,13 @@ const schema2 = Joi.object({
 const validator2 = oishi.createSchema(schema2);
 ```
 
-## API
+### API
 
 ```ts
 const oishi = new OishiJoi();
 ```
 
-### oishi.createSchema
+#### oishi.createSchema
 
 ```ts
 oishi.createSchema(schema: Joi.Schema, options?: {handleError:(error) => void})
@@ -143,7 +143,7 @@ oishi.createSchema(schema: Joi.Schema, options?: {handleError:(error) => void})
 `schema`: `Joi.Schema` 的类型，可以通过 `Joi.object()` 或者 `Joi.number()` 等生成  
 `options`: `{handleError:(error) => void}`
 
-### validator.validate
+#### validator.validate
 
 ```ts
 validator.validate(value:any, options?:Joi.ValidationOptions)
@@ -152,7 +152,7 @@ validator.validate(value:any, options?:Joi.ValidationOptions)
 `value`: `any`  
 `options`: `Joi.ValidationOptions`
 
-### validator.validateAsync
+#### validator.validateAsync
 
 ```ts
 validator.validateAsync(value:any, options?:Joi.AsyncValidationOptions)
@@ -161,10 +161,10 @@ validator.validateAsync(value:any, options?:Joi.AsyncValidationOptions)
 `value`: `any`  
 `options`: `Joi.AsyncValidationOptions`
 
-## example
+### example
 
 > TODO，一些使用例子
 
-## TODO
+### TODO
 
 1. 使用 `.required()` 或者 `.optional()` 后，能更加智能推导返回值类型
