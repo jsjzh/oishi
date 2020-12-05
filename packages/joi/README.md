@@ -2,11 +2,13 @@
 
 simple Joi。做了一点微小的工作，修改了 `@type/joi` 的描述文件，重新包装了 `Joi` 的调用方式，`typescript` 不香么？
 
-> 简单介绍一下 `Joi`，这是一个可以在运行时帮助做参数验证非常好的一个库。但是说到参数验证，`typescript` 不行么，的确可以，但是 `typescript` 是编译时校验而不是运行时校验，且如果参数写的都是 `any`...
+> 简单介绍一下 `Joi`，这是一个可以在运行时帮助做参数验证非常好的一个库
 >
-> 编译后的程序在运行时无法校验参数，使用 `Joi` 就可以解决这个问题
+> 但是说到参数验证，`typescript` 不行么，的确可以，但是 `typescript` 是编译时校验，且如果参数写的都是 `any`... 就等着收刀片吧
+>
+> 程序编译后，在运行时无法校验参数，这时候使用 `Joi` 就可以解决这个问题
 
-这里附上 `Joi` 的相关资源 [Joi Gitub](https://github.com/sideway/joi)，[Joi doc](https://joi.dev/)
+这里附上 `Joi` 的相关资源 [Joi Gitub](https://github.com/sideway/joi)，[Joi doc](https://joi.dev/)，有需要可以自查
 
 ## 介绍
 
