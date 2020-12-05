@@ -25,10 +25,7 @@ export class OishiJoi {
     options?: OishiJoiOptions,
   ) {
     return {
-      validate: (
-        value: RealType<T>,
-        validateOptions?: _JoiType.ValidationOptions,
-      ) =>
+      validate: (value: any, validateOptions?: _JoiType.ValidationOptions) =>
         this.__validate<T>(
           schema,
           { ...this.__options, ...(options || {}), ...(validateOptions || {}) },
@@ -36,7 +33,7 @@ export class OishiJoi {
         ),
 
       validateAsync: async (
-        value: RealType<T>,
+        value: any,
         validateAsyncOptions?: _JoiType.AsyncValidationOptions,
       ) =>
         await this.__validateAsync<T>(
@@ -54,12 +51,12 @@ export class OishiJoi {
   private __validate<T>(
     schema: _JoiType.Schema,
     options: OishiJoiOptions & _JoiType.ValidationOptions,
-    _value: RealType<T>,
+    _value: any,
   ): RealType<T> {
     const { value, ...errorResult } = schema.validate(_value, options);
 
     if (errorResult.error || errorResult.errors || errorResult.warning) {
-      if (options.handleError) {
+      if (typeof options.handleError === 'function') {
         options.handleError(errorResult);
       } else {
         throw new Error(
@@ -78,13 +75,13 @@ export class OishiJoi {
   private async __validateAsync<T>(
     schema: _JoiType.Schema,
     options: OishiJoiOptions & _JoiType.AsyncValidationOptions,
-    _value: RealType<T>,
+    _value: any,
   ): Promise<RealType<T>> {
     let result;
     try {
       result = await schema.validateAsync(_value, options);
     } catch (error) {
-      if (options.handleError) {
+      if (typeof options.handleError === 'function') {
         options.handleError(error);
       } else {
         throw new Error(
@@ -101,36 +98,3 @@ export class OishiJoi {
 const Joi: _JoiType.Root = _Joi;
 
 export default Joi;
-
-const oishi = new OishiJoi();
-
-let demo = Joi.string().required();
-let demo2 = Joi.number().optional();
-
-const validateProject = oishi.createSchema(
-  Joi.object({
-    name: Joi.string().required(),
-    type: Joi.number().optional(),
-  }),
-);
-
-// const allowObject = {
-//   name: 'king',
-//   type: 1,
-// };
-
-// const notAllowObject = {
-//   name: 'king',
-// };
-
-// const result1 = validateProject.validate(allowObject);
-// console.log(result1);
-// const result2 = validateProject.validate(notAllowObject);
-// console.log(result2);
-
-// (async () => {
-//   const result3 = await validateProject.validateAsync(allowObject);
-//   console.log(result3);
-//   const result4 = await validateProject.validateAsync(notAllowObject);
-//   console.log(result4);
-// })();

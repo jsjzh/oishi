@@ -7,8 +7,8 @@ export declare class OishiJoi {
     private __options;
     constructor(options?: OishiJoiOptions);
     createSchema<T extends _JoiType.Schema>(schema: T, options?: OishiJoiOptions): {
-        validate: (value: RealType<T>, validateOptions?: _JoiType.ValidationOptions | undefined) => RealType<T>;
-        validateAsync: (value: RealType<T>, validateAsyncOptions?: _JoiType.AsyncValidationOptions | undefined) => Promise<RealType<T>>;
+        validate: (value: any, validateOptions?: _JoiType.ValidationOptions | undefined) => RealType<T>;
+        validateAsync: (value: any, validateAsyncOptions?: _JoiType.AsyncValidationOptions | undefined) => Promise<RealType<T>>;
     };
     private __validate;
     private __validateAsync;
