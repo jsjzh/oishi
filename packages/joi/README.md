@@ -138,7 +138,7 @@ const oishi = new OishiJoi();
 oishi.createSchema(schema: Joi.Schema, options?: {handleError:(error) => void})
 ```
 
-`schema`: `Joi.Schema` 的类型，可以通过 `Joi.object()` 或者 `Joi.number()` 等生成
+`schema`: `Joi.Schema` 的类型，可以通过 `Joi.object()` 或者 `Joi.number()` 等生成  
 `options`: `{handleError:(error) => void}`
 
 ### validator.validate
@@ -147,7 +147,7 @@ oishi.createSchema(schema: Joi.Schema, options?: {handleError:(error) => void})
 validator.validate(value:any, options?:Joi.ValidationOptions)
 ```
 
-`value`: `any`
+`value`: `any`  
 `options`: `Joi.ValidationOptions`
 
 ### validator.validateAsync
@@ -156,7 +156,7 @@ validator.validate(value:any, options?:Joi.ValidationOptions)
 validator.validateAsync(value:any, options?:Joi.AsyncValidationOptions)
 ```
 
-`value`: `any`
+`value`: `any`  
 `options`: `Joi.AsyncValidationOptions`
 
 ## example
