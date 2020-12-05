@@ -1,11 +1,15 @@
 import _Joi from '@hapi/joi';
 import _JoiType, { ValidationError } from '../joi';
 
-export type RealType<T> = T extends _JoiType.Schema
+export type SchemaType<T> = T extends _JoiType.Schema
   ? T extends _JoiType.ObjectSchema<{}>
     ? _JoiType.RealType<T['schemaType']>
     : T['schemaType']
   : _JoiType.RealType<T>;
+
+export type ValidateType<
+  T extends ReturnType<OishiJoi['createSchema']>
+> = ReturnType<T['validate']>;
 
 export interface OishiJoiOptions {
   handleError?: (messages: string[]) => void;
@@ -50,7 +54,7 @@ export class OishiJoi {
     schema: _JoiType.Schema,
     options: OishiJoiOptions & _JoiType.ValidationOptions,
     _value: any,
-  ): RealType<T> {
+  ): SchemaType<T> {
     const { value, error } = schema.validate(_value, options);
     if (error) {
       if (typeof options.handleError === 'function') {
@@ -71,7 +75,7 @@ export class OishiJoi {
     schema: _JoiType.Schema,
     options: OishiJoiOptions & _JoiType.AsyncValidationOptions,
     _value: any,
-  ): Promise<RealType<T>> {
+  ): Promise<SchemaType<T>> {
     let result;
     try {
       result = await schema.validateAsync(_value, options);
