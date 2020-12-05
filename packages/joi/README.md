@@ -1,6 +1,6 @@
 # `@oishi/joi`
 
-simple Joi。一点微小的工作，修改了 `@type/joi` 的描述文件，重新包装了 `Joi` 的调用方式，`typescript` 不香么？
+simple Joi。做了一点微小的工作，修改了 `@type/joi` 的描述文件，重新包装了 `Joi` 的调用方式，`typescript` 不香么？
 
 > 简单介绍一下 `Joi`，这是一个可以在运行时帮助做参数验证非常好的一个库。但是说到参数验证，`typescript` 不行么，的确可以，但是 `typescript` 是编译时校验而不是运行时校验，且如果参数写的都是 `any`...
 >
