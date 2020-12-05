@@ -1,5 +1,5 @@
 import _Joi from '@hapi/joi';
-import _JoiType from '../joi';
+import _JoiType, { ValidationError } from '../joi';
 
 export type RealType<T> = T extends _JoiType.Schema
   ? T extends _JoiType.ObjectSchema<{}>
@@ -8,9 +8,7 @@ export type RealType<T> = T extends _JoiType.Schema
   : _JoiType.RealType<T>;
 
 export interface OishiJoiOptions {
-  handleError?: (
-    error: Pick<_JoiType.ValidationResult, 'error' | 'errors' | 'warning'>,
-  ) => void;
+  handleError?: (messages: string[]) => void;
 }
 
 export class OishiJoi {
@@ -53,18 +51,15 @@ export class OishiJoi {
     options: OishiJoiOptions & _JoiType.ValidationOptions,
     _value: any,
   ): RealType<T> {
-    const { value, ...errorResult } = schema.validate(_value, options);
-
-    if (errorResult.error || errorResult.errors || errorResult.warning) {
+    const { value, error } = schema.validate(_value, options);
+    if (error) {
       if (typeof options.handleError === 'function') {
-        options.handleError(errorResult);
+        options.handleError(error.details.map((detail) => detail.message));
       } else {
         throw new Error(
-          `oishiJoi validate error: ${
-            errorResult.error?.message
-              ? errorResult.error?.message
-              : errorResult.error
-          }`,
+          `oishiJoi validate error: ${error.details.map(
+            (detail) => detail.message,
+          )}`,
         );
       }
     }
@@ -82,12 +77,14 @@ export class OishiJoi {
       result = await schema.validateAsync(_value, options);
     } catch (error) {
       if (typeof options.handleError === 'function') {
-        options.handleError(error);
+        options.handleError(
+          error.details.map((detail: ValidationError) => detail.message),
+        );
       } else {
         throw new Error(
-          `oishiJoi validate error: ${
-            error.details[0].message ? error.details[0].message : error
-          }`,
+          `oishiJoi validate error: ${error.details.map(
+            (detail: ValidationError) => detail.message,
+          )}`,
         );
       }
     }

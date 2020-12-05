@@ -1,7 +1,7 @@
 import _JoiType from '../joi';
 export declare type RealType<T> = T extends _JoiType.Schema ? T extends _JoiType.ObjectSchema<{}> ? _JoiType.RealType<T['schemaType']> : T['schemaType'] : _JoiType.RealType<T>;
 export interface OishiJoiOptions {
-    handleError?: (error: Pick<_JoiType.ValidationResult, 'error' | 'errors' | 'warning'>) => void;
+    handleError?: (messages: string[]) => void;
 }
 export declare class OishiJoi {
     private __options;
