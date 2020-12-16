@@ -34,13 +34,15 @@
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
     "@types/fs-extra": "^9.0.1",
+    "@types/jsonp": "^0.2.0",
     "@types/lodash": "^4.14.150",
     "@yarnpkg/lockfile": "^1.1.0",
     "axios": "^0.19.2",
     "fs-extra": "^9.0.0",
+    "jsonp": "^0.2.1",
     "lodash": "^4.17.15",
     "parse-package-name": "^0.1.0",
-    "query-string": "^6.13.1",
+    "query-string": "^6.13.7",
     "tslib": "^2.0.0"
   }
 }

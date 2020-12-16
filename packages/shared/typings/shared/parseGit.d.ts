@@ -5,6 +5,7 @@ export default class ParseGit {
     private gitHost;
     private projectpath;
     constructor(str: string);
+    get path(): string;
     get ssh(): string;
     get https(): string;
     get url(): string;

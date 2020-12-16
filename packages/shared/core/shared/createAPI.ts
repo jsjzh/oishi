@@ -3,6 +3,7 @@ import url from 'url';
 import { stringify } from 'query-string';
 import { isFunction } from 'lodash';
 import { Logger } from '../helper';
+import jsonp from 'jsonp';
 
 const APPCODE = '---「CreateAPI」---';
 
@@ -16,7 +17,7 @@ class CreateAPIError extends Error {
   }
 }
 
-export type CreateAPIOptions = AxiosRequestConfig & {
+export type CreateAPIOptions<T = any> = AxiosRequestConfig & {
   handleOptions?: (options: AxiosRequestConfig) => AxiosRequestConfig;
   handleResp?: <T>(resp: T) => any;
   handleError?: (error: AxiosError) => any;
@@ -42,8 +43,8 @@ export default class CreateAPI {
 
   getJSON<T = any>(
     endPoint: string,
-    query: CreateAPIOptions['params'],
-    options?: CreateAPIOptions,
+    query: CreateAPIOptions<T>['params'],
+    options?: CreateAPIOptions<T>,
   ) {
     return this.request<T>(endPoint, {
       ...options,
@@ -54,8 +55,8 @@ export default class CreateAPI {
 
   postJSON<T = any>(
     endPoint: string,
-    body: CreateAPIOptions['data'],
-    options?: CreateAPIOptions,
+    body: CreateAPIOptions<T>['data'],
+    options?: CreateAPIOptions<T>,
   ) {
     return this.request<T>(endPoint, {
       ...options,
@@ -66,8 +67,8 @@ export default class CreateAPI {
 
   postForm<T = any>(
     endPoint: string,
-    data: CreateAPIOptions['data'],
-    options?: CreateAPIOptions,
+    data: CreateAPIOptions<T>['data'],
+    options?: CreateAPIOptions<T>,
   ) {
     return this.request<T>(endPoint, {
       ...options,
@@ -78,29 +79,65 @@ export default class CreateAPI {
 
   putJSON<T = any>(
     endpoint: string,
-    data: CreateAPIOptions['data'],
-    options?: CreateAPIOptions,
+    data: CreateAPIOptions<T>['data'],
+    options?: CreateAPIOptions<T>,
   ) {
     return this.request<T>(endpoint, { ...options, method: 'put', data });
   }
 
   patchJSON<T = any>(
     endpoint: string,
-    data: CreateAPIOptions['data'],
-    options?: CreateAPIOptions,
+    data: CreateAPIOptions<T>['data'],
+    options?: CreateAPIOptions<T>,
   ) {
     return this.request<T>(endpoint, { ...options, method: 'patch', data });
   }
 
   deleteJSON<T = any>(
     endpoint: string,
-    data: CreateAPIOptions['data'],
-    options?: CreateAPIOptions,
+    data: CreateAPIOptions<T>['data'],
+    options?: CreateAPIOptions<T>,
   ) {
     return this.request<T>(endpoint, { ...options, method: 'delete', data });
   }
 
-  request<T>(endPoint: string, options: CreateAPIOptions = {}) {
+  jsonp<T = any>(
+    endpoint: string,
+    data: CreateAPIOptions<T>['data'],
+    options?: Pick<CreateAPIOptions<T>, 'handleResp' | 'handleError'> & {
+      timeout?: number;
+    },
+  ) {
+    const { handleResp, handleError } = {
+      ...this.baseOptions,
+      ...options,
+    };
+
+    const url = this.__formatURL(this.baseURL, endpoint);
+
+    return new Promise<T>((resolve, reject) => {
+      jsonp(
+        url,
+        {
+          param: stringify(data),
+          prefix: `__${this.baseURL.replace(/[^\w\d]/g, '')}`,
+          timeout: options?.timeout,
+        },
+        (error, resp) => (error ? reject(error) : resolve(resp)),
+      );
+    })
+      .then((resp) => (isFunction(handleResp) ? handleResp<T>(resp) : resp))
+      .catch((err) => {
+        if (err && isFunction(handleError)) {
+          handleError(err);
+          return;
+        }
+        logger.error(err);
+        throw new CreateAPIError('request error');
+      });
+  }
+
+  request<T>(endpoint: string, options: CreateAPIOptions<T> = {}) {
     const { handleOptions, handleResp, handleError, ...reqOpts } = {
       ...this.baseOptions,
       ...options,
@@ -117,7 +154,7 @@ export default class CreateAPI {
 
     if (isFunction(handleOptions)) opts = handleOptions(opts) || opts;
 
-    const url = this.__formatURL(this.baseURL, endPoint);
+    const url = this.__formatURL(this.baseURL, endpoint);
 
     const promise: IRequestResult<T> = axios(url, opts)
       .then(this.__checkStatus)
@@ -137,7 +174,7 @@ export default class CreateAPI {
           return;
         }
 
-        logger.error(err);
+        logger.error(err.message || err);
         throw new CreateAPIError('request error');
       }) as any;
 

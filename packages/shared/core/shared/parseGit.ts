@@ -10,11 +10,19 @@ export default class ParseGit {
     const sshMatched = this.sshReg.exec(str);
     const httpsMatched = this.httpsReg.exec(str);
 
-    if (!sshMatched && !httpsMatched) throw new Error('输入 git str 格式错误');
+    this.protocol = sshMatched
+      ? 'https'
+      : (httpsMatched && (httpsMatched as any)[1]) || 'unknown';
+    this.gitHost = sshMatched
+      ? sshMatched[1]
+      : (httpsMatched && (httpsMatched as any)[2]) || 'unknown';
+    this.projectpath = sshMatched
+      ? sshMatched[2]
+      : (httpsMatched && (httpsMatched as any)[3]) || 'unknown';
+  }
 
-    this.protocol = sshMatched ? 'https' : (httpsMatched as any)[1];
-    this.gitHost = sshMatched ? sshMatched[1] : (httpsMatched as any)[2];
-    this.projectpath = sshMatched ? sshMatched[2] : (httpsMatched as any)[3];
+  get path() {
+    return this.projectpath;
   }
 
   get ssh() {
