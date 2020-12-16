@@ -1,6 +1,6 @@
 {
   "name": "@oishi/shared",
-  "version": "1.1.0-0",
+  "version": "1.1.0",
   "description": "oishi 通用库，reset from @oishi/oishi-shared",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",

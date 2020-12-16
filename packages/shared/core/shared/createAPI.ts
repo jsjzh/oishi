@@ -3,7 +3,7 @@ import url from 'url';
 import { stringify } from 'query-string';
 import { isFunction } from 'lodash';
 import { Logger } from '../helper';
-import jsonp from 'jsonp';
+// import jsonp from 'jsonp';
 
 const APPCODE = '---「CreateAPI」---';
 
@@ -101,41 +101,41 @@ export default class CreateAPI {
     return this.request<T>(endpoint, { ...options, method: 'delete', data });
   }
 
-  jsonp<T = any>(
-    endpoint: string,
-    data: CreateAPIOptions<T>['data'],
-    options?: Pick<CreateAPIOptions<T>, 'handleResp' | 'handleError'> & {
-      timeout?: number;
-    },
-  ) {
-    const { handleResp, handleError } = {
-      ...this.baseOptions,
-      ...options,
-    };
+  // jsonp<T = any>(
+  //   endpoint: string,
+  //   data: CreateAPIOptions<T>['data'],
+  //   options?: Pick<CreateAPIOptions<T>, 'handleResp' | 'handleError'> & {
+  //     timeout?: number;
+  //   },
+  // ) {
+  //   const { handleResp, handleError } = {
+  //     ...this.baseOptions,
+  //     ...options,
+  //   };
 
-    const url = this.__formatURL(this.baseURL, endpoint);
+  //   const url = this.__formatURL(this.baseURL, endpoint);
 
-    return new Promise<T>((resolve, reject) => {
-      jsonp(
-        url,
-        {
-          param: stringify(data),
-          prefix: `__${this.baseURL.replace(/[^\w\d]/g, '')}`,
-          timeout: options?.timeout,
-        },
-        (error, resp) => (error ? reject(error) : resolve(resp)),
-      );
-    })
-      .then((resp) => (isFunction(handleResp) ? handleResp<T>(resp) : resp))
-      .catch((err) => {
-        if (err && isFunction(handleError)) {
-          handleError(err);
-          return;
-        }
-        logger.error(err);
-        throw new CreateAPIError('request error');
-      });
-  }
+  //   return new Promise<T>((resolve, reject) => {
+  //     jsonp(
+  //       url,
+  //       {
+  //         param: stringify(data),
+  //         prefix: `__${this.baseURL.replace(/[^\w\d]/g, '')}`,
+  //         timeout: options?.timeout,
+  //       },
+  //       (error, resp) => (error ? reject(error) : resolve(resp)),
+  //     );
+  //   })
+  //     .then((resp) => (isFunction(handleResp) ? handleResp<T>(resp) : resp))
+  //     .catch((err) => {
+  //       if (err && isFunction(handleError)) {
+  //         handleError(err);
+  //         return;
+  //       }
+  //       logger.error(err);
+  //       throw new CreateAPIError('request error');
+  //     });
+  // }
 
   request<T>(endpoint: string, options: CreateAPIOptions<T> = {}) {
     const { handleOptions, handleResp, handleError, ...reqOpts } = {

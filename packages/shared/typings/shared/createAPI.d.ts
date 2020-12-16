@@ -19,9 +19,6 @@ export default class CreateAPI {
     putJSON<T = any>(endpoint: string, data: CreateAPIOptions<T>['data'], options?: CreateAPIOptions<T>): IRequestResult<T>;
     patchJSON<T = any>(endpoint: string, data: CreateAPIOptions<T>['data'], options?: CreateAPIOptions<T>): IRequestResult<T>;
     deleteJSON<T = any>(endpoint: string, data: CreateAPIOptions<T>['data'], options?: CreateAPIOptions<T>): IRequestResult<T>;
-    jsonp<T = any>(endpoint: string, data: CreateAPIOptions<T>['data'], options?: Pick<CreateAPIOptions<T>, 'handleResp' | 'handleError'> & {
-        timeout?: number;
-    }): Promise<any>;
     request<T>(endpoint: string, options?: CreateAPIOptions<T>): IRequestResult<T>;
     protected __formatURL(baseURL: string, endPoint?: string): string;
     protected __checkStatus(resp: AxiosResponse): AxiosResponse<any>;
