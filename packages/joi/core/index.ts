@@ -1,5 +1,5 @@
 import _Joi from '@hapi/joi';
-import _JoiType, { ValidationError } from '../joi';
+import _JoiType from '../joi';
 
 export type SchemaType<T> = T extends _JoiType.Schema
   ? T extends _JoiType.ObjectSchema<{}>
@@ -82,12 +82,14 @@ export class OishiJoi {
     } catch (error) {
       if (typeof options.handleError === 'function') {
         options.handleError(
-          error.details.map((detail: ValidationError) => detail.message),
+          error.details.map(
+            (detail: _JoiType.ValidationError) => detail.message,
+          ),
         );
       } else {
         throw new Error(
           `oishiJoi validate error: ${error.details.map(
-            (detail: ValidationError) => detail.message,
+            (detail: _JoiType.ValidationError) => detail.message,
           )}`,
         );
       }

@@ -2293,4 +2293,4 @@ declare namespace Joi {
   }
 }
 
-export = Joi;
+export default Joi;
