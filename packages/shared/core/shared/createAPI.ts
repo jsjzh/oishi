@@ -103,7 +103,6 @@ export default class CreateAPI {
 
   // jsonp<T = any>(
   //   endpoint: string,
-  //   data: CreateAPIOptions<T>['data'],
   //   options?: Pick<CreateAPIOptions<T>, 'handleResp' | 'handleError'> & {
   //     timeout?: number;
   //   },
@@ -115,18 +114,17 @@ export default class CreateAPI {
 
   //   const url = this.__formatURL(this.baseURL, endpoint);
 
-  //   return new Promise<T>((resolve, reject) => {
+  //   return (new Promise((resolve, reject) => {
   //     jsonp(
   //       url,
   //       {
-  //         param: stringify(data),
   //         prefix: `__${this.baseURL.replace(/[^\w\d]/g, '')}`,
   //         timeout: options?.timeout,
   //       },
   //       (error, resp) => (error ? reject(error) : resolve(resp)),
   //     );
   //   })
-  //     .then((resp) => (isFunction(handleResp) ? handleResp<T>(resp) : resp))
+  //     .then((resp: any) => (isFunction(handleResp) ? handleResp(resp) : resp))
   //     .catch((err) => {
   //       if (err && isFunction(handleError)) {
   //         handleError(err);
@@ -134,7 +132,7 @@ export default class CreateAPI {
   //       }
   //       logger.error(err);
   //       throw new CreateAPIError('request error');
-  //     });
+  //     }) as unknown) as Promise<T>;
   // }
 
   request<T>(endpoint: string, options: CreateAPIOptions<T> = {}) {
