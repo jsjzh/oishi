@@ -2,13 +2,6 @@
 # yarn lockfile v1
 
 
-"@types/fs-extra@^9.0.1":
-  version "9.0.4"
-  resolved "http://registry.npm.souche-inc.com/@types/fs-extra/download/@types/fs-extra-9.0.4.tgz#12553138cf0438db9a31cdc8b0a3aa9332eb67aa"
-  integrity sha1-ElUxOM8EONuaMc3IsKOqkzLrZ6o=
-  dependencies:
-    "@types/node" "*"
-
 "@types/jsonp@^0.2.0":
   version "0.2.0"
   resolved "http://registry.npm.souche-inc.com/@types/jsonp/download/@types/jsonp-0.2.0.tgz#2579c5e4dfa6b2617bda18a5d368db2dbfe132a8"
@@ -18,21 +11,6 @@
   version "4.14.165"
   resolved "http://registry.npm.souche-inc.com/@types/lodash/download/@types/lodash-4.14.165.tgz#74d55d947452e2de0742bad65270433b63a8c30f"
   integrity sha1-dNVdlHRS4t4HQrrWUnBDO2Ooww8=
-
-"@types/node@*":
-  version "14.14.10"
-  resolved "http://registry.npm.souche-inc.com/@types/node/download/@types/node-14.14.10.tgz#5958a82e41863cfc71f2307b3748e3491ba03785"
-  integrity sha1-WVioLkGGPPxx8jB7N0jjSRugN4U=
-
-"@yarnpkg/lockfile@^1.1.0":
-  version "1.1.0"
-  resolved "http://registry.npm.souche-inc.com/@yarnpkg/lockfile/download/@yarnpkg/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
-  integrity sha1-53qX+9NFt22DJF7c0X05OxtB+zE=
-
-at-least-node@^1.0.0:
-  version "1.0.0"
-  resolved "http://registry.npm.souche-inc.com/at-least-node/download/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
-  integrity sha1-YCzUtG6EStTv/JKoARo8RuAjjcI=
 
 axios@^0.19.2:
   version "0.19.2"
@@ -77,30 +55,6 @@ follow-redirects@1.5.10:
   dependencies:
     debug "=3.1.0"
 
-fs-extra@^9.0.0:
-  version "9.0.1"
-  resolved "http://registry.npm.souche-inc.com/fs-extra/download/fs-extra-9.0.1.tgz#910da0062437ba4c39fedd863f1675ccfefcb9fc"
-  integrity sha1-kQ2gBiQ3ukw5/t2GPxZ1zP78ufw=
-  dependencies:
-    at-least-node "^1.0.0"
-    graceful-fs "^4.2.0"
-    jsonfile "^6.0.1"
-    universalify "^1.0.0"
-
-graceful-fs@^4.1.6, graceful-fs@^4.2.0:
-  version "4.2.4"
-  resolved "http://registry.npm.souche-inc.com/graceful-fs/download/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
-  integrity sha1-Ila94U02MpWMRl68ltxGfKB6Kfs=
-
-jsonfile@^6.0.1:
-  version "6.1.0"
-  resolved "http://registry.npm.souche-inc.com/jsonfile/download/jsonfile-6.1.0.tgz#bc55b2634793c679ec6403094eb13698a6ec0aae"
-  integrity sha1-vFWyY0eTxnnsZAMJTrE2mKbsCq4=
-  dependencies:
-    universalify "^2.0.0"
-  optionalDependencies:
-    graceful-fs "^4.1.6"
-
 jsonp@^0.2.1:
   version "0.2.1"
   resolved "http://registry.npm.souche-inc.com/jsonp/download/jsonp-0.2.1.tgz#a65b4fa0f10bda719a05441ea7b94c55f3e15bae"
@@ -117,11 +71,6 @@ ms@2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.souche-inc.com/ms/download/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
   integrity sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=
-
-parse-package-name@^0.1.0:
-  version "0.1.0"
-  resolved "http://registry.npm.souche-inc.com/parse-package-name/download/parse-package-name-0.1.0.tgz#3f44dd838feb4c2be4bf318bae4477d7706bade4"
-  integrity sha1-P0Tdg4/rTCvkvzGLrkR313BrreQ=
 
 query-string@^6.13.7:
   version "6.13.7"
@@ -146,13 +95,3 @@ tslib@^2.0.0:
   version "2.0.3"
   resolved "http://registry.npm.souche-inc.com/tslib/download/tslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
   integrity sha1-jgdBrEX8DCJuWKF7/D5kubxsphw=
-
-universalify@^1.0.0:
-  version "1.0.0"
-  resolved "http://registry.npm.souche-inc.com/universalify/download/universalify-1.0.0.tgz#b61a1da173e8435b2fe3c67d29b9adf8594bd16d"
-  integrity sha1-thodoXPoQ1sv48Z9Kbmt+FlL0W0=
-
-universalify@^2.0.0:
-  version "2.0.0"
-  resolved "http://registry.npm.souche-inc.com/universalify/download/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
-  integrity sha1-daSYTv7cSwiXXFrrc/Uw0C3yVxc=

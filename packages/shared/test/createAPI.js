@@ -7,15 +7,15 @@ const api = new CreateAPI('https://extension-ms.juejin.im', {
 (async () => {
   // const getJSONResult = await api.getJSON('/resources/gold');
   // console.log('getJSONResult', getJSONResult);
-  const postJSONResult = await api.postJSON('/resources/gold', {
-    category: 'frontend',
-    limit: 36,
-    offset: 0,
-    order: 'heat',
-  });
-  console.log('postJSONResult', postJSONResult);
-  // const postFormResult = await api.postForm('/resources/gold');
-  // console.log('postFormResult', postFormResult);
+  // const postJSONResult = await api.postJSON('/resources/gold', {
+  //   category: 'frontend',
+  //   limit: 36,
+  //   offset: 0,
+  //   order: 'heat',
+  // });
+  // console.log('postJSONResult', postJSONResult);
+  const postFormResult = await api.postForm('/resources/gold');
+  console.log('postFormResult', postFormResult);
   // const putJSONResult = await api.putJSON('/resources/gold');
   // console.log('putJSONResult', putJSONResult);
   // const patchJSONResult = await api.patchJSON('/resources/gold');

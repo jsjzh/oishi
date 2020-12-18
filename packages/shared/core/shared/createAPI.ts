@@ -8,8 +8,23 @@ import { isFunction } from 'lodash';
 import jsonp from 'jsonp';
 import { Logger } from '../helper';
 
+type Platform =
+  | 'aix'
+  | 'android'
+  | 'darwin'
+  | 'freebsd'
+  | 'linux'
+  | 'openbsd'
+  | 'sunos'
+  | 'win32'
+  | 'cygwin'
+  | 'netbsd'
+  | 'browser';
+
 const APPCODE = '「CreateAPI」';
 const logger = new Logger(APPCODE);
+
+const isBrowser = (process.platform as Platform) === 'browser';
 
 class CreateAPIError extends ExtendableError {
   constructor(message = '') {
@@ -69,7 +84,7 @@ export default class CreateAPI {
     data: FormData | { [k: string]: any },
     configs?: CreateAPIConfigs,
   ) {
-    if (process) {
+    if (!isBrowser) {
       throw new CreateAPIError('当前未处于浏览器环境，无法使用 formData');
     }
 
@@ -122,7 +137,7 @@ export default class CreateAPI {
       timeout?: number;
     },
   ) {
-    if (process) {
+    if (!isBrowser) {
       throw new CreateAPIError('当前未处于浏览器环境，无法使用 jsonp');
     }
 
