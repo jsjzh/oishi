@@ -937,10 +937,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@oishi/bundle@^0.0.1":
-  version "0.0.1"
-  resolved "http://registry.npm.souche-inc.com/@oishi/bundle/download/@oishi/bundle-0.0.1.tgz#e35749aaa57de15ad23b5d1101ca2c21fa852c01"
-  integrity sha1-41dJqqV94VrSO10RAcosIfqFLAE=
+"@oishi/bundle@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.npmjs.org/@oishi/bundle/-/bundle-0.0.6.tgz#afb5d0356c7861e44c6652273fe1b0629158931a"
+  integrity sha512-ynN3sOYEQD8t8ybP0kDvB2NxiSlb3w7zz0RZUzaD14CtAsq3nMrOGdmG2mfs3IhJV/+8Voe7fbr8i961IUExPA==
   dependencies:
     "@rollup/plugin-commonjs" "^11.1.0"
     "@rollup/plugin-json" "^4.0.3"

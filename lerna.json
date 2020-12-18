@@ -5,8 +5,9 @@
     "packages/cli-core",
     "packages/cli-crawler",
     "packages/cli-shared",
-    "packages/oishi-shared",
-    "packages/oishi-joi"
+    "packages/oishi-joi",
+    "packages/node-shared",
+    "packages/shared"
   ],
   "version": "independent",
   "npmClient": "yarn",

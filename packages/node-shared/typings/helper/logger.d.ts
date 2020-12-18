@@ -5,4 +5,5 @@ export default class Logger {
     info(...args: any[]): void;
     warn(...args: any[]): void;
     error(...args: any[]): void;
+    private __log;
 }

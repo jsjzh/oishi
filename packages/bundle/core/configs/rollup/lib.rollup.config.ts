@@ -56,7 +56,7 @@ export default (options: ILibOptions) => {
       file: 'lib/index.js',
       name,
       banner,
-      format: 'cjs',
+      format: 'umd',
     },
     external: Object.keys(dependencies).concat(builtins),
     plugins: [
