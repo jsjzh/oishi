@@ -81,17 +81,13 @@ export default class CreateAPI {
 
   postForm<T = any>(
     endPoint: string,
-    data: FormData | { [k: string]: any },
+    data: { [k: string]: any },
     configs?: CreateAPIConfigs,
   ) {
-    if (!isBrowser) {
-      throw new CreateAPIError('当前未处于浏览器环境，无法使用 formData');
-    }
-
     return this.request<T>(endPoint, {
       ...configs,
       method: 'post',
-      data: data instanceof FormData ? data : qsStringify(data),
+      data: qsStringify(data),
     });
   }
 

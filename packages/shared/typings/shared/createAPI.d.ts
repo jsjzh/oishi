@@ -18,7 +18,7 @@ export default class CreateAPI {
     postJSON<T = any>(endPoint: string, body: {
         [k: string]: any;
     }, configs?: CreateAPIConfigs): IRequestResult<T>;
-    postForm<T = any>(endPoint: string, data: FormData | {
+    postForm<T = any>(endPoint: string, data: {
         [k: string]: any;
     }, configs?: CreateAPIConfigs): IRequestResult<T>;
     putJSON<T = any>(endPoint: string, data: {
