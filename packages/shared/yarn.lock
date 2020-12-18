@@ -24,13 +24,6 @@
   resolved "http://registry.npm.souche-inc.com/@types/node/download/@types/node-14.14.10.tgz#5958a82e41863cfc71f2307b3748e3491ba03785"
   integrity sha1-WVioLkGGPPxx8jB7N0jjSRugN4U=
 
-"@types/query-string@^6.3.0":
-  version "6.3.0"
-  resolved "http://registry.npm.souche-inc.com/@types/query-string/download/@types/query-string-6.3.0.tgz#b6fa172a01405abcaedac681118e78429d62ea39"
-  integrity sha1-tvoXKgFAWryu2saBEY54Qp1i6jk=
-  dependencies:
-    query-string "*"
-
 "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
   resolved "http://registry.npm.souche-inc.com/@yarnpkg/lockfile/download/@yarnpkg/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
@@ -47,6 +40,11 @@ axios@^0.19.2:
   integrity sha1-PqNsXYgY0NX4qKl6bTa4bNwAyyc=
   dependencies:
     follow-redirects "1.5.10"
+
+dayjs@^1.9.7:
+  version "1.9.7"
+  resolved "http://registry.npm.souche-inc.com/dayjs/download/dayjs-1.9.7.tgz#4b260bb17dceed2d5f29038dfee03c65a6786fc0"
+  integrity sha1-SyYLsX3O7S1fKQON/uA8ZaZ4b8A=
 
 debug@=3.1.0:
   version "3.1.0"
@@ -66,6 +64,11 @@ decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "http://registry.npm.souche-inc.com/decode-uri-component/download/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
+
+es6-error@^4.1.1:
+  version "4.1.1"
+  resolved "http://registry.npm.souche-inc.com/es6-error/download/es6-error-4.1.1.tgz#9e3af407459deed47e9a91f9b885a84eb05c561d"
+  integrity sha1-njr0B0Wd7tR+mpH5uIWoTrBcVh0=
 
 follow-redirects@1.5.10:
   version "1.5.10"
@@ -120,7 +123,7 @@ parse-package-name@^0.1.0:
   resolved "http://registry.npm.souche-inc.com/parse-package-name/download/parse-package-name-0.1.0.tgz#3f44dd838feb4c2be4bf318bae4477d7706bade4"
   integrity sha1-P0Tdg4/rTCvkvzGLrkR313BrreQ=
 
-query-string@*, query-string@^6.13.7:
+query-string@^6.13.7:
   version "6.13.7"
   resolved "http://registry.npm.souche-inc.com/query-string/download/query-string-6.13.7.tgz#af53802ff6ed56f3345f92d40a056f93681026ee"
   integrity sha1-r1OAL/btVvM0X5LUCgVvk2gQJu4=

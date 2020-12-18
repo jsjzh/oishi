@@ -1,29 +1,32 @@
+import dayjs from 'dayjs';
+
 export default class Logger {
   title: string;
+
   constructor(title: string) {
     this.title = title;
   }
+
   log(...args: any[]) {
-    console.log.apply(null, [
-      `${new Date()} --- ${this.title} log --- `,
-      ...args,
-    ]);
+    this.__log('log', args);
   }
+
   info(...args: any[]) {
-    console.info.apply(null, [
-      `${new Date()} --- ${this.title} info --- `,
-      ...args,
-    ]);
+    this.__log('info', args);
   }
+
   warn(...args: any[]) {
-    console.warn.apply(null, [
-      `${new Date()} --- ${this.title} warn --- `,
-      ...args,
-    ]);
+    this.__log('warn', args);
   }
+
   error(...args: any[]) {
-    console.error.apply(null, [
-      `${new Date()} --- ${this.title} error --- `,
+    this.__log('error', args);
+  }
+
+  private __log(type: 'log' | 'info' | 'warn' | 'error', ...args: any[]) {
+    // eslint-disable-next-line no-useless-call
+    console[type].apply(console, [
+      `${this.title} ${dayjs().format('YYYY/MM/DD HH:mm:ss')} ${type} -> `,
       ...args,
     ]);
   }

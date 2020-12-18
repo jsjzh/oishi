@@ -1,25 +1,24 @@
+/* eslint-disable @typescript-eslint/no-invalid-this */
+/* eslint-disable @typescript-eslint/no-this-alias */
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import url from 'url';
-import { stringify } from 'query-string';
+import ExtendableError from 'es6-error';
+import { resolve as urlResolve } from 'url';
+import { stringify as qsStringify } from 'query-string';
 import { isFunction } from 'lodash';
+import jsonp from 'jsonp';
 import { Logger } from '../helper';
-// import jsonp from 'jsonp';
 
-const APPCODE = '---「CreateAPI」---';
-
+const APPCODE = '「CreateAPI」';
 const logger = new Logger(APPCODE);
 
-class CreateAPIError extends Error {
-  constructor(message: string) {
-    super();
-    this.name = APPCODE;
-    this.message = message;
+class CreateAPIError extends ExtendableError {
+  constructor(message = '') {
+    super(message);
   }
 }
 
-export type CreateAPIOptions<T = any> = AxiosRequestConfig & {
-  handleOptions?: (options: AxiosRequestConfig) => AxiosRequestConfig;
-  handleResp?: <T>(resp: T) => any;
+export type CreateAPIConfigs = AxiosRequestConfig & {
+  handleResp?: (resp: any) => any;
   handleError?: (error: AxiosError) => any;
 };
 
@@ -29,37 +28,37 @@ type IRequestResult<T> = Promise<T> & {
 };
 
 export default class CreateAPI {
-  static create(baseURL: string, baseOptions: CreateAPIOptions = {}) {
-    return new CreateAPI(baseURL, baseOptions);
+  static create(baseUrl: string, baseConfigs?: CreateAPIConfigs) {
+    return new CreateAPI(baseUrl, baseConfigs);
   }
 
-  baseURL: string;
-  baseOptions: AxiosRequestConfig;
+  baseUrl: string;
+  baseConfigs: CreateAPIConfigs;
 
-  constructor(baseURL: string, baseOptions?: CreateAPIOptions) {
-    this.baseURL = baseURL;
-    this.baseOptions = baseOptions || {};
+  constructor(baseUrl: string, baseConfigs?: CreateAPIConfigs) {
+    this.baseUrl = this.__formatBaseUrl(baseUrl);
+    this.baseConfigs = baseConfigs || {};
   }
 
   getJSON<T = any>(
     endPoint: string,
-    query: CreateAPIOptions<T>['params'],
-    options?: CreateAPIOptions<T>,
+    query?: { [k: string]: string | number | undefined },
+    configs?: CreateAPIConfigs,
   ) {
     return this.request<T>(endPoint, {
-      ...options,
+      ...configs,
       method: 'get',
-      params: query,
+      params: query || {},
     });
   }
 
   postJSON<T = any>(
     endPoint: string,
-    body: CreateAPIOptions<T>['data'],
-    options?: CreateAPIOptions<T>,
+    body: { [k: string]: any },
+    configs?: CreateAPIConfigs,
   ) {
     return this.request<T>(endPoint, {
-      ...options,
+      ...configs,
       method: 'post',
       data: body,
     });
@@ -67,113 +66,131 @@ export default class CreateAPI {
 
   postForm<T = any>(
     endPoint: string,
-    data: CreateAPIOptions<T>['data'],
-    options?: CreateAPIOptions<T>,
+    data: FormData | { [k: string]: any },
+    configs?: CreateAPIConfigs,
   ) {
+    if (process) {
+      throw new CreateAPIError('当前未处于浏览器环境，无法使用 formData');
+    }
+
     return this.request<T>(endPoint, {
-      ...options,
+      ...configs,
       method: 'post',
-      data: stringify(data),
+      data: data instanceof FormData ? data : qsStringify(data),
     });
   }
 
   putJSON<T = any>(
-    endpoint: string,
-    data: CreateAPIOptions<T>['data'],
-    options?: CreateAPIOptions<T>,
+    endPoint: string,
+    data: { [k: string]: any },
+    configs?: CreateAPIConfigs,
   ) {
-    return this.request<T>(endpoint, { ...options, method: 'put', data });
+    return this.request<T>(endPoint, {
+      ...configs,
+      method: 'put',
+      data,
+    });
   }
 
   patchJSON<T = any>(
-    endpoint: string,
-    data: CreateAPIOptions<T>['data'],
-    options?: CreateAPIOptions<T>,
+    endPoint: string,
+    data: { [k: string]: any },
+    configs?: CreateAPIConfigs,
   ) {
-    return this.request<T>(endpoint, { ...options, method: 'patch', data });
+    return this.request<T>(endPoint, {
+      ...configs,
+      method: 'patch',
+      data,
+    });
   }
 
   deleteJSON<T = any>(
-    endpoint: string,
-    data: CreateAPIOptions<T>['data'],
-    options?: CreateAPIOptions<T>,
+    endPoint: string,
+    data: { [k: string]: any },
+    configs?: CreateAPIConfigs,
   ) {
-    return this.request<T>(endpoint, { ...options, method: 'delete', data });
+    return this.request<T>(endPoint, {
+      ...configs,
+      method: 'delete',
+      data,
+    });
   }
 
-  // jsonp<T = any>(
-  //   endpoint: string,
-  //   options?: Pick<CreateAPIOptions<T>, 'handleResp' | 'handleError'> & {
-  //     timeout?: number;
-  //   },
-  // ) {
-  //   const { handleResp, handleError } = {
-  //     ...this.baseOptions,
-  //     ...options,
-  //   };
+  jsonp<T = any>(
+    endPoint: string,
+    configs?: Pick<CreateAPIConfigs, 'handleResp' | 'handleError'> & {
+      timeout?: number;
+    },
+  ) {
+    if (process) {
+      throw new CreateAPIError('当前未处于浏览器环境，无法使用 jsonp');
+    }
 
-  //   const url = this.__formatURL(this.baseURL, endpoint);
+    const { handleResp, handleError } = {
+      ...this.baseConfigs,
+      ...configs,
+    };
 
-  //   return (new Promise((resolve, reject) => {
-  //     jsonp(
-  //       url,
-  //       {
-  //         prefix: `__${this.baseURL.replace(/[^\w\d]/g, '')}`,
-  //         timeout: options?.timeout,
-  //       },
-  //       (error, resp) => (error ? reject(error) : resolve(resp)),
-  //     );
-  //   })
-  //     .then((resp: any) => (isFunction(handleResp) ? handleResp(resp) : resp))
-  //     .catch((err) => {
-  //       if (err && isFunction(handleError)) {
-  //         handleError(err);
-  //         return;
-  //       }
-  //       logger.error(err);
-  //       throw new CreateAPIError('request error');
-  //     }) as unknown) as Promise<T>;
-  // }
+    const url = this.__formatUrl(this.baseUrl, endPoint);
 
-  request<T>(endpoint: string, options: CreateAPIOptions<T> = {}) {
-    const { handleOptions, handleResp, handleError, ...reqOpts } = {
-      ...this.baseOptions,
-      ...options,
+    const promise: Promise<T> = new Promise((resolve, reject) => {
+      jsonp(
+        url,
+        {
+          prefix: `__${this.baseUrl.replace(/[^\w\d]/g, '')}`,
+          timeout: configs?.timeout,
+        },
+        (error, resp) => (error ? reject(error) : resolve(resp)),
+      );
+    })
+      .then((resp: any) => (isFunction(handleResp) ? handleResp(resp) : resp))
+      .catch((error) => {
+        if (error && isFunction(handleError)) {
+          handleError(error);
+          return;
+        }
+
+        logger.error(error.message || error);
+        throw error;
+      }) as any;
+
+    return promise;
+  }
+
+  request<T>(endPoint: string, configs: CreateAPIConfigs = {}) {
+    const { handleResp, handleError, ...reqConfigs } = {
+      ...this.baseConfigs,
+      ...configs,
     };
 
     let cancel = () => {};
 
-    let opts: AxiosRequestConfig = {
+    const currentConfigs: AxiosRequestConfig = {
       withCredentials: true,
       // eslint-disable-next-line no-return-assign
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
-      ...reqOpts,
+      ...reqConfigs,
     };
 
-    if (isFunction(handleOptions)) opts = handleOptions(opts) || opts;
+    const url = this.__formatUrl(this.baseUrl, endPoint);
 
-    const url = this.__formatURL(this.baseURL, endpoint);
-
-    const promise: IRequestResult<T> = axios(url, opts)
-      .then(this.__checkStatus)
+    const promise: IRequestResult<T> = axios(url, currentConfigs)
       .then((resp) => resp.data)
       .then(this.__checkResp)
-      .then((resp) => (isFunction(handleResp) ? handleResp<T>(resp) : resp))
-      .catch((err) => {
-        if (axios.isCancel(err)) {
-          logger.warn('request cancel');
-          logger.warn(`url: ${url}`);
-          logger.warn(`opts: ${JSON.stringify(opts)}`);
+      .then((resp) => (isFunction(handleResp) ? handleResp(resp) : resp))
+      .catch((error) => {
+        if (axios.isCancel(error)) {
+          logger.warn(`请求取消：${url}`);
           return;
         }
 
-        if (err && isFunction(handleError)) {
-          handleError(err);
+        if (error && isFunction(handleError)) {
+          handleError(error);
           return;
         }
 
-        logger.error(err.message || err);
-        throw new CreateAPIError('request error');
+        logger.error(error.message || error);
+        throw error;
       }) as any;
 
     promise.promise = promise;
@@ -182,24 +199,23 @@ export default class CreateAPI {
     return promise;
   }
 
-  protected __formatURL(baseURL: string, endPoint = '') {
-    const urlInfo = url.parse(url.resolve(baseURL, endPoint));
-    urlInfo.protocol || (urlInfo.protocol = 'https:');
-    return url.format(urlInfo);
+  private __formatBaseUrl(baseUrl: string) {
+    const currentBaseUrl = baseUrl.trim();
+
+    const flag =
+      !currentBaseUrl.startsWith('https://') &&
+      !currentBaseUrl.startsWith('http://');
+
+    flag && logger.info('传入的 baseUrl 协议有误，将默认使用 https 协议');
+
+    return flag ? `https://${currentBaseUrl}` : currentBaseUrl;
   }
 
-  protected __checkStatus(resp: AxiosResponse) {
-    if (resp.status >= 200 && resp.status < 300) {
-      return resp;
-    }
-
-    logger.error('request error');
-    logger.error(`resp: ${resp}`);
-
-    throw new CreateAPIError(`response status error`);
+  private __formatUrl(baseUrl: string, endPoint = '') {
+    return urlResolve(baseUrl, endPoint.trim());
   }
 
-  protected __checkResp(data: any) {
+  private __checkResp(data: any) {
     return data;
   }
 }
