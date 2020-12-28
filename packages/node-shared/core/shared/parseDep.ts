@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import path from 'path';
 import { pathExistsSync, readFileSync, readJsonSync } from 'fs-extra';
+import { execSync } from 'child_process';
+
 const yarnLockFile = require('@yarnpkg/lockfile');
 const parsePackageName = require('parse-package-name');
 
@@ -28,65 +30,112 @@ interface IYarnLockJson {
   object: IDependencies;
 }
 
-type PDependencies = Record<string, { versions: string[] }>;
+interface ILernaPackagesInfo {
+  name: string;
+  version: string;
+  private: boolean;
+  location: string;
+}
+
+type PDependencies = {
+  root: Record<string, { versions: string[] }>;
+} & { [k: string]: Record<string, { versions: string[] }> };
 
 export default class ParseDep {
   private root: string;
+  private isLerna: boolean;
   private hasNpmLock: boolean;
   private hasYarnLock: boolean;
 
   constructor(root: string) {
     this.root = root;
 
+    this.isLerna = pathExistsSync(this.__resolve('lerna.json'));
     this.hasNpmLock = pathExistsSync(this.__resolve('package-lock.json'));
     this.hasYarnLock = pathExistsSync(this.__resolve('yarn.lock'));
+
     this.__checkLockFile();
   }
 
-  output() {
-    if (this.hasNpmLock) {
+  output(): PDependencies {
+    let result = {
+      root: {},
+    };
+
+    if (!this.hasNpmLock && !this.hasYarnLock) {
+      return result;
+    }
+
+    if (this.hasNpmLock && !this.hasYarnLock) {
       const lockJson: INpmLockJson = readJsonSync(
         this.__resolve('package-lock.json'),
       );
-      return this.__parseNpmLock(lockJson.dependencies, {});
-    } else {
+      result.root = this.__parseNpmLock(lockJson.dependencies, result);
+    }
+
+    if (!this.hasNpmLock && this.hasYarnLock) {
       const lockJson: IYarnLockJson = yarnLockFile.parse(
         readFileSync(this.__resolve('yarn.lock'), { encoding: 'utf-8' }),
       );
-      return this.__parseYarnLock(lockJson.object, {});
+      result.root = this.__parseYarnLock(lockJson.object, result);
     }
+
+    if (this.isLerna) {
+      console.info(
+        'this is the lerna project that will be based on your lerna.json configuration resolution dependency information',
+      );
+      return this.__parseLerna(result);
+    } else {
+      return result;
+    }
+  }
+
+  private __parseLerna(result: PDependencies) {
+    const packages: ILernaPackagesInfo[] = JSON.parse(
+      execSync('lerna ls --json', {
+        cwd: this.root,
+        stdio: 'pipe',
+        encoding: 'utf8',
+      }),
+    );
+
+    packages.forEach((_package) => {
+      result[_package.name] = new ParseDep(_package.location).output().root;
+    });
+
+    return result;
   }
 
   private __parseNpmLock(obj: IDependencies, result: PDependencies) {
     Object.keys(obj).forEach((dep) => {
       const item = obj[dep];
-      if (result[dep]) {
-        if (!result[dep].versions.includes(item.version)) {
-          result[dep].versions.push(item.version);
+      if (result.root[dep]) {
+        if (!result.root[dep].versions.includes(item.version)) {
+          result.root[dep].versions.push(item.version);
         }
       } else {
-        result[dep] = { versions: [item.version] };
+        result.root[dep] = { versions: [item.version] };
       }
       if (item.dependencies) {
         this.__parseNpmLock(item.dependencies, result);
       }
     });
-    return result;
+    return result.root;
   }
 
   private __parseYarnLock(obj: IDependencies, result: PDependencies) {
     Object.keys(obj).forEach((dep) => {
       const item = obj[dep];
       const { name: depName } = parsePackageName(dep);
-      if (result[depName]) {
-        if (!result[depName].versions.includes(item.version)) {
-          result[depName].versions.push(item.version);
+      if (result.root[depName]) {
+        if (!result.root[depName].versions.includes(item.version)) {
+          result.root[depName].versions.push(item.version);
         }
       } else {
-        result[depName] = { versions: [item.version] };
+        result.root[depName] = { versions: [item.version] };
       }
     });
-    return result;
+    return result.root;
   }
 
   private __checkLockFile() {
@@ -95,8 +144,8 @@ export default class ParseDep {
         'both package-lock.json file and yarn.lock file exist, and package-lock.json file will be parsed',
       );
     } else if (!this.hasNpmLock && !this.hasYarnLock) {
-      throw new Error(
-        'lock file not found, please make sure there is package-lock.json file or yarn.lock file in the root directory',
+      console.warn(
+        `lock file not found, please make sure there is package-lock.json file or yarn.lock file in the ${this.root} directory`,
       );
     }
   }

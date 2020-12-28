@@ -19,6 +19,14 @@
   resolved "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
+anymatch@^3.1.1:
+  version "3.1.1"
+  resolved "http://registry.npm.souche-inc.com/anymatch/download/anymatch-3.1.1.tgz#c55ecf02185e2469259399310c173ce31233b142"
+  integrity sha1-xV7PAhheJGklk5kxDBc84xIzsUI=
+  dependencies:
+    normalize-path "^3.0.0"
+    picomatch "^2.0.4"
+
 at-least-node@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
@@ -53,10 +61,20 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+normalize-path@^3.0.0:
+  version "3.0.0"
+  resolved "http://registry.npm.souche-inc.com/normalize-path/download/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
+  integrity sha1-Dc1p/yOhybEf0JeDFmRKA4ghamU=
+
 parse-package-name@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/parse-package-name/-/parse-package-name-0.1.0.tgz#3f44dd838feb4c2be4bf318bae4477d7706bade4"
   integrity sha1-P0Tdg4/rTCvkvzGLrkR313BrreQ=
+
+picomatch@^2.0.4:
+  version "2.2.2"
+  resolved "http://registry.npm.souche-inc.com/picomatch/download/picomatch-2.2.2.tgz#21f333e9b6b8eaff02468f5146ea406d345f4dad"
+  integrity sha1-IfMz6ba46v8CRo9RRupAbTRfTa0=
 
 tslib@^2.0.0:
   version "2.0.3"
