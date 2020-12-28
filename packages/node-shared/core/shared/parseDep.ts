@@ -36,13 +36,22 @@ interface ILernaPackagesInfo {
   private: boolean;
   location: string;
 }
+type ODependencies = {
+  name: string;
+  allDeps: Record<string, string[]>;
+}[];
 
-type PDependencies = {
-  root: Record<string, { versions: string[] }>;
-} & { [k: string]: Record<string, { versions: string[] }> };
+interface IPackageJson {
+  name: string;
+  version: string;
+  private?: boolean;
+  description?: string;
+  main?: string;
+}
 
 export default class ParseDep {
   private root: string;
+  private packageJson: IPackageJson;
   private isLerna: boolean;
   private hasNpmLock: boolean;
   private hasYarnLock: boolean;
@@ -50,6 +59,7 @@ export default class ParseDep {
   constructor(root: string) {
     this.root = root;
 
+    this.packageJson = readJsonSync(this.__resolve('package.json'));
     this.isLerna = pathExistsSync(this.__resolve('lerna.json'));
     this.hasNpmLock = pathExistsSync(this.__resolve('package-lock.json'));
     this.hasYarnLock = pathExistsSync(this.__resolve('yarn.lock'));
@@ -57,40 +67,72 @@ export default class ParseDep {
     this.__checkLockFile();
   }
 
-  output(): PDependencies {
-    let result = {
-      root: {},
-    };
+  packages() {
+    let packagesInfo: Omit<ILernaPackagesInfo, 'location'>[] = [];
+
+    if (this.isLerna) {
+      packagesInfo = JSON.parse(
+        execSync('lerna ls --json', {
+          cwd: this.root,
+          stdio: 'pipe',
+          encoding: 'utf8',
+        }),
+      );
+
+      packagesInfo = packagesInfo.map((info) => ({
+        name: info.name,
+        version: info.version,
+        private: info.private,
+      }));
+    }
+
+    return [
+      {
+        name: this.packageJson.name,
+        version: this.packageJson.version,
+        private: this.packageJson.private || false,
+      },
+      ...packagesInfo,
+    ];
+  }
+
+  output(): ODependencies {
+    let result: ODependencies = [];
 
     if (!this.hasNpmLock && !this.hasYarnLock) {
       return result;
     }
 
-    if (this.hasNpmLock && !this.hasYarnLock) {
+    let rootInfo = {
+      name: this.packageJson.name,
+      allDeps: {},
+    };
+    if (this.hasNpmLock) {
       const lockJson: INpmLockJson = readJsonSync(
         this.__resolve('package-lock.json'),
       );
-      result.root = this.__parseNpmLock(lockJson.dependencies, result);
-    }
-
-    if (!this.hasNpmLock && this.hasYarnLock) {
+      rootInfo.allDeps = this.__parseNpmLock(lockJson.dependencies);
+    } else {
       const lockJson: IYarnLockJson = yarnLockFile.parse(
         readFileSync(this.__resolve('yarn.lock'), { encoding: 'utf-8' }),
       );
-      result.root = this.__parseYarnLock(lockJson.object, result);
+      rootInfo.allDeps = this.__parseYarnLock(lockJson.object);
     }
+
+    result.push(rootInfo);
 
     if (this.isLerna) {
       console.info(
         'this is the lerna project that will be based on your lerna.json configuration resolution dependency information',
       );
-      return this.__parseLerna(result);
-    } else {
-      return result;
+      result = result.concat(this.__parseLerna());
     }
+    return result;
   }
 
-  private __parseLerna(result: PDependencies) {
+  private __parseLerna() {
+    let result: ODependencies = [];
+
     const packages: ILernaPackagesInfo[] = JSON.parse(
       execSync('lerna ls --json', {
         cwd: this.root,
@@ -100,48 +142,57 @@ export default class ParseDep {
     );
 
     packages.forEach((_package) => {
-      result[_package.name] = new ParseDep(_package.location).output().root;
+      result = result.concat(new ParseDep(_package.location).output());
     });
 
     return result;
   }
 
-  private __parseNpmLock(obj: IDependencies, result: PDependencies) {
-    Object.keys(obj).forEach((dep) => {
-      const item = obj[dep];
-      if (result.root[dep]) {
-        if (!result.root[dep].versions.includes(item.version)) {
-          result.root[dep].versions.push(item.version);
-        }
-      } else {
-        result.root[dep] = { versions: [item.version] };
-      }
-      if (item.dependencies) {
-        this.__parseNpmLock(item.dependencies, result);
-      }
-    });
-    return result.root;
-  }
-
-  private __parseYarnLock(obj: IDependencies, result: PDependencies) {
+  private __parseNpmLock(
+    obj: IDependencies,
+    depInfo: Record<string, string[]> = {},
+  ) {
     Object.keys(obj).forEach((dep) => {
       const item = obj[dep];
       const { name: depName } = parsePackageName(dep);
-      if (result.root[depName]) {
-        if (!result.root[depName].versions.includes(item.version)) {
-          result.root[depName].versions.push(item.version);
+      if (depInfo[depName]) {
+        if (!depInfo[depName].includes(item.version)) {
+          depInfo[depName].push(item.version);
         }
       } else {
-        result.root[depName] = { versions: [item.version] };
+        depInfo[depName] = [item.version];
+      }
+
+      if (item.dependencies) {
+        this.__parseNpmLock(item.dependencies, depInfo);
       }
     });
-    return result.root;
+
+    return depInfo;
+  }
+
+  private __parseYarnLock(obj: IDependencies) {
+    const depInfo: Record<string, string[]> = {};
+
+    Object.keys(obj).forEach((dep) => {
+      const item = obj[dep];
+      const { name: depName } = parsePackageName(dep);
+      if (depInfo[depName]) {
+        if (!depInfo[depName].includes(item.version)) {
+          depInfo[depName].push(item.version);
+        }
+      } else {
+        depInfo[depName] = [item.version];
+      }
+    });
+
+    return depInfo;
   }
 
   private __checkLockFile() {
     if (this.hasNpmLock && this.hasYarnLock) {
       console.warn(
-        'both package-lock.json file and yarn.lock file exist, and package-lock.json file will be parsed',
+        'package-lock.json and yarn.lock exist both, package-lock.json file will be parsed',
       );
     } else if (!this.hasNpmLock && !this.hasYarnLock) {
       console.warn(
