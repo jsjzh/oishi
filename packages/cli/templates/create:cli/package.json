@@ -21,22 +21,22 @@
     "build:rollup": "rm -rf ./lib && npx rollup --config rollup.config.js",
     "prepublish": "npm run build",
     "build": "npm run build:ts && npm run build:rollup",
-    "test": "npm run test:simple",
-    "test:simple": "node bin/index.js hello:world ミク"
+    "test": "npm run build && npm run test:simple",
+    "test:simple": "node bin/index.js hello:world 开发者你好"
   },
   "dependencies": {
-    "@oishi/cli-core": "latest",
-    "@oishi/cli-shared": "latest",
-    "@oishi/oishi-shared": "latest",
-    "tslib": "^2.0.0"
+    "@oishi/cli-core": "^0.0.50",
+    "@oishi/cli-shared": "^0.0.8",
+    "@oishi/shared": "^2.0.3",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
-    "@oishi/bundle": "latest",
-    "@typescript-eslint/eslint-plugin": "^2.34.0",
-    "@typescript-eslint/parser": "^2.34.0",
-    "eslint": "^7.0.0",
-    "eslint-config-alloy": "^3.7.2",
+    "@oishi/bundle": "^0.0.6",
+    "@typescript-eslint/eslint-plugin": "^4.14.0",
+    "@typescript-eslint/parser": "^4.14.0",
+    "eslint": "^7.18.0",
+    "eslint-config-alloy": "^3.10.0",
     "ts-node": "^8.10.1",
-    "typescript": "^3.9.2"
+    "typescript": "^4.1.3"
   }
 }

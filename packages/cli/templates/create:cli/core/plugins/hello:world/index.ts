@@ -2,7 +2,7 @@ import { PluginAPI } from '@oishi/cli-core/typings/plugin';
 import T from '../../types';
 
 import { ensureCli, getGitConfig } from '@oishi/cli-shared';
-import { CreateAPI } from '@oishi/oishi-shared';
+import { CreateAPI } from '@oishi/shared';
 
 const service = new CreateAPI('http://www.weather.com.cn');
 
@@ -83,9 +83,8 @@ export default (api: PluginAPI<T.IContent>): void => {
           task: async () => {
             const poetry = await service.getJSON('/data/sk/101210101.html', {});
             try {
-              const result = JSON.parse(poetry);
               logger._log(
-                `${result.weatherinfo.city}现在吹的是${result.weatherinfo.WD}，ps: 我是调接口获取来的！`,
+                `${poetry.weatherinfo.city}现在吹的是${poetry.weatherinfo.WD}，ps: 我是调接口获取来的！`,
               );
             } catch (error) {
               logger._log(poetry);

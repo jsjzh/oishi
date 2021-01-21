@@ -1,6 +1,6 @@
 import { PluginAPI } from '@oishi/cli-core/typings/plugin';
 import { getGitConfig } from '@oishi/cli-shared';
-import { Files } from '@oishi/oishi-shared';
+import { Files } from '@oishi/node-shared';
 import path from 'path';
 import validateNpmPackageName from 'validate-npm-package-name';
 import fs from 'fs-extra';
