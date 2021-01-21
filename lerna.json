@@ -1,14 +1,16 @@
 {
   "packages": [
-    "packages/cli",
     "packages/bundle",
+    "packages/cli",
     "packages/cli-core",
     "packages/cli-crawler",
+    "packages/cli-health",
     "packages/cli-shared",
-    "packages/oishi-joi",
+    "packages/joi",
     "packages/node-shared",
     "packages/shared"
   ],
+  "useWorkspaces": true,
   "version": "independent",
   "npmClient": "yarn",
   "yes": true

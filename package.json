@@ -6,6 +6,9 @@
     "bootstrap": "yarn && lerna bootstrap",
     "build": "leran run build"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
   "devDependencies": {
@@ -17,5 +20,6 @@
     "lerna": "^3.21.0",
     "ts-node": "^8.10.1",
     "typescript": "^3.9.2"
-  }
+  },
+  "dependencies": {}
 }
