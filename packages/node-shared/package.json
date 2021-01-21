@@ -39,5 +39,6 @@
     "fs-extra": "^9.0.0",
     "parse-package-name": "^0.1.0",
     "tslib": "^2.0.0"
-  }
+  },
+  "gitHead": "e1ac9caa68c409564c7ea1a1a537205de93013d2"
 }

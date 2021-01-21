@@ -11,17 +11,6 @@ class TaskList {
             : this.tasks.push(taskItem);
         return this;
     }
-    _runTask(taskItem) {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.options.hasTip &&
-                taskItem.title &&
-                logger.infoBgTip('TASK', `${taskItem.title} START`);
-            yield taskItem.task();
-            this.options.hasTip &&
-                taskItem.title &&
-                (logger.successBgTip('TASK', `${taskItem.title} DONE`), logger.space());
-        });
-    }
     run() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.options.concurrent) {
@@ -31,6 +20,17 @@ class TaskList {
                 for (const item of this.tasks)
                     yield this._runTask(item);
             }
+        });
+    }
+    _runTask(taskItem) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.options.hasTip &&
+                taskItem.title &&
+                logger.infoBgTip('TASK', `${taskItem.title} START`);
+            yield taskItem.task();
+            this.options.hasTip &&
+                taskItem.title &&
+                (logger.infoBgTip('TASK', `${taskItem.title} DONE`), logger.space());
         });
     }
 }

@@ -35,5 +35,6 @@
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
     "@hapi/joi": "^17.1.1"
-  }
+  },
+  "gitHead": "e1ac9caa68c409564c7ea1a1a537205de93013d2"
 }

@@ -29,8 +29,8 @@ export default class PluginContainer<CTX> {
     commands: T.DynamicObject;
     constructor(root: string, plugins: IPluginOption<CTX>[]);
     resolvePlugins(pluginOption: IPluginOption<CTX>): void;
-    unifyInfo(pluginOption: IPluginOption<CTX>): IPluginInfo | void;
-    unifyRequire(pluginPath: string): IPlugin<CTX> | void;
+    unifyInfo(pluginOption: IPluginOption<CTX>): IPluginInfo | undefined;
+    unifyRequire(pluginPath: string): IPlugin<CTX> | undefined;
     mountedPlugin(pluginInfo: IPluginInfo, plugin: IPlugin<CTX>): void;
     registerCommand<CTX>(configs: IRegisterCommandConfig, task: ITask<CTX>): void;
     traverse<CTX>(fn: (command: ICommandItem<CTX>) => void): void;

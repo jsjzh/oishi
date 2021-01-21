@@ -11,8 +11,8 @@ declare class TaskList {
     options: TaskListConfig;
     constructor(options?: TaskListConfig);
     add(taskItem: TaskItem | TaskItem[]): this;
-    _runTask(taskItem: TaskItem): Promise<void>;
     run(): Promise<void>;
+    _runTask(taskItem: TaskItem): Promise<void>;
 }
 export interface TaskListHelper {
     createTaskList: (options?: TaskListConfig) => TaskList;
