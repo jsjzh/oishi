@@ -68,7 +68,14 @@ export default class ParseDep {
   }
 
   packages() {
-    let packagesInfo: Omit<ILernaPackagesInfo, 'location'>[] = [];
+    let packagesInfo: ({
+      name: string;
+      version: string;
+      private: boolean;
+      packageJson: Record<string, any>;
+    } & {
+      location?: string;
+    })[] = [];
 
     if (this.isLerna) {
       packagesInfo = JSON.parse(
@@ -83,6 +90,8 @@ export default class ParseDep {
         name: info.name,
         version: info.version,
         private: info.private,
+        packageJson:
+          readJsonSync(path.join(info.location || '', 'package.json')) || {},
       }));
     }
 
@@ -91,6 +100,7 @@ export default class ParseDep {
         name: this.packageJson.name,
         version: this.packageJson.version,
         private: this.packageJson.private || false,
+        packageJson: this.packageJson,
       },
       ...packagesInfo,
     ];

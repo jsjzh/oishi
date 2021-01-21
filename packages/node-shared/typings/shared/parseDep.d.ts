@@ -1,9 +1,3 @@
-interface ILernaPackagesInfo {
-    name: string;
-    version: string;
-    private: boolean;
-    location: string;
-}
 declare type ODependencies = {
     name: string;
     allDeps: Record<string, string[]>;
@@ -15,7 +9,14 @@ export default class ParseDep {
     private hasNpmLock;
     private hasYarnLock;
     constructor(root: string);
-    packages(): Pick<ILernaPackagesInfo, "private" | "name" | "version">[];
+    packages(): ({
+        name: string;
+        version: string;
+        private: boolean;
+        packageJson: Record<string, any>;
+    } & {
+        location?: string | undefined;
+    })[];
     output(): ODependencies;
     private __parseLerna;
     private __parseNpmLock;
