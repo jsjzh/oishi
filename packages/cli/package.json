@@ -1,6 +1,6 @@
 {
   "name": "@oishi/cli",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "oishi -h || oishi <command> -h",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -42,7 +42,7 @@
   "dependencies": {
     "@oishi/cli-core": "latest",
     "@oishi/cli-shared": "latest",
-    "@oishi/node-shared": "^2.0.1",
+    "@oishi/node-shared": "^2.0.2",
     "execa": "^4.0.0",
     "fs-extra": "^9.0.0",
     "tmp-promise": "^3.0.2",
