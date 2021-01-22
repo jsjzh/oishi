@@ -6,12 +6,29 @@ export const successExit = () => process.exit(0);
 // 以失败的状态退出命令行
 export const errorExit = () => process.exit(1);
 
-export const realType = (obj: any) =>
-  Object.prototype.toString.call(obj).match(/^\[object (\w+)\]$/g) && RegExp.$1;
+export const realType = (
+  obj: any,
+):
+  | 'Number'
+  | 'String'
+  | 'Boolean'
+  | 'Null'
+  | 'Undefined'
+  | 'Function'
+  | 'Symbol'
+  | 'Date'
+  | 'BigInt'
+  | 'Maps'
+  | 'Sets'
+  | 'WeakMaps'
+  | 'WeakSets'
+  | string =>
+  ((Object.prototype.toString.call(obj).match(/^\[object (\w+)\]$/g) &&
+    RegExp.$1) as unknown) as string;
 
 export const isBoolean = (obj: any) => realType(obj) === 'Boolean';
 
-export const runLineCmdSync = (cwd: string = process.cwd()) => {
+export const runLineCmdSyncCreater = (cwd: string = process.cwd()) => {
   return (
     cmd: string,
     options: ExecSyncOptionsWithStringEncoding & {
