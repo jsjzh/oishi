@@ -26,31 +26,31 @@ export const realType = (
   ((Object.prototype.toString.call(obj).match(/^\[object (\w+)\]$/g) &&
     RegExp.$1) as unknown) as string;
 
-export const isBoolean = (obj: any) => realType(obj) === 'Boolean';
+const isBoolean = (obj: any) => realType(obj) === 'Boolean';
+const isString = (obj: any) => realType(obj) === 'String';
 
 export const runLineCmdSyncCreater = (cwd: string = process.cwd()) => {
   return (
     cmd: string,
     options: ExecSyncOptionsWithStringEncoding & {
-      showExecuteCmd: boolean;
-      showStdio: boolean;
-    } = { encoding: 'utf8', showExecuteCmd: true, showStdio: true },
+      showExecuteCmd?: boolean;
+    } = { showExecuteCmd: true, encoding: 'utf8', stdio: 'inherit' },
   ) => {
-    const { showExecuteCmd, showStdio } = options;
+    const { showExecuteCmd, stdio, encoding } = options;
 
     options.showExecuteCmd = isBoolean(showExecuteCmd) ? showExecuteCmd : true;
-    options.showStdio = isBoolean(showStdio) ? showStdio : true;
+    options.encoding = isString(encoding) ? encoding : 'utf8';
+    options.stdio = isString(stdio) ? stdio : 'inherit';
+
     try {
       if (options.showExecuteCmd) {
+        delete options.showExecuteCmd;
         console.log('');
         console.log(`将在 ${cwd} 运行指令 ${cmd}`);
         console.log('');
       }
-      return execSync(cmd, {
-        cwd,
-        ...options,
-        stdio: options.showStdio ? 'inherit' : 'ignore',
-      });
+
+      return execSync(cmd, { cwd, ...options });
     } catch (error) {
       throw new Error(`在 ${cwd} 路径运行 ${cmd} 指令出错`);
     }
