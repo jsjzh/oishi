@@ -13,9 +13,11 @@ export default class ParseGit {
     this.protocol = sshMatched
       ? 'https'
       : (httpsMatched && (httpsMatched as any)[1]) || 'unknown';
+
     this.gitHost = sshMatched
       ? sshMatched[1]
       : (httpsMatched && (httpsMatched as any)[2]) || 'unknown';
+
     this.projectpath = sshMatched
       ? sshMatched[2]
       : (httpsMatched && (httpsMatched as any)[3]) || 'unknown';

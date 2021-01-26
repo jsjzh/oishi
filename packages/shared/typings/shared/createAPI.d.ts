@@ -13,7 +13,7 @@ export default class CreateAPI {
     baseConfigs: CreateAPIConfigs;
     constructor(baseUrl: string, baseConfigs?: CreateAPIConfigs);
     getJSON<T = any>(endPoint: string, query?: {
-        [k: string]: string | number | undefined;
+        [k: string]: any;
     }, configs?: CreateAPIConfigs): IRequestResult<T>;
     postJSON<T = any>(endPoint: string, body: {
         [k: string]: any;

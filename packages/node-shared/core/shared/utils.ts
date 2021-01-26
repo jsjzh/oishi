@@ -32,7 +32,7 @@ const isString = (obj: any) => realType(obj) === 'String';
 export const runLineCmdSyncCreater = (cwd: string = process.cwd()) => {
   return (
     cmd: string,
-    options: ExecSyncOptionsWithStringEncoding & {
+    options: Partial<ExecSyncOptionsWithStringEncoding> & {
       showExecuteCmd?: boolean;
     } = { showExecuteCmd: true, encoding: 'utf8', stdio: 'inherit' },
   ) => {

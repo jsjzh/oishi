@@ -28,10 +28,10 @@ export const retryPromise = async <T = any, D = any>(
  */
 export const asyncEvery = async <T>(
   arr: T[],
-  callbackfn: (value: T, index: number, array: T[]) => Promise<boolean>,
+  callback: (value: T, index: number, array: T[]) => Promise<boolean>,
 ) => {
   for (let i = 0; i < arr.length; i++)
-    if (!(await callbackfn(arr[i], i, arr))) return false;
+    if (!(await callback(arr[i], i, arr))) return false;
   return true;
 };
 
@@ -42,19 +42,88 @@ export const asyncEvery = async <T>(
  */
 export const asyncSome = async <T>(
   arr: T[],
-  callbackfn: (value: T, index: number, array: T[]) => Promise<boolean>,
+  callback: (value: T, index: number, array: T[]) => Promise<boolean>,
 ) => {
   for (let i = 0; i < arr.length; i++)
-    if (await callbackfn(arr[i], i, arr)) return true;
+    if (await callback(arr[i], i, arr)) return true;
   return false;
 };
 
-// Array.prototype.find
-// Array.prototype.findIndex
-// Array.prototype.forEach
+/**
+ * 数组执行一个异步循环，每次都会等上一个异步循环处理完毕再执行下一个
+ * usage
+ * await asyncForEach(arr, async (item) => await fn(item))
+ */
+export const asyncForEach = async <T>(
+  arr: T[],
+  callback: (value: T, index: number, array: T[]) => Promise<void>,
+) => {
+  for (let i = 0; i < arr.length; i++) await callback(arr[i], i, arr);
+};
+
+/**
+ * 数组异步 map 方法，callback 方法是 Promise 函数
+ * usage
+ * const result = await asyncMap(arr, async (item) => await fn(item))
+ */
+export const asyncMap = async <T, P>(
+  arr: T[],
+  callback: (value: T, index: number, array: T[]) => Promise<P>,
+) => {
+  const result = [];
+  for (let i = 0; i < arr.length; i++)
+    result.push(await callback(arr[i], i, arr));
+  return result;
+};
+
+export const asyncFind = async <T>(
+  arr: T[],
+  callback: (value: T, index: number, array: T[]) => Promise<boolean>,
+) => {
+  for (let i = 0; i < arr.length; i++) {
+    if (await callback(arr[i], i, arr)) {
+      return arr[i];
+    } else {
+      // 如果 arr[i] 是最后一个元素
+      // 则代表没有找到，直接返回 undefined
+      // 与 Array.prototype.find 行为一致
+      if (i === arr.length - 1) {
+        return undefined;
+      } else {
+        continue;
+      }
+    }
+  }
+};
+
+export const asyncFindIndex = async <T>(
+  arr: T[],
+  callback: (value: T, index: number, array: T[]) => Promise<boolean>,
+) => {
+  for (let i = 0; i < arr.length; i++) {
+    if (await callback(arr[i], i, arr)) {
+      return i;
+    } else {
+      if (i === arr.length - 1) {
+        return undefined;
+      } else {
+        continue;
+      }
+    }
+  }
+};
+
+export const asyncFilter = async <T>(
+  arr: T[],
+  callback: (value: T, index: number, array: T[]) => Promise<boolean>,
+) => {
+  const result = [];
+  for (let i = 0; i < arr.length; i++)
+    (await callback(arr[i], i, arr)) && result.push(arr[i]);
+  return result;
+};
+
 // Array.prototype.reduce
 // Array.prototype.reduceRight
 // Array.prototype.sort
-// Array.prototype.filter
-// Array.prototype.map
 // Array.prototype.flatMap

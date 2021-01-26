@@ -57,7 +57,7 @@ export default class CreateAPI {
 
   getJSON<T = any>(
     endPoint: string,
-    query?: { [k: string]: string | number | undefined },
+    query?: { [k: string]: any },
     configs?: CreateAPIConfigs,
   ) {
     return this.request<T>(endPoint, {
