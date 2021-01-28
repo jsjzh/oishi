@@ -1,5 +1,5 @@
 export const sleep = async (time: number) =>
-  new Promise((resolve) => setTimeout(resolve, time * 1000));
+  new Promise((resolve) => setTimeout(resolve, time));
 
 /**
  * 接受 promise 请求并调用
@@ -84,10 +84,10 @@ export const asyncFind = async <T>(
     if (await callback(arr[i], i, arr)) {
       return arr[i];
     } else {
-      // 如果 arr[i] 是最后一个元素
-      // 则代表没有找到，直接返回 undefined
-      // 与 Array.prototype.find 行为一致
       if (i === arr.length - 1) {
+        // 如果 arr[i] 是最后一个元素
+        // 则代表没有找到，直接返回 undefined
+        // 与 Array.prototype.find 行为一致
         return undefined;
       } else {
         continue;
@@ -105,6 +105,9 @@ export const asyncFindIndex = async <T>(
       return i;
     } else {
       if (i === arr.length - 1) {
+        // 如果 arr[i] 是最后一个元素
+        // 则代表没有找到，直接返回 undefined
+        // 并且与 Array.prototype.findIndex 行为**不**一致
         return undefined;
       } else {
         continue;
