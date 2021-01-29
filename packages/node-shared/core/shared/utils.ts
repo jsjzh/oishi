@@ -1,33 +1,11 @@
 import { execSync, ExecSyncOptionsWithStringEncoding } from 'child_process';
+import { utils } from '@oishi/shared';
 
 // 以成功的状态退出命令行
 export const successExit = () => process.exit(0);
 
 // 以失败的状态退出命令行
 export const errorExit = () => process.exit(1);
-
-export const realType = (
-  obj: any,
-):
-  | 'Number'
-  | 'String'
-  | 'Boolean'
-  | 'Null'
-  | 'Undefined'
-  | 'Function'
-  | 'Symbol'
-  | 'Date'
-  | 'BigInt'
-  | 'Maps'
-  | 'Sets'
-  | 'WeakMaps'
-  | 'WeakSets'
-  | string =>
-  ((Object.prototype.toString.call(obj).match(/^\[object (\w+)\]$/g) &&
-    RegExp.$1) as unknown) as string;
-
-const isBoolean = (obj: any) => realType(obj) === 'Boolean';
-const isString = (obj: any) => realType(obj) === 'String';
 
 export const runLineCmdSyncCreater = (cwd: string = process.cwd()) => {
   return (
@@ -38,9 +16,11 @@ export const runLineCmdSyncCreater = (cwd: string = process.cwd()) => {
   ) => {
     const { showExecuteCmd, stdio, encoding } = options;
 
-    options.showExecuteCmd = isBoolean(showExecuteCmd) ? showExecuteCmd : true;
-    options.encoding = isString(encoding) ? encoding : 'utf8';
-    options.stdio = isString(stdio) ? stdio : 'inherit';
+    options.showExecuteCmd = utils.realType.isBoolean(showExecuteCmd)
+      ? showExecuteCmd
+      : true;
+    options.encoding = utils.realType.isString(encoding) ? encoding : 'utf8';
+    options.stdio = utils.realType.isString(stdio) ? stdio : 'inherit';
 
     try {
       if (options.showExecuteCmd) {

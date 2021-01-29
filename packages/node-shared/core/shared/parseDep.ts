@@ -152,7 +152,11 @@ export default class ParseDep {
     );
 
     packages.forEach((_package) => {
-      result = result.concat(new ParseDep(_package.location).output());
+      // 这里是发现有个情况是有的项目里的 lerna.json packages 会写 ./
+      // 那就会造成递归循环错误，所以这里加了个判断，当 lerna ls --json 中的 name !== 当前解析的项目的 name 时候，才会进行递归
+      if (_package.name !== this.packageJson.name) {
+        result = result.concat(new ParseDep(_package.location).output());
+      }
     });
 
     return result;

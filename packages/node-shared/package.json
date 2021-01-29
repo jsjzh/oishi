@@ -1,6 +1,6 @@
 {
   "name": "@oishi/node-shared",
-  "version": "2.0.6",
+  "version": "2.0.10",
   "description": "node 工具类库",
   "keywords": [],
   "author": "jsjzh <kimimi_king@163.com>",
@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/jsjzh/oishi#readme",
   "dependencies": {
+    "@oishi/shared": "2.0.9",
     "@types/fs-extra": "^9.0.1",
     "@yarnpkg/lockfile": "^1.1.0",
     "dayjs": "^1.9.7",
