@@ -21,6 +21,47 @@ export const retryPromise = async <T = any, D = any>(
     if (handleResp(await promise(data))) return;
 };
 
+export const realType = (
+  obj: any,
+):
+  | 'Number'
+  | 'String'
+  | 'Boolean'
+  | 'Object'
+  | 'Null'
+  | 'Undefined'
+  | 'Array'
+  | 'Function'
+  | 'Symbol'
+  | 'Date'
+  | 'BigInt'
+  | 'Map'
+  | 'Set'
+  | 'WeakMap'
+  | 'WeakSet'
+  | string => {
+  const matched = /^\[object (\w+)\]$/.exec(
+    Object.prototype.toString.call(obj),
+  );
+  return matched ? matched[1] : 'unknown';
+};
+
+realType.isNumber = (obj: any) => realType(obj) === 'Number';
+realType.isString = (obj: any) => realType(obj) === 'String';
+realType.isBoolean = (obj: any) => realType(obj) === 'Boolean';
+realType.isObject = (obj: any) => realType(obj) === 'Object';
+realType.isNull = (obj: any) => realType(obj) === 'Null';
+realType.isUndefined = (obj: any) => realType(obj) === 'Undefined';
+realType.isArray = (obj: any) => realType(obj) === 'Array';
+realType.isFunction = (obj: any) => realType(obj) === 'Function';
+realType.isSymbol = (obj: any) => realType(obj) === 'Symbol';
+realType.isDate = (obj: any) => realType(obj) === 'Date';
+realType.isBigInt = (obj: any) => realType(obj) === 'BigInt';
+realType.isMap = (obj: any) => realType(obj) === 'Map';
+realType.isSet = (obj: any) => realType(obj) === 'Set';
+realType.isWeakMap = (obj: any) => realType(obj) === 'WeakMap';
+realType.isWeakSet = (obj: any) => realType(obj) === 'WeakSet';
+
 /**
  * 判断数组中的元素是否都符合一个「异步判断函数」的返回
  * usage

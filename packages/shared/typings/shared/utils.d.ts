@@ -1,5 +1,23 @@
 export declare const sleep: (time: number) => Promise<unknown>;
 export declare const retryPromise: <T = any, D = any>(promise: (data: D) => Promise<T>, data: D, handleResp: (resp: T) => boolean, maxRetryCount?: number) => Promise<void>;
+export declare const realType: {
+    (obj: any): string;
+    isNumber(obj: any): boolean;
+    isString(obj: any): boolean;
+    isBoolean(obj: any): boolean;
+    isObject(obj: any): boolean;
+    isNull(obj: any): boolean;
+    isUndefined(obj: any): boolean;
+    isArray(obj: any): boolean;
+    isFunction(obj: any): boolean;
+    isSymbol(obj: any): boolean;
+    isDate(obj: any): boolean;
+    isBigInt(obj: any): boolean;
+    isMap(obj: any): boolean;
+    isSet(obj: any): boolean;
+    isWeakMap(obj: any): boolean;
+    isWeakSet(obj: any): boolean;
+};
 export declare const asyncEvery: <T>(arr: T[], callback: (value: T, index: number, array: T[]) => Promise<boolean>) => Promise<boolean>;
 export declare const asyncSome: <T>(arr: T[], callback: (value: T, index: number, array: T[]) => Promise<boolean>) => Promise<boolean>;
 export declare const asyncForEach: <T>(arr: T[], callback: (value: T, index: number, array: T[]) => Promise<void>) => Promise<void>;
