@@ -39,6 +39,8 @@ export const realType = (
   | 'Set'
   | 'WeakMap'
   | 'WeakSet'
+  | 'Promise'
+  | 'AsyncFunction'
   | string => {
   const matched = /^\[object (\w+)\]$/.exec(
     Object.prototype.toString.call(obj),
@@ -46,21 +48,23 @@ export const realType = (
   return matched ? matched[1] : 'unknown';
 };
 
-realType.isNumber = (obj: any) => realType(obj) === 'Number';
-realType.isString = (obj: any) => realType(obj) === 'String';
-realType.isBoolean = (obj: any) => realType(obj) === 'Boolean';
-realType.isObject = (obj: any) => realType(obj) === 'Object';
-realType.isNull = (obj: any) => realType(obj) === 'Null';
-realType.isUndefined = (obj: any) => realType(obj) === 'Undefined';
-realType.isArray = (obj: any) => realType(obj) === 'Array';
-realType.isFunction = (obj: any) => realType(obj) === 'Function';
-realType.isSymbol = (obj: any) => realType(obj) === 'Symbol';
-realType.isDate = (obj: any) => realType(obj) === 'Date';
-realType.isBigInt = (obj: any) => realType(obj) === 'BigInt';
-realType.isMap = (obj: any) => realType(obj) === 'Map';
-realType.isSet = (obj: any) => realType(obj) === 'Set';
-realType.isWeakMap = (obj: any) => realType(obj) === 'WeakMap';
-realType.isWeakSet = (obj: any) => realType(obj) === 'WeakSet';
+realType.isNumber = (x: any) => realType(x) === 'Number';
+realType.isString = (x: any) => realType(x) === 'String';
+realType.isBoolean = (x: any) => realType(x) === 'Boolean';
+realType.isObject = (x: any) => realType(x) === 'Object';
+realType.isNull = (x: any) => realType(x) === 'Null';
+realType.isUndefined = (x: any) => realType(x) === 'Undefined';
+realType.isArray = (x: any) => realType(x) === 'Array';
+realType.isFunction = (x: any) => realType(x) === 'Function';
+realType.isSymbol = (x: any) => realType(x) === 'Symbol';
+realType.isDate = (x: any) => realType(x) === 'Date';
+realType.isBigInt = (x: any) => realType(x) === 'BigInt';
+realType.isMap = (x: any) => realType(x) === 'Map';
+realType.isSet = (x: any) => realType(x) === 'Set';
+realType.isWeakMap = (x: any) => realType(x) === 'WeakMap';
+realType.isWeakSet = (x: any) => realType(x) === 'WeakSet';
+realType.isPromise = (x: any) => realType(x) === 'Promise';
+realType.isAsyncFunction = (x: any) => realType(x) === 'AsyncFunction';
 
 /**
  * 判断数组中的元素是否都符合一个「异步判断函数」的返回
@@ -171,3 +175,15 @@ export const asyncFilter = async <T>(
 // Array.prototype.reduceRight
 // Array.prototype.sort
 // Array.prototype.flatMap
+
+export const regDataURI = (dataURI: string) => {
+  const regDataURI = /^data(\:.*?)(\;.*?)?(\,.*)$/i;
+
+  const [, _mime, _encode, _code] = regDataURI.exec(dataURI) || [];
+
+  return {
+    mime: _mime.slice(1) || null,
+    encode: _encode.slice(1) || null,
+    code: _code.slice(1) || null,
+  };
+};

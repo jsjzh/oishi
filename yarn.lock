@@ -977,6 +977,21 @@
   dependencies:
     "@types/node" ">= 8"
 
+"@oishi/bundle@^0.0.6":
+  version "0.0.6"
+  resolved "http://registry.npm.souche-inc.com/@oishi/bundle/download/@oishi/bundle-0.0.6.tgz#afb5d0356c7861e44c6652273fe1b0629158931a"
+  integrity sha1-r7XQNWx4YeRMZlInP+GwYpFYkxo=
+  dependencies:
+    "@rollup/plugin-commonjs" "^11.1.0"
+    "@rollup/plugin-json" "^4.0.3"
+    "@rollup/plugin-node-resolve" "^7.1.3"
+    builtin-modules "^3.1.0"
+    rollup "^2.10.0"
+    rollup-plugin-filesize "^9.0.0"
+    rollup-plugin-progress "^1.1.2"
+    rollup-plugin-terser "^5.3.0"
+    tslib "^2.0.0"
+
 "@oishi/cli-core@latest":
   version "0.0.50"
   resolved "http://registry.npm.souche-inc.com/@oishi/cli-core/download/@oishi/cli-core-0.0.50.tgz#fa2cab78e1a978b51ac1fd76e45b147c5190c153"

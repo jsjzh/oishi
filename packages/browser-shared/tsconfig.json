@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "baseUrl": "./",
+    "outDir": "./src",
+    "rootDir": "./core",
+    "declaration": true,
+    "declarationDir": "./typings"
+  },
+  "include": ["./core/**/*.ts"]
+}
