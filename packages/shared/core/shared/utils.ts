@@ -176,10 +176,10 @@ export const asyncFilter = async <T>(
 // Array.prototype.sort
 // Array.prototype.flatMap
 
-export const regDataURI = (dataURI: string) => {
-  const regDataURI = /^data(\:.*?)(\;.*?)?(\,.*)$/i;
+export const parseDataURI = (dataURI: string) => {
+  const dataURIReg = /^data(\:.*?)(\;.*?)?(\,.*)$/i;
 
-  const [, _mime, _encode, _code] = regDataURI.exec(dataURI) || [];
+  const [, _mime, _encode, _code] = dataURIReg.exec(dataURI) || [];
 
   return {
     mime: _mime.slice(1) || null,
