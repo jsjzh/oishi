@@ -979,8 +979,8 @@
 
 "@oishi/bundle@^0.0.6":
   version "0.0.6"
-  resolved "http://registry.npm.souche-inc.com/@oishi/bundle/download/@oishi/bundle-0.0.6.tgz#afb5d0356c7861e44c6652273fe1b0629158931a"
-  integrity sha1-r7XQNWx4YeRMZlInP+GwYpFYkxo=
+  resolved "https://registry.yarnpkg.com/@oishi/bundle/-/bundle-0.0.6.tgz#afb5d0356c7861e44c6652273fe1b0629158931a"
+  integrity sha512-ynN3sOYEQD8t8ybP0kDvB2NxiSlb3w7zz0RZUzaD14CtAsq3nMrOGdmG2mfs3IhJV/+8Voe7fbr8i961IUExPA==
   dependencies:
     "@rollup/plugin-commonjs" "^11.1.0"
     "@rollup/plugin-json" "^4.0.3"
@@ -1026,6 +1026,21 @@
     lodash "^4.17.15"
     parse-package-name "^0.1.0"
     query-string "^6.13.1"
+    tslib "^2.0.0"
+
+"@oishi/shared@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@oishi/shared/-/shared-2.0.9.tgz#b2eabfb7c453691da4302b7158ae4a061bfa3674"
+  integrity sha512-jFy2JC/Ug7ufo3AD/Smpf38r7qBFpbt2In+SgV4ESzq53P0QRP5XfgNHWatrQYH27jM2s979UoTEbkJvMFBX7g==
+  dependencies:
+    "@types/jsonp" "^0.2.0"
+    "@types/lodash" "^4.14.150"
+    axios "^0.19.2"
+    dayjs "^1.9.7"
+    es6-error "^4.1.1"
+    jsonp "^0.2.1"
+    lodash "^4.17.15"
+    query-string "^6.13.7"
     tslib "^2.0.0"
 
 "@rollup/plugin-commonjs@^11.1.0":
@@ -1519,6 +1534,13 @@ axios@^0.19.2:
   integrity sha1-PqNsXYgY0NX4qKl6bTa4bNwAyyc=
   dependencies:
     follow-redirects "1.5.10"
+
+axios@^0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 balanced-match@^1.0.0:
   version "1.0.0"
@@ -2795,6 +2817,11 @@ follow-redirects@1.5.10:
   integrity sha1-e3qfmuov3/NnhqlP9kPtB/T/Xio=
   dependencies:
     debug "=3.1.0"
+
+follow-redirects@^1.10.0:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.1.tgz#d9114ded0a1cfdd334e164e6662ad02bfd91ff43"
+  integrity sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==
 
 for-in@^1.0.2:
   version "1.0.2"
