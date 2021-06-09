@@ -27,7 +27,7 @@ export declare const asyncMap: <T, P>(arr: T[], callback: (value: T, index: numb
 export declare const asyncFind: <T>(arr: T[], callback: (value: T, index: number, array: T[]) => Promise<boolean>) => Promise<T | undefined>;
 export declare const asyncFindIndex: <T>(arr: T[], callback: (value: T, index: number, array: T[]) => Promise<boolean>) => Promise<number | undefined>;
 export declare const asyncFilter: <T>(arr: T[], callback: (value: T, index: number, array: T[]) => Promise<boolean>) => Promise<T[]>;
-export declare const regDataURI: (dataURI: string) => {
+export declare const parseDataURI: (dataURI: string) => {
     mime: string | null;
     encode: string | null;
     code: string | null;
