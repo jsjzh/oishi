@@ -1028,6 +1028,21 @@
     query-string "^6.13.1"
     tslib "^2.0.0"
 
+"@oishi/shared@2.0.9":
+  version "2.0.9"
+  resolved "http://registry.npm.souche-inc.com/@oishi/shared/download/@oishi/shared-2.0.9.tgz#b2eabfb7c453691da4302b7158ae4a061bfa3674"
+  integrity sha1-suq/t8RTaR2kMCtxWK5KBhv6NnQ=
+  dependencies:
+    "@types/jsonp" "^0.2.0"
+    "@types/lodash" "^4.14.150"
+    axios "^0.19.2"
+    dayjs "^1.9.7"
+    es6-error "^4.1.1"
+    jsonp "^0.2.1"
+    lodash "^4.17.15"
+    query-string "^6.13.7"
+    tslib "^2.0.0"
+
 "@rollup/plugin-commonjs@^11.1.0":
   version "11.1.0"
   resolved "http://registry.npm.souche-inc.com/@rollup/plugin-commonjs/download/@rollup/plugin-commonjs-11.1.0.tgz#60636c7a722f54b41e419e1709df05c7234557ef"
