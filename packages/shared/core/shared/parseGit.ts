@@ -1,42 +1,50 @@
 export default class ParseGit {
-  private sshReg = /^git\@(.+?):(.+?)\.git$/g;
-  private httpsReg = /(https?)\:\/\/(.+?)\/(.+)/g;
+  static parse(str: string) {
+    return new ParseGit(str);
+  }
 
-  private protocol: string;
-  private gitHost: string;
-  private projectpath: string;
+  protocol: string;
+  gitHost: string;
+  projectPath: string;
+
+  private sshGitReg = /^git\@(.+?):(.+?)$/g;
+  private httpGitReg = /(https?)\:\/\/(.+?)\/(.+)/g;
 
   constructor(str: string) {
-    const sshMatched = this.sshReg.exec(str);
-    const httpsMatched = this.httpsReg.exec(str);
+    let _str = str.trim();
+
+    _str = _str.endsWith('.git') ? _str.slice(0, -4) : _str;
+
+    const sshMatched = this.sshGitReg.exec(_str);
+    const httpMatched = this.httpGitReg.exec(_str);
 
     this.protocol = sshMatched
       ? 'https'
-      : (httpsMatched && (httpsMatched as any)[1]) || 'unknown';
+      : (httpMatched && httpMatched[1]) || 'unknown';
 
     this.gitHost = sshMatched
       ? sshMatched[1]
-      : (httpsMatched && (httpsMatched as any)[2]) || 'unknown';
+      : (httpMatched && httpMatched[2]) || 'unknown';
 
-    this.projectpath = sshMatched
+    this.projectPath = sshMatched
       ? sshMatched[2]
-      : (httpsMatched && (httpsMatched as any)[3]) || 'unknown';
+      : (httpMatched && httpMatched[3]) || 'unknown';
   }
 
   get path() {
-    return this.projectpath;
+    return this.projectPath;
   }
 
   get ssh() {
-    return `git@${this.gitHost}:${this.projectpath}.git`;
+    return `git@${this.gitHost}:${this.projectPath}.git`;
   }
 
-  get https() {
-    return `${this.protocol}://${this.gitHost}/${this.projectpath}.git`;
+  get http() {
+    return `${this.protocol}://${this.gitHost}/${this.projectPath}.git`;
   }
 
   get url() {
-    return `${this.protocol}://${this.gitHost}/${this.projectpath}`;
+    return `${this.protocol}://${this.gitHost}/${this.projectPath}`;
   }
 
   getCommit(commitId: string) {

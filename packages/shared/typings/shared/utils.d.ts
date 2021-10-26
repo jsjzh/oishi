@@ -1,7 +1,7 @@
 export declare const sleep: (time: number) => Promise<unknown>;
 export declare const retryPromise: <T = any, D = any>(promise: (data: D) => Promise<T>, data: D, handleResp: (resp: T) => boolean, maxRetryCount?: number) => Promise<void>;
 export declare const realType: {
-    (obj: any): string;
+    (obj: any): 'Number' | 'String' | 'Boolean' | 'Object' | 'Null' | 'Undefined' | 'Array' | 'Function' | 'Symbol' | 'Date' | 'BigInt' | 'Map' | 'Set' | 'WeakMap' | 'WeakSet' | 'Promise' | 'AsyncFunction' | string;
     isNumber(x: any): boolean;
     isString(x: any): boolean;
     isBoolean(x: any): boolean;

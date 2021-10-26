@@ -1,2 +1,3 @@
-require('./createAPI');
-require('./utils');
+// require('./createAPI');
+// require('./utils');
+require('./parseGit');
