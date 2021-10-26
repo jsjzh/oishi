@@ -979,8 +979,8 @@
 
 "@oishi/bundle@^0.0.6":
   version "0.0.6"
-  resolved "http://registry.npm.souche-inc.com/@oishi/bundle/download/@oishi/bundle-0.0.6.tgz#afb5d0356c7861e44c6652273fe1b0629158931a"
-  integrity sha1-r7XQNWx4YeRMZlInP+GwYpFYkxo=
+  resolved "https://registry.yarnpkg.com/@oishi/bundle/-/bundle-0.0.6.tgz#afb5d0356c7861e44c6652273fe1b0629158931a"
+  integrity sha512-ynN3sOYEQD8t8ybP0kDvB2NxiSlb3w7zz0RZUzaD14CtAsq3nMrOGdmG2mfs3IhJV/+8Voe7fbr8i961IUExPA==
   dependencies:
     "@rollup/plugin-commonjs" "^11.1.0"
     "@rollup/plugin-json" "^4.0.3"
@@ -3950,15 +3950,10 @@ lodash.uniq@^4.5.0:
   resolved "http://registry.npm.souche-inc.com/lodash.uniq/download/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.2.1:
-  version "4.17.15"
-  resolved "http://registry.npm.souche-inc.com/lodash/download/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha1-tEf2ZwoEVbv+7dETku/zMOoJdUg=
-
-lodash@^4.17.19:
-  version "4.17.20"
-  resolved "http://registry.npm.souche-inc.com/lodash/download/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
-  integrity sha1-tEqbYpe8tpjxxRo1RaKzs2jVnFI=
+lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.2.1:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 loud-rejection@^1.0.0:
   version "1.6.0"
