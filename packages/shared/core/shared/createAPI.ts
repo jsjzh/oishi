@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-invalid-this */
-/* eslint-disable @typescript-eslint/no-this-alias */
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import ExtendableError from 'es6-error';
 import { resolve as urlResolve } from 'url';
@@ -185,9 +183,7 @@ export default class CreateAPI {
 
     const url = this.__formatUrl(this.baseUrl, endPoint);
 
-    const promise: IRequestResult<T> = axios(url, currentConfigs)
-      .then((resp) => resp.data)
-      .then(this.__checkResp)
+    const promise: IRequestResult<AxiosResponse<T>> = axios(url, currentConfigs)
       .then((resp) => (isFunction(handleResp) ? handleResp(resp) : resp))
       .catch((error) => {
         if (axios.isCancel(error)) {
@@ -224,9 +220,5 @@ export default class CreateAPI {
 
   private __formatUrl(baseUrl: string, endPoint = '') {
     return urlResolve(baseUrl, endPoint.trim());
-  }
-
-  private __checkResp(data: any) {
-    return data;
   }
 }

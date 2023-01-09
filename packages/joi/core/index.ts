@@ -7,9 +7,8 @@ export type SchemaType<T> = T extends _JoiType.Schema
     : T['schemaType']
   : _JoiType.RealType<T>;
 
-export type ValidateType<
-  T extends ReturnType<OishiJoi['createSchema']>
-> = ReturnType<T['validate']>;
+export type ValidateType<T extends ReturnType<OishiJoi['createSchema']>> =
+  ReturnType<T['validate']>;
 
 export interface OishiJoiOptions {
   handleError?: (messages: string[]) => void;
